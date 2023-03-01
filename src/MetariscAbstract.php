@@ -48,6 +48,7 @@ abstract class MetariscAbstract
             'grant_type'       => 'client_credentials',
             'client_id'        => null,
             'client_secret'    => null,
+            'scope'            => 'openid',
         ]);
 
         $this->config = $resolver->resolve($config);
