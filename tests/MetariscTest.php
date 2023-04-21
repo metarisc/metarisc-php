@@ -16,4 +16,14 @@ class MetariscTest extends TestCase
 
         $this->assertInstanceOf(MetariscAbstract::class, $client);
     }
+
+    public function testAuthorizeUrlGenerator() : void
+    {
+        $url = Metarisc::authorizeUrl([
+            'authorize_url' => 'https://auth_server/auth',
+            'client_id'     => 'xx',
+        ]);
+
+        $this->assertEquals('https://auth_server/auth?response_type=code&client_id=xx', $url);
+    }
 }
