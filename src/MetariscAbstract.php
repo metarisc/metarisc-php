@@ -14,6 +14,7 @@ use Psr\Http\Message\RequestInterface;
 use Pagerfanta\Adapter\CallbackAdapter;
 use Psr\Http\Message\ResponseInterface;
 use kamermans\OAuth2\GrantType\ClientCredentials;
+use kamermans\OAuth2\GrantType\AuthorizationCode;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class MetariscAbstract
@@ -48,6 +49,8 @@ abstract class MetariscAbstract
             'grant_type'       => 'client_credentials',
             'client_id'        => null,
             'client_secret'    => null,
+            'code'             => null,
+            'redirect_uri'     => null,
             'scope'            => 'openid',
         ]);
 
@@ -90,7 +93,8 @@ abstract class MetariscAbstract
         // Middleware : OAuth2 auth
         $auth_server_http_client = new HttpClient(['base_uri' => $this->getConfig()['access_token_url']]);
         $grant_type              = match ($this->getConfig()['grant_type']) {
-            'client_credentials' => new ClientCredentials($auth_server_http_client, $this->getConfig())
+            'client_credentials' => new ClientCredentials($auth_server_http_client, $this->getConfig()),
+            'code'               => new AuthorizationCode($auth_server_http_client, $this->getConfig())
         };
         $stack->push(new OAuth2Middleware($grant_type));
 
