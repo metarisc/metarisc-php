@@ -47,7 +47,7 @@ Pour utiliser le flow [Authorization Code Grant]( https://datatracker.ietf.org/d
 Pour faciliter la génération de l'URI vers le formulaire OAuth2 de Metarisc :
 
 ```php
-$metarisc = new \Metarisc\Metarisc::authorizeUrl([
+$metarisc = \Metarisc\Metarisc::authorizeUrl([
     'client_id' => 'xx',
     'redirect_uri' => 'xx', // Optionnel
     'scope' => 'xx', // Optionnel
