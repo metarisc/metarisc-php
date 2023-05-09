@@ -7,14 +7,15 @@ use GuzzleHttp\Middleware;
 use Pagerfanta\Pagerfanta;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\BodySummarizer;
+use Composer\CaBundle\CaBundle;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleRetry\GuzzleRetryMiddleware;
 use kamermans\OAuth2\OAuth2Middleware;
 use Psr\Http\Message\RequestInterface;
 use Pagerfanta\Adapter\CallbackAdapter;
 use Psr\Http\Message\ResponseInterface;
-use kamermans\OAuth2\GrantType\ClientCredentials;
 use kamermans\OAuth2\GrantType\AuthorizationCode;
+use kamermans\OAuth2\GrantType\ClientCredentials;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class MetariscAbstract
@@ -91,7 +92,7 @@ abstract class MetariscAbstract
         $stack->push($prepare_body_middleware, 'prepare_body');
 
         // Middleware : OAuth2 auth
-        $auth_server_http_client = new HttpClient(['base_uri' => $this->getConfig()['access_token_url']]);
+        $auth_server_http_client = new HttpClient(['base_uri' => $this->getConfig()['access_token_url'], 'verify' => CaBundle::getSystemCaRootBundlePath()]);
         $grant_type              = match ($this->getConfig()['grant_type']) {
             'client_credentials' => new ClientCredentials($auth_server_http_client, $this->getConfig()),
             'code'               => new AuthorizationCode($auth_server_http_client, $this->getConfig())
@@ -104,6 +105,7 @@ abstract class MetariscAbstract
             'timeout'  => 30.0,
             'handler'  => $stack,
             'auth'     => 'oauth',
+            'verify'   => CaBundle::getSystemCaRootBundlePath(),
         ]);
     }
 
