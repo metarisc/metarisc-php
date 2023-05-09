@@ -104,6 +104,7 @@ abstract class MetariscAbstract
             'timeout'  => 30.0,
             'handler'  => $stack,
             'auth'     => 'oauth',
+            'verify'   => false, // Suppression du cache pour le développement
         ]);
     }
 
@@ -115,6 +116,8 @@ abstract class MetariscAbstract
         $resolver = new OptionsResolver();
 
         $resolver->setRequired(['response_type', 'client_id']);
+        $resolver->setDefined(['redirect_uri', 'scope']); // Ajout de l'option "redirect_uri" et "scope"
+
 
         $resolver->setDefaults([
             'authorize_url' => 'https://lemur-17.cloud-iam.com/auth/realms/metariscoidc/protocol/openid-connect/auth',
