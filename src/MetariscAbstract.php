@@ -115,6 +115,7 @@ abstract class MetariscAbstract
         $resolver = new OptionsResolver();
 
         $resolver->setRequired(['response_type', 'client_id']);
+        $resolver->setDefined(['redirect_uri', 'scope']);
 
         $resolver->setDefaults([
             'authorize_url' => 'https://lemur-17.cloud-iam.com/auth/realms/metariscoidc/protocol/openid-connect/auth',
