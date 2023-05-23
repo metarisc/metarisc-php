@@ -12,7 +12,7 @@ PHP 8.0 minimum.
 Vous pouvez installer la librairie en utilisant [Composer](http://getcomposer.org/). Exécutez les commandes suivantes :
 
 ```bash
-composer require sdis62/metarisc-php
+composer require metarisc/metarisc-php
 ```
 
 Pour utiliser la librairie, utilisez l'[autoload Composer](https://getcomposer.org/doc/01-basic-usage.md#autoloading) :
