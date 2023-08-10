@@ -12,7 +12,7 @@ class AnomalieDECI
         return $this->code;
     }
 
-    public function setCode(string $code)
+    public function setCode(string $code) : void
     {
         $this->code=$code;
     }
@@ -22,7 +22,7 @@ class AnomalieDECI
         return $this->texte;
     }
 
-    public function setTexte(string $texte)
+    public function setTexte(string $texte) : void
     {
         $this->texte=$texte;
     }
@@ -32,7 +32,7 @@ class AnomalieDECI
         return $this->indice_de_gravite;
     }
 
-    public function setIndiceDeGravite(int $indice_de_gravite)
+    public function setIndiceDeGravite(int $indice_de_gravite) : void
     {
         $this->indice_de_gravite=$indice_de_gravite;
     }

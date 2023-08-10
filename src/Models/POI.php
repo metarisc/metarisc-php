@@ -4,11 +4,11 @@ namespace Metarisc\Models;
 
 class POI
 {
-    private ?string $id                              = null;
-    private ?\DateTime $date_de_realisation          = null;
-    private ?\DateTime $date_de_derniere_mise_a_jour = null;
-    private ?string $statut                          = null;
-
+    private ?string $id                                                 = null;
+    private ?\DateTime $date_de_realisation                             = null;
+    private ?\DateTime $date_de_derniere_mise_a_jour                    = null;
+    private ?string $statut                                             = null;
+    private ?array $references_exterieures                              =null;
     private ?\Metarisc\Models\DescriptifTechnique $descriptif_technique = null;
     private ?string $geometrie                                          = null;
     private ?\Metarisc\Models\AdressePostale $adresse_postale           = null;
@@ -17,7 +17,7 @@ class POI
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id=$id;
     }
@@ -27,7 +27,7 @@ class POI
         return $this->date_de_realisation;
     }
 
-    public function setDateDeRealisation(\DateTime $date_de_realisation)
+    public function setDateDeRealisation(\DateTime $date_de_realisation) : void
     {
         $this->date_de_realisation=$date_de_realisation;
     }
@@ -37,7 +37,7 @@ class POI
         return $this->date_de_derniere_mise_a_jour;
     }
 
-    public function setDateDeDerniereMiseAJour(\DateTime $date_de_derniere_mise_a_jour)
+    public function setDateDeDerniereMiseAJour(\DateTime $date_de_derniere_mise_a_jour) : void
     {
         $this->date_de_derniere_mise_a_jour=$date_de_derniere_mise_a_jour;
     }
@@ -47,17 +47,17 @@ class POI
         return $this->statut;
     }
 
-    public function setStatut(string $statut)
+    public function setStatut(string $statut) : void
     {
         $this->statut=$statut;
     }
 
-    public function getReferencesExterieures() : array
+    public function getReferencesExterieures() : ?array
     {
         return $this->references_exterieures;
     }
 
-    public function setReferencesExterieures(array $references_exterieures)
+    public function setReferencesExterieures(array $references_exterieures) : void
     {
         $this->references_exterieures=$references_exterieures;
     }
@@ -67,7 +67,7 @@ class POI
         return $this->descriptif_technique;
     }
 
-    public function setDescriptifTechnique(DescriptifTechnique $descriptif_technique)
+    public function setDescriptifTechnique(DescriptifTechnique $descriptif_technique) : void
     {
         $this->descriptif_technique=$descriptif_technique;
     }
@@ -77,7 +77,7 @@ class POI
         return $this->geometrie;
     }
 
-    public function setGeometrie(string $geometrie)
+    public function setGeometrie(string $geometrie) : void
     {
         $this->geometrie=$geometrie;
     }
@@ -87,7 +87,7 @@ class POI
         return $this->adresse_postale;
     }
 
-    public function setAdressePostale(AdressePostale $adresse_postale)
+    public function setAdressePostale(AdressePostale $adresse_postale) : void
     {
         $this->adresse_postale=$adresse_postale;
     }

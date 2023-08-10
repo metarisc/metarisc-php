@@ -10,7 +10,7 @@ class PaginateDossiers200ResponseMeta
         return $this->pagination;
     }
 
-    public function setPagination(PaginationMetadata1 $pagination)
+    public function setPagination(PaginationMetadata1 $pagination) : void
     {
         $this->pagination=$pagination;
     }

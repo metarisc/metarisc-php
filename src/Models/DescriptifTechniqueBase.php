@@ -12,7 +12,7 @@ class DescriptifTechniqueBase
         return $this->libelle;
     }
 
-    public function setLibelle(string $libelle)
+    public function setLibelle(string $libelle) : void
     {
         $this->libelle=$libelle;
     }
@@ -22,7 +22,7 @@ class DescriptifTechniqueBase
         return $this->observations_generales;
     }
 
-    public function setObservationsGenerales(string $observations_generales)
+    public function setObservationsGenerales(string $observations_generales) : void
     {
         $this->observations_generales=$observations_generales;
     }
@@ -32,7 +32,7 @@ class DescriptifTechniqueBase
         return $this->date;
     }
 
-    public function setDate(\DateTime $date)
+    public function setDate(\DateTime $date) : void
     {
         $this->date=$date;
     }

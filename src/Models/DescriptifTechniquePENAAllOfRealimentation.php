@@ -12,7 +12,7 @@ class DescriptifTechniquePENAAllOfRealimentation
         return $this->debit;
     }
 
-    public function setDebit(float $debit)
+    public function setDebit(float $debit) : void
     {
         $this->debit=$debit;
     }
@@ -22,7 +22,7 @@ class DescriptifTechniquePENAAllOfRealimentation
         return $this->diametre_canalisation;
     }
 
-    public function setDiametreCanalisation(float $diametre_canalisation)
+    public function setDiametreCanalisation(float $diametre_canalisation) : void
     {
         $this->diametre_canalisation=$diametre_canalisation;
     }
@@ -32,7 +32,7 @@ class DescriptifTechniquePENAAllOfRealimentation
         return $this->nature;
     }
 
-    public function setNature(string $nature)
+    public function setNature(string $nature) : void
     {
         $this->nature=$nature;
     }

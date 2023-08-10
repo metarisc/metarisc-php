@@ -17,12 +17,13 @@ class Workflow
     private ?string $documents           = null;
     private ?string $dossier_lie         = null;
     private ?string $pei_lie             = null;
+    private ?array $anomalies_levees     =null;
     public function getId() : ?string
     {
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id=$id;
     }
@@ -32,7 +33,7 @@ class Workflow
         return $this->titre;
     }
 
-    public function setTitre(string $titre)
+    public function setTitre(string $titre) : void
     {
         $this->titre=$titre;
     }
@@ -42,7 +43,7 @@ class Workflow
         return $this->date_de_creation;
     }
 
-    public function setDateDeCreation(\DateTime $date_de_creation)
+    public function setDateDeCreation(\DateTime $date_de_creation) : void
     {
         $this->date_de_creation=$date_de_creation;
     }
@@ -52,7 +53,7 @@ class Workflow
         return $this->date_de_fin;
     }
 
-    public function setDateDeFin(\DateTime $date_de_fin)
+    public function setDateDeFin(\DateTime $date_de_fin) : void
     {
         $this->date_de_fin=$date_de_fin;
     }
@@ -62,7 +63,7 @@ class Workflow
         return $this->workflow_automatise;
     }
 
-    public function setWorkflowAutomatise(bool $workflow_automatise)
+    public function setWorkflowAutomatise(bool $workflow_automatise) : void
     {
         $this->workflow_automatise=$workflow_automatise;
     }
@@ -72,7 +73,7 @@ class Workflow
         return $this->etat;
     }
 
-    public function setEtat(string $etat)
+    public function setEtat(string $etat) : void
     {
         $this->etat=$etat;
     }
@@ -82,7 +83,7 @@ class Workflow
         return $this->groupe_de_travail;
     }
 
-    public function setGroupeDeTravail(string $groupe_de_travail)
+    public function setGroupeDeTravail(string $groupe_de_travail) : void
     {
         $this->groupe_de_travail=$groupe_de_travail;
     }
@@ -92,7 +93,7 @@ class Workflow
         return $this->observations;
     }
 
-    public function setObservations(string $observations)
+    public function setObservations(string $observations) : void
     {
         $this->observations=$observations;
     }
@@ -102,7 +103,7 @@ class Workflow
         return $this->est_complet;
     }
 
-    public function setEstComplet(bool $est_complet)
+    public function setEstComplet(bool $est_complet) : void
     {
         $this->est_complet=$est_complet;
     }
@@ -112,7 +113,7 @@ class Workflow
         return $this->liste_poi;
     }
 
-    public function setListePoi(string $liste_poi)
+    public function setListePoi(string $liste_poi) : void
     {
         $this->liste_poi=$liste_poi;
     }
@@ -122,7 +123,7 @@ class Workflow
         return $this->documents;
     }
 
-    public function setDocuments(string $documents)
+    public function setDocuments(string $documents) : void
     {
         $this->documents=$documents;
     }
@@ -132,7 +133,7 @@ class Workflow
         return $this->dossier_lie;
     }
 
-    public function setDossierLie(string $dossier_lie)
+    public function setDossierLie(string $dossier_lie) : void
     {
         $this->dossier_lie=$dossier_lie;
     }
@@ -142,17 +143,17 @@ class Workflow
         return $this->pei_lie;
     }
 
-    public function setPeiLie(string $pei_lie)
+    public function setPeiLie(string $pei_lie) : void
     {
         $this->pei_lie=$pei_lie;
     }
 
-    public function getAnomaliesLevees() : array
+    public function getAnomaliesLevees() : ?array
     {
         return $this->anomalies_levees;
     }
 
-    public function setAnomaliesLevees(array $anomalies_levees)
+    public function setAnomaliesLevees(array $anomalies_levees) : void
     {
         $this->anomalies_levees=$anomalies_levees;
     }

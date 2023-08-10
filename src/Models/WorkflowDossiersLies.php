@@ -10,7 +10,7 @@ class WorkflowDossiersLies extends WorkflowBase
         return $this->dossier_lie;
     }
 
-    public function setDossierLie(string $dossier_lie)
+    public function setDossierLie(string $dossier_lie) : void
     {
         $this->dossier_lie=$dossier_lie;
     }

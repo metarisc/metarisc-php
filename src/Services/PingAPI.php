@@ -7,16 +7,12 @@ use Psr\Http\Message\ResponseInterface;
 
 class PingAPI extends MetariscAbstract
 {
-    private array $replacement_table;
-
-    protected function replacements() : \Closure
+    protected function replacements(array $replacement_table) : \Closure
     {
-        $table = $this->replacement_table;
-
-        return function ($matches) use ($table) {
+        return function (string $matches) use ($replacement_table) {
             $param = $matches[1];
-            if (isset($table[$param])) {
-                return $table[$param];
+            if (isset($replacement_table[$param])) {
+                return $replacement_table[$param];
             } else {
                 return $matches;
             }
@@ -25,10 +21,10 @@ class PingAPI extends MetariscAbstract
 
     public function ping() : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/ping');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/ping');
 
         return $this->request('GET', $path);
     }

@@ -4,33 +4,35 @@ namespace Metarisc\Models;
 
 class FeatureGeometry
 {
-    private ?string $type = null;
+    private ?string $type      = null;
+    private ?array $bbox       =null;
+    private ?array $coordinates=null;
     public function getType() : ?string
     {
         return $this->type;
     }
 
-    public function setType(string $type)
+    public function setType(string $type) : void
     {
         $this->type=$type;
     }
 
-    public function getBbox() : array
+    public function getBbox() : ?array
     {
         return $this->bbox;
     }
 
-    public function setBbox(array $bbox)
+    public function setBbox(array $bbox) : void
     {
         $this->bbox=$bbox;
     }
 
-    public function getCoordinates() : array
+    public function getCoordinates() : ?array
     {
         return $this->coordinates;
     }
 
-    public function setCoordinates(array $coordinates)
+    public function setCoordinates(array $coordinates) : void
     {
         $this->coordinates=$coordinates;
     }

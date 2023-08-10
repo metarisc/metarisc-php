@@ -13,7 +13,7 @@ class PostNotification500Response
         return $this->status_code;
     }
 
-    public function setStatusCode(int $status_code)
+    public function setStatusCode(int $status_code) : void
     {
         $this->status_code=$status_code;
     }
@@ -23,7 +23,7 @@ class PostNotification500Response
         return $this->type;
     }
 
-    public function setType(string $type)
+    public function setType(string $type) : void
     {
         $this->type=$type;
     }
@@ -33,7 +33,7 @@ class PostNotification500Response
         return $this->title;
     }
 
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         $this->title=$title;
     }
@@ -43,7 +43,7 @@ class PostNotification500Response
         return $this->detail;
     }
 
-    public function setDetail(string $detail)
+    public function setDetail(string $detail) : void
     {
         $this->detail=$detail;
     }

@@ -16,7 +16,7 @@ class Notification
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id=$id;
     }
@@ -26,7 +26,7 @@ class Notification
         return $this->title;
     }
 
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         $this->title=$title;
     }
@@ -36,7 +36,7 @@ class Notification
         return $this->message;
     }
 
-    public function setMessage(string $message)
+    public function setMessage(string $message) : void
     {
         $this->message=$message;
     }
@@ -46,7 +46,7 @@ class Notification
         return $this->contexte;
     }
 
-    public function setContexte(object $contexte)
+    public function setContexte(object $contexte) : void
     {
         $this->contexte=$contexte;
     }
@@ -56,7 +56,7 @@ class Notification
         return $this->date_creation;
     }
 
-    public function setDateCreation(string $date_creation)
+    public function setDateCreation(string $date_creation) : void
     {
         $this->date_creation=$date_creation;
     }
@@ -66,7 +66,7 @@ class Notification
         return $this->date_de_lecture;
     }
 
-    public function setDateDeLecture(string $date_de_lecture)
+    public function setDateDeLecture(string $date_de_lecture) : void
     {
         $this->date_de_lecture=$date_de_lecture;
     }
@@ -76,7 +76,7 @@ class Notification
         return $this->utilisateur_id;
     }
 
-    public function setUtilisateurId(string $utilisateur_id)
+    public function setUtilisateurId(string $utilisateur_id) : void
     {
         $this->utilisateur_id=$utilisateur_id;
     }

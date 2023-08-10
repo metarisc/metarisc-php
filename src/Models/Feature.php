@@ -12,7 +12,7 @@ class Feature
         return $this->type;
     }
 
-    public function setType(string $type)
+    public function setType(string $type) : void
     {
         $this->type=$type;
     }
@@ -22,7 +22,7 @@ class Feature
         return $this->properties;
     }
 
-    public function setProperties(object $properties)
+    public function setProperties(object $properties) : void
     {
         $this->properties=$properties;
     }
@@ -32,7 +32,7 @@ class Feature
         return $this->geometry;
     }
 
-    public function setGeometry(FeatureGeometry $geometry)
+    public function setGeometry(FeatureGeometry $geometry) : void
     {
         $this->geometry=$geometry;
     }

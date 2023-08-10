@@ -11,7 +11,7 @@ class GetFeature200ResponseCrs
         return $this->type;
     }
 
-    public function setType(string $type)
+    public function setType(string $type) : void
     {
         $this->type=$type;
     }
@@ -21,7 +21,7 @@ class GetFeature200ResponseCrs
         return $this->properties;
     }
 
-    public function setProperties(GetFeature200ResponseCrsProperties $properties)
+    public function setProperties(GetFeature200ResponseCrsProperties $properties) : void
     {
         $this->properties=$properties;
     }

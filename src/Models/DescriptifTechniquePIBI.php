@@ -15,7 +15,7 @@ class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
         return $this->numero_serie_appareil;
     }
 
-    public function setNumeroSerieAppareil(string $numero_serie_appareil)
+    public function setNumeroSerieAppareil(string $numero_serie_appareil) : void
     {
         $this->numero_serie_appareil=$numero_serie_appareil;
     }
@@ -25,7 +25,7 @@ class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
         return $this->surpression;
     }
 
-    public function setSurpression(float $surpression)
+    public function setSurpression(float $surpression) : void
     {
         $this->surpression=$surpression;
     }
@@ -35,17 +35,17 @@ class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
         return $this->nature;
     }
 
-    public function setNature(string $nature)
+    public function setNature(string $nature) : void
     {
         $this->nature=$nature;
     }
 
-    public function getCaracteristiquesParticulieres() : array
+    public function getCaracteristiquesParticulieres() : ?array
     {
         return $this->caracteristiques_particulieres;
     }
 
-    public function setCaracteristiquesParticulieres(array $caracteristiques_particulieres)
+    public function setCaracteristiquesParticulieres(array $caracteristiques_particulieres) : void
     {
         $this->caracteristiques_particulieres=$caracteristiques_particulieres;
     }
@@ -55,7 +55,7 @@ class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
         return $this->pesees;
     }
 
-    public function setPesees(DescriptifTechniquePIBIAllOfPesees $pesees)
+    public function setPesees(DescriptifTechniquePIBIAllOfPesees $pesees) : void
     {
         $this->pesees=$pesees;
     }

@@ -10,7 +10,7 @@ class PaginateMoiEmails200ResponseMeta
         return $this->pagination;
     }
 
-    public function setPagination(PaginateMoiEmails200ResponseMetaPagination $pagination)
+    public function setPagination(PaginateMoiEmails200ResponseMetaPagination $pagination) : void
     {
         $this->pagination=$pagination;
     }

@@ -11,7 +11,7 @@ class DescriptifTechniquePENAAllOfVolumes
         return $this->reel;
     }
 
-    public function setReel(float $reel)
+    public function setReel(float $reel) : void
     {
         $this->reel=$reel;
     }
@@ -21,7 +21,7 @@ class DescriptifTechniquePENAAllOfVolumes
         return $this->theorique;
     }
 
-    public function setTheorique(float $theorique)
+    public function setTheorique(float $theorique) : void
     {
         $this->theorique=$theorique;
     }

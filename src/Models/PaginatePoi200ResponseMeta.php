@@ -10,7 +10,7 @@ class PaginatePoi200ResponseMeta
         return $this->pagination;
     }
 
-    public function setPagination(PaginationMetadata2 $pagination)
+    public function setPagination(PaginationMetadata2 $pagination) : void
     {
         $this->pagination=$pagination;
     }

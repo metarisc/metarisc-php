@@ -4,55 +4,50 @@ namespace Metarisc\Services;
 
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
-use Metarisc\Models\Notification;
 use Psr\Http\Message\ResponseInterface;
 
 class NotificationsAPI extends MetariscAbstract
 {
-    private array $replacement_table;
-
-    protected function replacements() : \Closure
+    protected function replacements(array $replacement_table) : \Closure
     {
-        $table = $this->replacement_table;
-
-        return function ($matches) use ($table) {
+        return function (string $matches) use ($replacement_table) {
             $param = $matches[1];
-            if (isset($table[$param])) {
-                return $table[$param];
+            if (isset($replacement_table[$param])) {
+                return $replacement_table[$param];
             } else {
                 return $matches;
             }
         };
     }
 
-    public function deleteNotification($notification_id) : ResponseInterface
+    public function deleteNotification(string $notification_id) : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             'notification_id' => $notification_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/notifications/{notification_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/notifications/{notification_id}');
 
         return $this->request('DELETE', $path);
     }
 
-    public function getNotification($notification_id, $notification = null) : ResponseInterface
+    public function getNotification(string $notification_id, \Metarisc\Models\Notification $notification = null) : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             'notification_id' => $notification_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/notifications/{notification_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/notifications/{notification_id}');
 
         return $this->request('GET', $path);
     }
 
-    public function paginateNotifications($page = null, $per_page = null) : Pagerfanta
+    public function paginateNotifications(int $page = null, float $per_page = null) : Pagerfanta
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/notifications/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/notifications/');
 
         return $this->pagination('GET', $path, [
             'params' => [
@@ -61,7 +56,7 @@ class NotificationsAPI extends MetariscAbstract
         ]);
     }
 
-    public function postNotification(Notification $notification) : ResponseInterface
+    public function postNotification(\Metarisc\Models\Notification $notification) : ResponseInterface
     {
         return $this->request('POST', '/notifications/', [
             'json' => [

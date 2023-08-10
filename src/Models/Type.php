@@ -12,7 +12,7 @@ class Type
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id=$id;
     }
@@ -22,7 +22,7 @@ class Type
         return $this->titre;
     }
 
-    public function setTitre(string $titre)
+    public function setTitre(string $titre) : void
     {
         $this->titre=$titre;
     }
@@ -32,7 +32,7 @@ class Type
         return $this->categorie;
     }
 
-    public function setCategorie(string $categorie)
+    public function setCategorie(string $categorie) : void
     {
         $this->categorie=$categorie;
     }

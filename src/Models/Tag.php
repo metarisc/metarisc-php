@@ -10,7 +10,7 @@ class Tag
         return $this->message;
     }
 
-    public function setMessage(string $message)
+    public function setMessage(string $message) : void
     {
         $this->message=$message;
     }

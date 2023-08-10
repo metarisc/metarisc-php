@@ -12,7 +12,7 @@ class Organisation
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id=$id;
     }
@@ -22,7 +22,7 @@ class Organisation
         return $this->nom;
     }
 
-    public function setNom(string $nom)
+    public function setNom(string $nom) : void
     {
         $this->nom=$nom;
     }
@@ -32,7 +32,7 @@ class Organisation
         return $this->logo_url;
     }
 
-    public function setLogoUrl(string $logo_url)
+    public function setLogoUrl(string $logo_url) : void
     {
         $this->logo_url=$logo_url;
     }

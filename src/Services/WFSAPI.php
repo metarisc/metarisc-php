@@ -7,16 +7,12 @@ use Psr\Http\Message\ResponseInterface;
 
 class WFSAPI extends MetariscAbstract
 {
-    private array $replacement_table;
-
-    protected function replacements() : \Closure
+    protected function replacements(array $replacement_table) : \Closure
     {
-        $table = $this->replacement_table;
-
-        return function ($matches) use ($table) {
+        return function (string $matches) use ($replacement_table) {
             $param = $matches[1];
-            if (isset($table[$param])) {
-                return $table[$param];
+            if (isset($replacement_table[$param])) {
+                return $replacement_table[$param];
             } else {
                 return $matches;
             }
@@ -25,30 +21,30 @@ class WFSAPI extends MetariscAbstract
 
     public function describFeatureType() : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/wfs/DescribeFeatureType');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/wfs/DescribeFeatureType');
 
         return $this->request('GET', $path);
     }
 
     public function getCapabilities() : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/wfs/GetCapabilities');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/wfs/GetCapabilities');
 
         return $this->request('GET', $path);
     }
 
     public function getFeature() : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/wfs/GetFeature');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/wfs/GetFeature');
 
         return $this->request('GET', $path);
     }

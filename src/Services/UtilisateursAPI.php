@@ -8,16 +8,12 @@ use Psr\Http\Message\ResponseInterface;
 
 class UtilisateursAPI extends MetariscAbstract
 {
-    private array $replacement_table;
-
-    protected function replacements() : \Closure
+    protected function replacements(array $replacement_table) : \Closure
     {
-        $table = $this->replacement_table;
-
-        return function ($matches) use ($table) {
+        return function (string $matches) use ($replacement_table) {
             $param = $matches[1];
-            if (isset($table[$param])) {
-                return $table[$param];
+            if (isset($replacement_table[$param])) {
+                return $replacement_table[$param];
             } else {
                 return $matches;
             }
@@ -26,30 +22,30 @@ class UtilisateursAPI extends MetariscAbstract
 
     public function getUtilisateursMoi() : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/@moi');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/@moi');
 
         return $this->request('GET', $path);
     }
 
     public function getUtilisateursMoi1() : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/utilisateurs/@moi');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/utilisateurs/@moi');
 
         return $this->request('GET', $path);
     }
 
-    public function paginateMoiEmails($page = null, $per_page = null) : Pagerfanta
+    public function paginateMoiEmails(string $page = null, string $per_page = null) : Pagerfanta
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/@moi/emails');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/@moi/emails');
 
         return $this->pagination('GET', $path, [
             'params' => [
@@ -58,12 +54,12 @@ class UtilisateursAPI extends MetariscAbstract
         ]);
     }
 
-    public function paginateMoiEmails1($page = null, $per_page = null) : Pagerfanta
+    public function paginateMoiEmails1(string $page = null, string $per_page = null) : Pagerfanta
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/utilisateurs/@moi/emails');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/utilisateurs/@moi/emails');
 
         return $this->pagination('GET', $path, [
             'params' => [

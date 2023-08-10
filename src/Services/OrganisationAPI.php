@@ -7,29 +7,25 @@ use Psr\Http\Message\ResponseInterface;
 
 class OrganisationAPI extends MetariscAbstract
 {
-    private array $replacement_table;
-
-    protected function replacements() : \Closure
+    protected function replacements(array $replacement_table) : \Closure
     {
-        $table = $this->replacement_table;
-
-        return function ($matches) use ($table) {
+        return function (string $matches) use ($replacement_table) {
             $param = $matches[1];
-            if (isset($table[$param])) {
-                return $table[$param];
+            if (isset($replacement_table[$param])) {
+                return $replacement_table[$param];
             } else {
                 return $matches;
             }
         };
     }
 
-    public function getOrganisation($org_id) : ResponseInterface
+    public function getOrganisation(string $org_id) : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             'org_id' => $org_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/organisations/{org_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/organisations/{org_id}');
 
         return $this->request('GET', $path);
     }

@@ -8,66 +8,62 @@ use Psr\Http\Message\ResponseInterface;
 
 class POIAPI extends MetariscAbstract
 {
-    private array $replacement_table;
-
-    protected function replacements() : \Closure
+    protected function replacements(array $replacement_table) : \Closure
     {
-        $table = $this->replacement_table;
-
-        return function ($matches) use ($table) {
+        return function (string $matches) use ($replacement_table) {
             $param = $matches[1];
-            if (isset($table[$param])) {
-                return $table[$param];
+            if (isset($replacement_table[$param])) {
+                return $replacement_table[$param];
             } else {
                 return $matches;
             }
         };
     }
 
-    public function getPoi($poi_id) : ResponseInterface
+    public function getPoi(string $poi_id) : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/poi/{poi_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}');
 
         return $this->request('GET', $path);
     }
 
-    public function paginateContacts($poi_id) : Pagerfanta
+    public function paginateContacts(string $poi_id) : Pagerfanta
     {
-        $this->replacement_table = [
+        $table = [
             'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/poi/{poi_id}/contacts');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}/contacts');
 
         return $this->pagination('GET', $path, [
             'params' => [],
         ]);
     }
 
-    public function paginateHistorique($poi_id) : Pagerfanta
+    public function paginateHistorique(string $poi_id) : Pagerfanta
     {
-        $this->replacement_table = [
+        $table = [
             'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/poi/{poi_id}/historique');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}/historique');
 
         return $this->pagination('GET', $path, [
             'params' => [],
         ]);
     }
 
-    public function paginatePiecesJointes($poi_id) : Pagerfanta
+    public function paginatePiecesJointes(string $poi_id) : Pagerfanta
     {
-        $this->replacement_table = [
+        $table = [
             'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/poi/{poi_id}/pieces_jointes');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}/pieces_jointes');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -76,23 +72,23 @@ class POIAPI extends MetariscAbstract
 
     public function paginatePoi() : Pagerfanta
     {
-        $this->replacement_table = [
+        $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/poi/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/');
 
         return $this->pagination('GET', $path, [
             'params' => [],
         ]);
     }
 
-    public function patchPoi($poi_id) : ResponseInterface
+    public function patchPoi(string $poi_id) : ResponseInterface
     {
-        $this->replacement_table = [
+        $table = [
             'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements(), '/poi/{poi_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}');
 
         return $this->request('PATCH', $path);
     }

@@ -11,7 +11,7 @@ class POIReferencesExterieuresInner
         return $this->titre;
     }
 
-    public function setTitre(string $titre)
+    public function setTitre(string $titre) : void
     {
         $this->titre=$titre;
     }
@@ -21,7 +21,7 @@ class POIReferencesExterieuresInner
         return $this->valeur;
     }
 
-    public function setValeur(string $valeur)
+    public function setValeur(string $valeur) : void
     {
         $this->valeur=$valeur;
     }

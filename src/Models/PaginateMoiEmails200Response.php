@@ -4,13 +4,14 @@ namespace Metarisc\Models;
 
 class PaginateMoiEmails200Response
 {
+    private ?array $data                                             =null;
     private ?\Metarisc\Models\PaginateMoiEmails200ResponseMeta $meta = null;
-    public function getData() : array
+    public function getData() : ?array
     {
         return $this->data;
     }
 
-    public function setData(array $data)
+    public function setData(array $data) : void
     {
         $this->data=$data;
     }
@@ -20,7 +21,7 @@ class PaginateMoiEmails200Response
         return $this->meta;
     }
 
-    public function setMeta(PaginateMoiEmails200ResponseMeta $meta)
+    public function setMeta(PaginateMoiEmails200ResponseMeta $meta) : void
     {
         $this->meta=$meta;
     }

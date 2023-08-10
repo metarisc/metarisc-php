@@ -13,7 +13,7 @@ class DescriptifTechniquePIBIAllOfPesees
         return $this->debit_1bar;
     }
 
-    public function setDebit1bar(float $debit_1bar)
+    public function setDebit1bar(float $debit_1bar) : void
     {
         $this->debit_1bar=$debit_1bar;
     }
@@ -23,7 +23,7 @@ class DescriptifTechniquePIBIAllOfPesees
         return $this->pression_debit_requis;
     }
 
-    public function setPressionDebitRequis(float $pression_debit_requis)
+    public function setPressionDebitRequis(float $pression_debit_requis) : void
     {
         $this->pression_debit_requis=$pression_debit_requis;
     }
@@ -33,7 +33,7 @@ class DescriptifTechniquePIBIAllOfPesees
         return $this->pression_statique;
     }
 
-    public function setPressionStatique(float $pression_statique)
+    public function setPressionStatique(float $pression_statique) : void
     {
         $this->pression_statique=$pression_statique;
     }
@@ -43,7 +43,7 @@ class DescriptifTechniquePIBIAllOfPesees
         return $this->debit_gueule_bee;
     }
 
-    public function setDebitGueuleBee(float $debit_gueule_bee)
+    public function setDebitGueuleBee(float $debit_gueule_bee) : void
     {
         $this->debit_gueule_bee=$debit_gueule_bee;
     }

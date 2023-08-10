@@ -13,7 +13,7 @@ class SuiviAdministratif
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description) : void
     {
         $this->description=$description;
     }
@@ -23,7 +23,7 @@ class SuiviAdministratif
         return $this->date_ajout;
     }
 
-    public function setDateAjout(\DateTime $date_ajout)
+    public function setDateAjout(\DateTime $date_ajout) : void
     {
         $this->date_ajout=$date_ajout;
     }
@@ -33,7 +33,7 @@ class SuiviAdministratif
         return $this->evenement_automatique;
     }
 
-    public function setEvenementAutomatique(bool $evenement_automatique)
+    public function setEvenementAutomatique(bool $evenement_automatique) : void
     {
         $this->evenement_automatique=$evenement_automatique;
     }
@@ -43,7 +43,7 @@ class SuiviAdministratif
         return $this->createur;
     }
 
-    public function setCreateur(string $createur)
+    public function setCreateur(string $createur) : void
     {
         $this->createur=$createur;
     }

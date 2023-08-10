@@ -4,13 +4,14 @@ namespace Metarisc\Models;
 
 class PaginateWorkflows200Response
 {
+    private ?array $data                                            =null;
     private ?\Metarisc\Models\PaginateDossiers200ResponseMeta $meta = null;
-    public function getData() : array
+    public function getData() : ?array
     {
         return $this->data;
     }
 
-    public function setData(array $data)
+    public function setData(array $data) : void
     {
         $this->data=$data;
     }
@@ -20,7 +21,7 @@ class PaginateWorkflows200Response
         return $this->meta;
     }
 
-    public function setMeta(PaginateDossiers200ResponseMeta $meta)
+    public function setMeta(PaginateDossiers200ResponseMeta $meta) : void
     {
         $this->meta=$meta;
     }

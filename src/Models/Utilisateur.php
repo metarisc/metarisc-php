@@ -17,7 +17,7 @@ class Utilisateur
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id=$id;
     }
@@ -27,7 +27,7 @@ class Utilisateur
         return $this->first_name;
     }
 
-    public function setFirstName(string $first_name)
+    public function setFirstName(string $first_name) : void
     {
         $this->first_name=$first_name;
     }
@@ -37,7 +37,7 @@ class Utilisateur
         return $this->last_name;
     }
 
-    public function setLastName(string $last_name)
+    public function setLastName(string $last_name) : void
     {
         $this->last_name=$last_name;
     }
@@ -47,7 +47,7 @@ class Utilisateur
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTime $created_at)
+    public function setCreatedAt(\DateTime $created_at) : void
     {
         $this->created_at=$created_at;
     }
@@ -57,7 +57,7 @@ class Utilisateur
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTime $updated_at)
+    public function setUpdatedAt(\DateTime $updated_at) : void
     {
         $this->updated_at=$updated_at;
     }
@@ -67,7 +67,7 @@ class Utilisateur
         return $this->timezone;
     }
 
-    public function setTimezone(string $timezone)
+    public function setTimezone(string $timezone) : void
     {
         $this->timezone=$timezone;
     }
@@ -77,7 +77,7 @@ class Utilisateur
         return $this->is_active;
     }
 
-    public function setIsActive(bool $is_active)
+    public function setIsActive(bool $is_active) : void
     {
         $this->is_active=$is_active;
     }
@@ -87,7 +87,7 @@ class Utilisateur
         return $this->is_verified;
     }
 
-    public function setIsVerified(bool $is_verified)
+    public function setIsVerified(bool $is_verified) : void
     {
         $this->is_verified=$is_verified;
     }

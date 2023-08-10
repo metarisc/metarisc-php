@@ -17,7 +17,7 @@ class Dossier
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id=$id;
     }
@@ -27,7 +27,7 @@ class Dossier
         return $this->type;
     }
 
-    public function setType(Type $type)
+    public function setType(Type $type) : void
     {
         $this->type=$type;
     }
@@ -37,7 +37,7 @@ class Dossier
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description) : void
     {
         $this->description=$description;
     }
@@ -47,7 +47,7 @@ class Dossier
         return $this->programmation;
     }
 
-    public function setProgrammation(string $programmation)
+    public function setProgrammation(string $programmation) : void
     {
         $this->programmation=$programmation;
     }
@@ -57,7 +57,7 @@ class Dossier
         return $this->date_de_creation;
     }
 
-    public function setDateDeCreation(\DateTime $date_de_creation)
+    public function setDateDeCreation(\DateTime $date_de_creation) : void
     {
         $this->date_de_creation=$date_de_creation;
     }
@@ -67,7 +67,7 @@ class Dossier
         return $this->createur;
     }
 
-    public function setCreateur(string $createur)
+    public function setCreateur(string $createur) : void
     {
         $this->createur=$createur;
     }
@@ -77,7 +77,7 @@ class Dossier
         return $this->application_utilisee;
     }
 
-    public function setApplicationUtilisee(string $application_utilisee)
+    public function setApplicationUtilisee(string $application_utilisee) : void
     {
         $this->application_utilisee=$application_utilisee;
     }
@@ -87,7 +87,7 @@ class Dossier
         return $this->statut;
     }
 
-    public function setStatut(string $statut)
+    public function setStatut(string $statut) : void
     {
         $this->statut=$statut;
     }

@@ -14,7 +14,7 @@ class PaginationMetadata2
         return $this->total;
     }
 
-    public function setTotal(int $total)
+    public function setTotal(int $total) : void
     {
         $this->total=$total;
     }
@@ -24,7 +24,7 @@ class PaginationMetadata2
         return $this->count;
     }
 
-    public function setCount(int $count)
+    public function setCount(int $count) : void
     {
         $this->count=$count;
     }
@@ -34,7 +34,7 @@ class PaginationMetadata2
         return $this->per_page;
     }
 
-    public function setPerPage(int $per_page)
+    public function setPerPage(int $per_page) : void
     {
         $this->per_page=$per_page;
     }
@@ -44,7 +44,7 @@ class PaginationMetadata2
         return $this->current_page;
     }
 
-    public function setCurrentPage(int $current_page)
+    public function setCurrentPage(int $current_page) : void
     {
         $this->current_page=$current_page;
     }
@@ -54,7 +54,7 @@ class PaginationMetadata2
         return $this->total_pages;
     }
 
-    public function setTotalPages(int $total_pages)
+    public function setTotalPages(int $total_pages) : void
     {
         $this->total_pages=$total_pages;
     }

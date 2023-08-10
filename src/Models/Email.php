@@ -13,7 +13,7 @@ class Email
         return $this->email;
     }
 
-    public function setEmail(string $email)
+    public function setEmail(string $email) : void
     {
         $this->email=$email;
     }
@@ -23,7 +23,7 @@ class Email
         return $this->is_primary;
     }
 
-    public function setIsPrimary(bool $is_primary)
+    public function setIsPrimary(bool $is_primary) : void
     {
         $this->is_primary=$is_primary;
     }
@@ -33,7 +33,7 @@ class Email
         return $this->is_publicly_visible;
     }
 
-    public function setIsPubliclyVisible(bool $is_publicly_visible)
+    public function setIsPubliclyVisible(bool $is_publicly_visible) : void
     {
         $this->is_publicly_visible=$is_publicly_visible;
     }
@@ -43,7 +43,7 @@ class Email
         return $this->is_verified;
     }
 
-    public function setIsVerified(bool $is_verified)
+    public function setIsVerified(bool $is_verified) : void
     {
         $this->is_verified=$is_verified;
     }

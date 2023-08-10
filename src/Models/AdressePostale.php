@@ -14,7 +14,7 @@ class AdressePostale
         return $this->code_postal;
     }
 
-    public function setCodePostal(string $code_postal)
+    public function setCodePostal(string $code_postal) : void
     {
         $this->code_postal=$code_postal;
     }
@@ -24,7 +24,7 @@ class AdressePostale
         return $this->commune;
     }
 
-    public function setCommune(string $commune)
+    public function setCommune(string $commune) : void
     {
         $this->commune=$commune;
     }
@@ -34,7 +34,7 @@ class AdressePostale
         return $this->voie;
     }
 
-    public function setVoie(string $voie)
+    public function setVoie(string $voie) : void
     {
         $this->voie=$voie;
     }
@@ -44,7 +44,7 @@ class AdressePostale
         return $this->code_insee;
     }
 
-    public function setCodeInsee(string $code_insee)
+    public function setCodeInsee(string $code_insee) : void
     {
         $this->code_insee=$code_insee;
     }
@@ -54,7 +54,7 @@ class AdressePostale
         return $this->arrondissement;
     }
 
-    public function setArrondissement(string $arrondissement)
+    public function setArrondissement(string $arrondissement) : void
     {
         $this->arrondissement=$arrondissement;
     }
