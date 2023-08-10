@@ -37,7 +37,7 @@ abstract class MetariscAbstract
      * - METARISC_URL
      * - ACCESS_TOKEN_URL
      **/
-    public function __construct(array $config = [])
+    final public function __construct(array $config = [])
     {
         // Gestion des options de configuration.
         // (OptionsResolver allows to create an options system with required options, defaults, validation (type, value), normalization and more)
