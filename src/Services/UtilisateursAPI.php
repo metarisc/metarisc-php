@@ -10,13 +10,13 @@ class UtilisateursAPI extends MetariscAbstract
 {
     protected function replacements(array $replacement_table) : \Closure
     {
-        return function (string $matches) use ($replacement_table) {
-            $param = $matches[1];
-            if (isset($replacement_table[$param])) {
-                return $replacement_table[$param];
-            } else {
-                return $matches;
-            }
+        return function (array $matches) use ($replacement_table) : string {
+            /** @var array-key $key */
+            $key = $matches[1];
+            /** @var string $replacement */
+            $replacement = $replacement_table[$key] ?? $matches[0];
+
+            return $replacement;
         };
     }
 
