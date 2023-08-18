@@ -2,14 +2,14 @@
 
 namespace Metarisc;
 
-use Metarisc\Services\POIAPI;
-use Metarisc\Services\WFSAPI;
-use Metarisc\Services\PingAPI;
-use Metarisc\Services\DossiersAPI;
-use Metarisc\Services\OrganisationAPI;
-use Metarisc\Services\UtilisateursAPI;
-use Metarisc\Services\NotificationsAPI;
-use Metarisc\Services\ResumableFileUploadsAPI;
+use Metarisc\Service\POIAPI;
+use Metarisc\Service\WFSAPI;
+use Metarisc\Service\PingAPI;
+use Metarisc\Service\DossiersAPI;
+use Metarisc\Service\OrganisationAPI;
+use Metarisc\Service\UtilisateursAPI;
+use Metarisc\Service\NotificationsAPI;
+use Metarisc\Service\ResumableFileUploadsAPI;
 
 class Metarisc extends MetariscAbstract
 {
