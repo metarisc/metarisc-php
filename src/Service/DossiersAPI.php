@@ -43,7 +43,7 @@ class DossiersAPI extends MetariscAbstract
     /**
      * Récupération de la liste des dossiers selon des critères de recherche.
      */
-    public function paginateDossiers(float $page = null, float $per_page = null) : Pagerfanta
+    public function paginateDossiers(int $page = null, int $per_page = null) : Pagerfanta
     {
         $table = [
             ];
