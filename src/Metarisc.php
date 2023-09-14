@@ -3,25 +3,23 @@
 namespace Metarisc;
 
 use Metarisc\Service\POIAPI;
-use Metarisc\Service\WFSAPI;
 use Metarisc\Service\PingAPI;
+use Metarisc\Service\SupportAPI;
 use Metarisc\Service\DossiersAPI;
 use Metarisc\Service\OrganisationAPI;
 use Metarisc\Service\UtilisateursAPI;
 use Metarisc\Service\NotificationsAPI;
-use Metarisc\Service\ResumableFileUploadsAPI;
 
 class Metarisc extends MetariscAbstract
 {
     public static array $class_map =  [
-        'DossiersAPI'            => DossiersAPI::class,
-        'NotificationsAPI'       => NotificationsAPI::class,
-        'OrganisationAPI'        => OrganisationAPI::class,
-        'POIAPI'                 => POIAPI::class,
-        'PingAPI'                => PingAPI::class,
-        'ResumableFileUploadsAPI'=> ResumableFileUploadsAPI::class,
-        'UtilisateursAPI'        => UtilisateursAPI::class,
-        'WFSAPI'                 => WFSAPI::class,
+        'dossiers'             => DossiersAPI::class,
+        'notifications'        => NotificationsAPI::class,
+        'organisations'        => OrganisationAPI::class,
+        'poi'                  => POIAPI::class,
+        'ping'                 => PingAPI::class,
+        'support'              => SupportAPI::class,
+        'utilisateurs'         => UtilisateursAPI::class,
     ];
 
     public function __get(string $name)
