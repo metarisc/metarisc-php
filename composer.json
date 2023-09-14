@@ -30,7 +30,8 @@
     "require-dev": {
         "kdubuc/php-cs-fixer-rules": "^1.0",
         "phpunit/phpunit": "^9.0",
-        "vimeo/psalm": "^4.23"
+        "vimeo/psalm": "^4.23",
+        "fakerphp/faker": "^1.23"
     },
 
     "scripts": {

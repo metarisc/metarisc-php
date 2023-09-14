@@ -2,12 +2,13 @@
 
 namespace Metarisc\Model;
 
-class Organisation
+class PieceJointe
 {
-    private ?string $id       = null;
-    private ?string $nom      = null;
-    private ?string $logo_url = null;
-    private ?string $type     = null;
+    private ?string $id          = null;
+    private ?string $url         = null;
+    private ?string $nom         = null;
+    private ?string $description = null;
+    private ?string $type        = null;
 
     public static function unserialize(array $data) : self
     {
@@ -16,11 +17,14 @@ class Organisation
         /** @var string $data['id'] */
         $object->setId($data['id']);
 
+        /** @var string $data['url'] */
+        $object->setUrl($data['url']);
+
         /** @var string $data['nom'] */
         $object->setNom($data['nom']);
 
-        /** @var string $data['logo_url'] */
-        $object->setLogoUrl($data['logo_url']);
+        /** @var string $data['description'] */
+        $object->setDescription($data['description']);
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
@@ -38,6 +42,16 @@ class Organisation
         $this->id=$id;
     }
 
+    public function getUrl() : ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url = null) : void
+    {
+        $this->url=$url;
+    }
+
     public function getNom() : ?string
     {
         return $this->nom;
@@ -48,14 +62,14 @@ class Organisation
         $this->nom=$nom;
     }
 
-    public function getLogoUrl() : ?string
+    public function getDescription() : ?string
     {
-        return $this->logo_url;
+        return $this->description;
     }
 
-    public function setLogoUrl(string $logo_url = null) : void
+    public function setDescription(string $description = null) : void
     {
-        $this->logo_url=$logo_url;
+        $this->description=$description;
     }
 
     public function getType() : ?string

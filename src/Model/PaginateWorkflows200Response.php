@@ -7,12 +7,25 @@ class PaginateWorkflows200Response
     private ?array $data                                           = null;
     private ?\Metarisc\Model\PaginateDossiers200ResponseMeta $meta = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var \Metarisc\Model\Workflow[] $data['data'] */
+        $object->setData($data['data']);
+
+        /** @var array<array-key, mixed> $data['meta'] */
+        $object->setMeta($data['meta']);
+
+        return $object;
+    }
+
     public function getData() : ?array
     {
         return $this->data;
     }
 
-    public function setData(array $data) : void
+    public function setData(array $data = null) : void
     {
         $this->data=$data;
     }
@@ -22,8 +35,8 @@ class PaginateWorkflows200Response
         return $this->meta;
     }
 
-    public function setMeta(PaginateDossiers200ResponseMeta $meta) : void
+    public function setMeta(array $meta) : void
     {
-        $this->meta=$meta;
+        $this->meta=\Metarisc\Model\PaginateDossiers200ResponseMeta::unserialize($meta);
     }
 }

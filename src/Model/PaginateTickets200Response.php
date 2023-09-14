@@ -2,16 +2,16 @@
 
 namespace Metarisc\Model;
 
-class PaginateContacts200Response
+class PaginateTickets200Response
 {
-    private ?array $data                                      = null;
-    private ?\Metarisc\Model\PaginatePoi200ResponseMeta $meta = null;
+    private ?array $data                                          = null;
+    private ?\Metarisc\Model\PaginateTickets200ResponseMeta $meta = null;
 
     public static function unserialize(array $data) : self
     {
         $object = new self();
 
-        /** @var \Metarisc\Model\Contact[] $data['data'] */
+        /** @var \Metarisc\Model\Ticket[] $data['data'] */
         $object->setData($data['data']);
 
         /** @var array<array-key, mixed> $data['meta'] */
@@ -30,13 +30,13 @@ class PaginateContacts200Response
         $this->data=$data;
     }
 
-    public function getMeta() : ?PaginatePoi200ResponseMeta
+    public function getMeta() : ?PaginateTickets200ResponseMeta
     {
         return $this->meta;
     }
 
     public function setMeta(array $meta) : void
     {
-        $this->meta=\Metarisc\Model\PaginatePoi200ResponseMeta::unserialize($meta);
+        $this->meta=\Metarisc\Model\PaginateTickets200ResponseMeta::unserialize($meta);
     }
 }

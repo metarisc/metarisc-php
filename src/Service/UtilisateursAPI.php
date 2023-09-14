@@ -4,7 +4,6 @@ namespace Metarisc\Service;
 
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
-use Psr\Http\Message\ResponseInterface;
 
 class UtilisateursAPI extends MetariscAbstract
 {
@@ -23,33 +22,47 @@ class UtilisateursAPI extends MetariscAbstract
     /**
      * L'utilisateur connecté retourné par ce point de terminaison utilise le token d'accès généré par le service OpenID Connect afin de le lier à une identité connue de Metarisc. Si l'utilisateur est inconnu une erreur est retournée.
      */
-    public function getUtilisateursMoi() : ResponseInterface
+    public function getUtilisateursMoi() : \Metarisc\Model\Utilisateur
     {
         $table = [
             ];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/@moi');
 
-        return $this->request('GET', $path);
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Utilisateur::unserialize($object);
     }
 
     /**
      * L'utilisateur connecté retourné par ce point de terminaison utilise le token d'accès généré par le service OpenID Connect afin de le lier à une identité connue de Metarisc. Si l'utilisateur est inconnu une erreur est retournée.
      */
-    public function getUtilisateursMoi1() : ResponseInterface
+    public function getUtilisateursMoi1() : \Metarisc\Model\Utilisateur
     {
         $table = [
             ];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/utilisateurs/@moi');
 
-        return $this->request('GET', $path);
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Utilisateur::unserialize($object);
     }
 
     /**
      * Liste toutes les adresses mail de l'utilisateur connecté, y compris les adresses non publiquement accessibles.
      */
-    public function paginateMoiEmails(string $page = null, string $per_page = null) : Pagerfanta
+    public function paginateMoiEmails(int $page = null, int $per_page = null) : Pagerfanta
     {
         $table = [
             ];
@@ -66,7 +79,7 @@ class UtilisateursAPI extends MetariscAbstract
     /**
      * Liste toutes les adresses mail de l'utilisateur connecté, y compris les adresses non publiquement accessibles.
      */
-    public function paginateMoiEmails1(string $page = null, string $per_page = null) : Pagerfanta
+    public function paginateMoiEmails1(int $page = null, int $per_page = null) : Pagerfanta
     {
         $table = [
             ];

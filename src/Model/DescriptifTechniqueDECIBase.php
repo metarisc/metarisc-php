@@ -4,6 +4,15 @@ namespace Metarisc\Model;
 
 class DescriptifTechniqueDECIBase extends DescriptifTechniqueBase
 {
+    private ?array $anomalies = null;
+
+    private ?bool $est_reglementaire    = null;
+    private ?bool $est_reforme          = null;
+    private ?string $domanialite        = null;
+    private ?bool $est_conforme         = null;
+    private ?int $performance_theorique = null;
+    private ?int $performance_reelle    = null;
+
     public function getAnomalies() : ?array
     {
         return $this->anomalies;

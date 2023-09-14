@@ -9,12 +9,31 @@ class PostNotification400Response
     private ?string $title    = null;
     private ?string $detail   = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var int $data['status_code'] */
+        $object->setStatusCode($data['status_code']);
+
+        /** @var string $data['type'] */
+        $object->setType($data['type']);
+
+        /** @var string $data['title'] */
+        $object->setTitle($data['title']);
+
+        /** @var string $data['detail'] */
+        $object->setDetail($data['detail']);
+
+        return $object;
+    }
+
     public function getStatusCode() : ?int
     {
         return $this->status_code;
     }
 
-    public function setStatusCode(int $status_code) : void
+    public function setStatusCode(int $status_code = null) : void
     {
         $this->status_code=$status_code;
     }
@@ -24,7 +43,7 @@ class PostNotification400Response
         return $this->type;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type = null) : void
     {
         $this->type=$type;
     }
@@ -34,7 +53,7 @@ class PostNotification400Response
         return $this->title;
     }
 
-    public function setTitle(string $title) : void
+    public function setTitle(string $title = null) : void
     {
         $this->title=$title;
     }
@@ -44,7 +63,7 @@ class PostNotification400Response
         return $this->detail;
     }
 
-    public function setDetail(string $detail) : void
+    public function setDetail(string $detail = null) : void
     {
         $this->detail=$detail;
     }

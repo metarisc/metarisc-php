@@ -4,7 +4,6 @@ namespace Metarisc\Service;
 
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
-use Psr\Http\Message\ResponseInterface;
 
 class DossiersAPI extends MetariscAbstract
 {
@@ -23,7 +22,7 @@ class DossiersAPI extends MetariscAbstract
     /**
      * Récupération de l'ensemble des données d'un dossier.
      */
-    public function getDossier(string $dossier_id) : ResponseInterface
+    public function getDossier(string $dossier_id) : \Metarisc\Model\Dossier
     {
         $table = [
             'dossier_id' => $dossier_id,
@@ -31,13 +30,20 @@ class DossiersAPI extends MetariscAbstract
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}');
 
-        return $this->request('GET', $path);
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Dossier::unserialize($object);
     }
 
     /**
      * Récupération de la liste des dossiers selon des critères de recherche.
      */
-    public function paginateDossiers() : Pagerfanta
+    public function paginateDossiers(float $page = null, float $per_page = null) : Pagerfanta
     {
         $table = [
             ];
@@ -45,7 +51,9 @@ class DossiersAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params' => [
+                'page'     => $page,
+                'per_page' => $per_page, ],
         ]);
     }
 
@@ -82,6 +90,23 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
+     * Liste des documents liés à un workflow.
+     */
+    public function paginateWorkflowDocuments(string $dossier_id, string $workflow_id) : Pagerfanta
+    {
+        $table = [
+            'dossier_id'  => $dossier_id,
+            'workflow_id' => $workflow_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/documents');
+
+        return $this->pagination('GET', $path, [
+            'params' => [],
+        ]);
+    }
+
+    /**
      * Récupération de la liste des workflows d'un dossier.
      */
     public function paginateWorkflows(string $dossier_id) : Pagerfanta
@@ -100,7 +125,7 @@ class DossiersAPI extends MetariscAbstract
     /**
      * Modification d'un dossier existant.
      */
-    public function patchDossier(string $dossier_id) : ResponseInterface
+    public function patchDossier(string $dossier_id, \Metarisc\Model\Dossier $dossier = null) : void
     {
         $table = [
             'dossier_id' => $dossier_id,
@@ -108,24 +133,29 @@ class DossiersAPI extends MetariscAbstract
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}');
 
-        return $this->request('PATCH', $path);
+        $this->request('PATCH', $path, [
+            'json' => [
+                'id'                   => $dossier?->getId(),
+                'type'                 => $dossier?->getType(),
+                'description'          => $dossier?->getDescription(),
+                'date_de_creation'     => $dossier?->getDateDeCreation(),
+                'createur'             => $dossier?->getCreateur(),
+                'application_utilisee' => $dossier?->getApplicationUtilisee(),
+                'statut'               => $dossier?->getStatut(),
+            ],
+        ]);
     }
 
     /**
      * Création d'un nouveau dossier.
      */
-    public function postDossier(\Metarisc\Model\Dossier $dossier) : ResponseInterface
+    public function postDossier(\Metarisc\Model\PostDossierRequest $post_dossier_request) : void
     {
-        return $this->request('POST', '/dossiers/', [
+        $this->request('POST', '/dossiers/', [
             'json' => [
-                'id'                   => $dossier->getId(),
-                'type'                 => $dossier->getType(),
-                'description'          => $dossier->getDescription(),
-                'programmation'        => $dossier->getProgrammation(),
-                'date_de_creation'     => $dossier->getDateDeCreation(),
-                'createur'             => $dossier->getCreateur(),
-                'application_utilisee' => $dossier->getApplicationUtilisee(),
-                'statut'               => $dossier->getStatut(),
+                'titre'       => $post_dossier_request->getTitre(),
+                'description' => $post_dossier_request->getDescription(),
+                'workflows'   => $post_dossier_request->getWorkflows(),
             ],
         ]);
     }

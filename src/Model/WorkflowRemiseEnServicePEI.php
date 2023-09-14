@@ -4,6 +4,9 @@ namespace Metarisc\Model;
 
 class WorkflowRemiseEnServicePEI extends WorkflowBase
 {
+    private ?string $pei_lie         = null;
+    private ?array $anomalies_levees = null;
+
     public function getPeiLie() : ?string
     {
         return $this->pei_lie;

@@ -4,6 +4,8 @@ namespace Metarisc\Model;
 
 class WorkflowDossiersLies extends WorkflowBase
 {
+    private ?string $dossier_lie = null;
+
     public function getDossierLie() : ?string
     {
         return $this->dossier_lie;

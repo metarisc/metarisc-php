@@ -24,12 +24,76 @@ class DescriptifTechnique
     private ?\Metarisc\Model\DescriptifTechniquePENAAllOfVolumes $volumes = null;
     private ?array $realimentation                                        = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var string $data['libelle'] */
+        $object->setLibelle($data['libelle']);
+
+        /** @var string $data['observations_generales'] */
+        $object->setObservationsGenerales($data['observations_generales']);
+
+        /** @var string $data['date'] */
+        $object->setDate($data['date']);
+
+        /** @var \Metarisc\Model\AnomalieDECI[] $data['anomalies'] */
+        $object->setAnomalies($data['anomalies']);
+
+        /** @var bool $data['est_reglementaire'] */
+        $object->setEstReglementaire($data['est_reglementaire']);
+
+        /** @var bool $data['est_reforme'] */
+        $object->setEstReforme($data['est_reforme']);
+
+        /** @var string $data['domanialite'] */
+        $object->setDomanialite($data['domanialite']);
+
+        /** @var bool $data['est_conforme'] */
+        $object->setEstConforme($data['est_conforme']);
+
+        /** @var int $data['performance_theorique'] */
+        $object->setPerformanceTheorique($data['performance_theorique']);
+
+        /** @var int $data['performance_reelle'] */
+        $object->setPerformanceReelle($data['performance_reelle']);
+
+        /** @var string $data['numero_serie_appareil'] */
+        $object->setNumeroSerieAppareil($data['numero_serie_appareil']);
+
+        /** @var float $data['surpression'] */
+        $object->setSurpression($data['surpression']);
+
+        /** @var string $data['nature'] */
+        $object->setNature($data['nature']);
+
+        /** @var string[] $data['caracteristiques_particulieres'] */
+        $object->setCaracteristiquesParticulieres($data['caracteristiques_particulieres']);
+
+        /** @var array<array-key, mixed> $data['pesees'] */
+        $object->setPesees($data['pesees']);
+
+        /** @var string $data['essais_engin_utilise'] */
+        $object->setEssaisEnginUtilise($data['essais_engin_utilise']);
+
+        /** @var string[] $data['equipements'] */
+        $object->setEquipements($data['equipements']);
+
+        /** @var array<array-key, mixed> $data['volumes'] */
+        $object->setVolumes($data['volumes']);
+
+        /** @var \Metarisc\Model\DescriptifTechniquePENAAllOfRealimentation[] $data['realimentation'] */
+        $object->setRealimentation($data['realimentation']);
+
+        return $object;
+    }
+
     public function getLibelle() : ?string
     {
         return $this->libelle;
     }
 
-    public function setLibelle(string $libelle) : void
+    public function setLibelle(string $libelle = null) : void
     {
         $this->libelle=$libelle;
     }
@@ -39,7 +103,7 @@ class DescriptifTechnique
         return $this->observations_generales;
     }
 
-    public function setObservationsGenerales(string $observations_generales) : void
+    public function setObservationsGenerales(string $observations_generales = null) : void
     {
         $this->observations_generales=$observations_generales;
     }
@@ -49,9 +113,9 @@ class DescriptifTechnique
         return $this->date;
     }
 
-    public function setDate(\DateTime $date) : void
+    public function setDate(?string $date) : void
     {
-        $this->date=$date;
+        $this->date = (\is_string($date)) ? \DateTime::createFromFormat(\DATE_ATOM, $date) : null;
     }
 
     public function getAnomalies() : ?array
@@ -59,7 +123,7 @@ class DescriptifTechnique
         return $this->anomalies;
     }
 
-    public function setAnomalies(array $anomalies) : void
+    public function setAnomalies(array $anomalies = null) : void
     {
         $this->anomalies=$anomalies;
     }
@@ -69,7 +133,7 @@ class DescriptifTechnique
         return $this->est_reglementaire;
     }
 
-    public function setEstReglementaire(bool $est_reglementaire) : void
+    public function setEstReglementaire(bool $est_reglementaire = null) : void
     {
         $this->est_reglementaire=$est_reglementaire;
     }
@@ -79,7 +143,7 @@ class DescriptifTechnique
         return $this->est_reforme;
     }
 
-    public function setEstReforme(bool $est_reforme) : void
+    public function setEstReforme(bool $est_reforme = null) : void
     {
         $this->est_reforme=$est_reforme;
     }
@@ -89,7 +153,7 @@ class DescriptifTechnique
         return $this->domanialite;
     }
 
-    public function setDomanialite(string $domanialite) : void
+    public function setDomanialite(string $domanialite = null) : void
     {
         $this->domanialite=$domanialite;
     }
@@ -99,7 +163,7 @@ class DescriptifTechnique
         return $this->est_conforme;
     }
 
-    public function setEstConforme(bool $est_conforme) : void
+    public function setEstConforme(bool $est_conforme = null) : void
     {
         $this->est_conforme=$est_conforme;
     }
@@ -109,7 +173,7 @@ class DescriptifTechnique
         return $this->performance_theorique;
     }
 
-    public function setPerformanceTheorique(int $performance_theorique) : void
+    public function setPerformanceTheorique(int $performance_theorique = null) : void
     {
         $this->performance_theorique=$performance_theorique;
     }
@@ -119,7 +183,7 @@ class DescriptifTechnique
         return $this->performance_reelle;
     }
 
-    public function setPerformanceReelle(int $performance_reelle) : void
+    public function setPerformanceReelle(int $performance_reelle = null) : void
     {
         $this->performance_reelle=$performance_reelle;
     }
@@ -129,7 +193,7 @@ class DescriptifTechnique
         return $this->numero_serie_appareil;
     }
 
-    public function setNumeroSerieAppareil(string $numero_serie_appareil) : void
+    public function setNumeroSerieAppareil(string $numero_serie_appareil = null) : void
     {
         $this->numero_serie_appareil=$numero_serie_appareil;
     }
@@ -139,7 +203,7 @@ class DescriptifTechnique
         return $this->surpression;
     }
 
-    public function setSurpression(float $surpression) : void
+    public function setSurpression(float $surpression = null) : void
     {
         $this->surpression=$surpression;
     }
@@ -149,7 +213,7 @@ class DescriptifTechnique
         return $this->nature;
     }
 
-    public function setNature(string $nature) : void
+    public function setNature(string $nature = null) : void
     {
         $this->nature=$nature;
     }
@@ -159,7 +223,7 @@ class DescriptifTechnique
         return $this->caracteristiques_particulieres;
     }
 
-    public function setCaracteristiquesParticulieres(array $caracteristiques_particulieres) : void
+    public function setCaracteristiquesParticulieres(array $caracteristiques_particulieres = null) : void
     {
         $this->caracteristiques_particulieres=$caracteristiques_particulieres;
     }
@@ -169,9 +233,9 @@ class DescriptifTechnique
         return $this->pesees;
     }
 
-    public function setPesees(DescriptifTechniquePIBIAllOfPesees $pesees) : void
+    public function setPesees(?array $pesees) : void
     {
-        $this->pesees=$pesees;
+        $this->pesees = (null !== $pesees) ? \Metarisc\Model\DescriptifTechniquePIBIAllOfPesees::unserialize($pesees) : null;
     }
 
     public function getEssaisEnginUtilise() : ?string
@@ -179,7 +243,7 @@ class DescriptifTechnique
         return $this->essais_engin_utilise;
     }
 
-    public function setEssaisEnginUtilise(string $essais_engin_utilise) : void
+    public function setEssaisEnginUtilise(string $essais_engin_utilise = null) : void
     {
         $this->essais_engin_utilise=$essais_engin_utilise;
     }
@@ -189,7 +253,7 @@ class DescriptifTechnique
         return $this->equipements;
     }
 
-    public function setEquipements(array $equipements) : void
+    public function setEquipements(array $equipements = null) : void
     {
         $this->equipements=$equipements;
     }
@@ -199,9 +263,9 @@ class DescriptifTechnique
         return $this->volumes;
     }
 
-    public function setVolumes(DescriptifTechniquePENAAllOfVolumes $volumes) : void
+    public function setVolumes(?array $volumes) : void
     {
-        $this->volumes=$volumes;
+        $this->volumes = (null !== $volumes) ? \Metarisc\Model\DescriptifTechniquePENAAllOfVolumes::unserialize($volumes) : null;
     }
 
     public function getRealimentation() : ?array
@@ -209,7 +273,7 @@ class DescriptifTechnique
         return $this->realimentation;
     }
 
-    public function setRealimentation(array $realimentation) : void
+    public function setRealimentation(array $realimentation = null) : void
     {
         $this->realimentation=$realimentation;
     }

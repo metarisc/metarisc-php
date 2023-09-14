@@ -4,6 +4,13 @@ namespace Metarisc\Model;
 
 class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
 {
+    private ?string $numero_serie_appareil         = null;
+    private ?float $surpression                    = null;
+    private ?string $nature                        = null;
+    private ?array $caracteristiques_particulieres = null;
+
+    private ?\Metarisc\Model\DescriptifTechniquePIBIAllOfPesees $pesees = null;
+
     public function getNumeroSerieAppareil() : ?string
     {
         return $this->numero_serie_appareil;

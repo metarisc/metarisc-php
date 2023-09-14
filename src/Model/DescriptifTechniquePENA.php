@@ -4,6 +4,13 @@ namespace Metarisc\Model;
 
 class DescriptifTechniquePENA extends DescriptifTechniqueDECIBase
 {
+    private ?string $essais_engin_utilise = null;
+    private ?array $equipements           = null;
+
+    private ?string $nature                                               = null;
+    private ?\Metarisc\Model\DescriptifTechniquePENAAllOfVolumes $volumes = null;
+    private ?array $realimentation                                        = null;
+
     public function getEssaisEnginUtilise() : ?string
     {
         return $this->essais_engin_utilise;

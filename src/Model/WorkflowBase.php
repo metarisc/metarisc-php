@@ -16,12 +16,52 @@ class WorkflowBase
     private ?string $liste_poi           = null;
     private ?string $documents           = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var string $data['id'] */
+        $object->setId($data['id']);
+
+        /** @var string $data['titre'] */
+        $object->setTitre($data['titre']);
+
+        /** @var string $data['date_de_creation'] */
+        $object->setDateDeCreation($data['date_de_creation']);
+
+        /** @var string $data['date_de_fin'] */
+        $object->setDateDeFin($data['date_de_fin']);
+
+        /** @var bool $data['workflow_automatise'] */
+        $object->setWorkflowAutomatise($data['workflow_automatise']);
+
+        /** @var string $data['etat'] */
+        $object->setEtat($data['etat']);
+
+        /** @var string $data['groupe_de_travail'] */
+        $object->setGroupeDeTravail($data['groupe_de_travail']);
+
+        /** @var string $data['observations'] */
+        $object->setObservations($data['observations']);
+
+        /** @var bool $data['est_complet'] */
+        $object->setEstComplet($data['est_complet']);
+
+        /** @var string $data['liste_poi'] */
+        $object->setListePoi($data['liste_poi']);
+
+        /** @var string $data['documents'] */
+        $object->setDocuments($data['documents']);
+
+        return $object;
+    }
+
     public function getId() : ?string
     {
         return $this->id;
     }
 
-    public function setId(string $id) : void
+    public function setId(string $id = null) : void
     {
         $this->id=$id;
     }
@@ -31,7 +71,7 @@ class WorkflowBase
         return $this->titre;
     }
 
-    public function setTitre(string $titre) : void
+    public function setTitre(string $titre = null) : void
     {
         $this->titre=$titre;
     }
@@ -41,9 +81,9 @@ class WorkflowBase
         return $this->date_de_creation;
     }
 
-    public function setDateDeCreation(\DateTime $date_de_creation) : void
+    public function setDateDeCreation(?string $date_de_creation) : void
     {
-        $this->date_de_creation=$date_de_creation;
+        $this->date_de_creation = (\is_string($date_de_creation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_creation) : null;
     }
 
     public function getDateDeFin() : ?\DateTime
@@ -51,9 +91,9 @@ class WorkflowBase
         return $this->date_de_fin;
     }
 
-    public function setDateDeFin(\DateTime $date_de_fin) : void
+    public function setDateDeFin(?string $date_de_fin) : void
     {
-        $this->date_de_fin=$date_de_fin;
+        $this->date_de_fin = (\is_string($date_de_fin)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_fin) : null;
     }
 
     public function getWorkflowAutomatise() : ?bool
@@ -61,7 +101,7 @@ class WorkflowBase
         return $this->workflow_automatise;
     }
 
-    public function setWorkflowAutomatise(bool $workflow_automatise) : void
+    public function setWorkflowAutomatise(bool $workflow_automatise = null) : void
     {
         $this->workflow_automatise=$workflow_automatise;
     }
@@ -71,7 +111,7 @@ class WorkflowBase
         return $this->etat;
     }
 
-    public function setEtat(string $etat) : void
+    public function setEtat(string $etat = null) : void
     {
         $this->etat=$etat;
     }
@@ -81,7 +121,7 @@ class WorkflowBase
         return $this->groupe_de_travail;
     }
 
-    public function setGroupeDeTravail(string $groupe_de_travail) : void
+    public function setGroupeDeTravail(string $groupe_de_travail = null) : void
     {
         $this->groupe_de_travail=$groupe_de_travail;
     }
@@ -91,7 +131,7 @@ class WorkflowBase
         return $this->observations;
     }
 
-    public function setObservations(string $observations) : void
+    public function setObservations(string $observations = null) : void
     {
         $this->observations=$observations;
     }
@@ -101,7 +141,7 @@ class WorkflowBase
         return $this->est_complet;
     }
 
-    public function setEstComplet(bool $est_complet) : void
+    public function setEstComplet(bool $est_complet = null) : void
     {
         $this->est_complet=$est_complet;
     }
@@ -111,7 +151,7 @@ class WorkflowBase
         return $this->liste_poi;
     }
 
-    public function setListePoi(string $liste_poi) : void
+    public function setListePoi(string $liste_poi = null) : void
     {
         $this->liste_poi=$liste_poi;
     }
@@ -121,7 +161,7 @@ class WorkflowBase
         return $this->documents;
     }
 
-    public function setDocuments(string $documents) : void
+    public function setDocuments(string $documents = null) : void
     {
         $this->documents=$documents;
     }

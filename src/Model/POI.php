@@ -13,12 +13,43 @@ class POI
     private ?string $geometrie                                         = null;
     private ?\Metarisc\Model\AdressePostale $adresse_postale           = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var string $data['id'] */
+        $object->setId($data['id']);
+
+        /** @var string $data['date_de_realisation'] */
+        $object->setDateDeRealisation($data['date_de_realisation']);
+
+        /** @var string $data['date_de_derniere_mise_a_jour'] */
+        $object->setDateDeDerniereMiseAJour($data['date_de_derniere_mise_a_jour']);
+
+        /** @var string $data['statut'] */
+        $object->setStatut($data['statut']);
+
+        /** @var \Metarisc\Model\POIReferencesExterieuresInner[] $data['references_exterieures'] */
+        $object->setReferencesExterieures($data['references_exterieures']);
+
+        /** @var array<array-key, mixed> $data['descriptif_technique'] */
+        $object->setDescriptifTechnique($data['descriptif_technique']);
+
+        /** @var string $data['geometrie'] */
+        $object->setGeometrie($data['geometrie']);
+
+        /** @var array<array-key, mixed> $data['adresse_postale'] */
+        $object->setAdressePostale($data['adresse_postale']);
+
+        return $object;
+    }
+
     public function getId() : ?string
     {
         return $this->id;
     }
 
-    public function setId(string $id) : void
+    public function setId(string $id = null) : void
     {
         $this->id=$id;
     }
@@ -28,9 +59,9 @@ class POI
         return $this->date_de_realisation;
     }
 
-    public function setDateDeRealisation(\DateTime $date_de_realisation) : void
+    public function setDateDeRealisation(?string $date_de_realisation) : void
     {
-        $this->date_de_realisation=$date_de_realisation;
+        $this->date_de_realisation = (\is_string($date_de_realisation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_realisation) : null;
     }
 
     public function getDateDeDerniereMiseAJour() : ?\DateTime
@@ -38,9 +69,9 @@ class POI
         return $this->date_de_derniere_mise_a_jour;
     }
 
-    public function setDateDeDerniereMiseAJour(\DateTime $date_de_derniere_mise_a_jour) : void
+    public function setDateDeDerniereMiseAJour(?string $date_de_derniere_mise_a_jour) : void
     {
-        $this->date_de_derniere_mise_a_jour=$date_de_derniere_mise_a_jour;
+        $this->date_de_derniere_mise_a_jour = (\is_string($date_de_derniere_mise_a_jour)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_derniere_mise_a_jour) : null;
     }
 
     public function getStatut() : ?string
@@ -48,7 +79,7 @@ class POI
         return $this->statut;
     }
 
-    public function setStatut(string $statut) : void
+    public function setStatut(string $statut = null) : void
     {
         $this->statut=$statut;
     }
@@ -58,7 +89,7 @@ class POI
         return $this->references_exterieures;
     }
 
-    public function setReferencesExterieures(array $references_exterieures) : void
+    public function setReferencesExterieures(array $references_exterieures = null) : void
     {
         $this->references_exterieures=$references_exterieures;
     }
@@ -68,9 +99,9 @@ class POI
         return $this->descriptif_technique;
     }
 
-    public function setDescriptifTechnique(DescriptifTechnique $descriptif_technique) : void
+    public function setDescriptifTechnique(array $descriptif_technique) : void
     {
-        $this->descriptif_technique=$descriptif_technique;
+        $this->descriptif_technique=\Metarisc\Model\DescriptifTechnique::unserialize($descriptif_technique);
     }
 
     public function getGeometrie() : ?string
@@ -78,7 +109,7 @@ class POI
         return $this->geometrie;
     }
 
-    public function setGeometrie(string $geometrie) : void
+    public function setGeometrie(string $geometrie = null) : void
     {
         $this->geometrie=$geometrie;
     }
@@ -88,8 +119,8 @@ class POI
         return $this->adresse_postale;
     }
 
-    public function setAdressePostale(AdressePostale $adresse_postale) : void
+    public function setAdressePostale(array $adresse_postale) : void
     {
-        $this->adresse_postale=$adresse_postale;
+        $this->adresse_postale=\Metarisc\Model\AdressePostale::unserialize($adresse_postale);
     }
 }

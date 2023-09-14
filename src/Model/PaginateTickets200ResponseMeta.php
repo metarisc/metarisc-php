@@ -2,9 +2,9 @@
 
 namespace Metarisc\Model;
 
-class PaginateMoiEmails200ResponseMeta
+class PaginateTickets200ResponseMeta
 {
-    private ?\Metarisc\Model\PaginateMoiEmails200ResponseMetaPagination $pagination = null;
+    private ?\Metarisc\Model\PaginationMetadata2 $pagination = null;
 
     public static function unserialize(array $data) : self
     {
@@ -16,13 +16,13 @@ class PaginateMoiEmails200ResponseMeta
         return $object;
     }
 
-    public function getPagination() : ?PaginateMoiEmails200ResponseMetaPagination
+    public function getPagination() : ?PaginationMetadata2
     {
         return $this->pagination;
     }
 
     public function setPagination(array $pagination) : void
     {
-        $this->pagination=\Metarisc\Model\PaginateMoiEmails200ResponseMetaPagination::unserialize($pagination);
+        $this->pagination=\Metarisc\Model\PaginationMetadata2::unserialize($pagination);
     }
 }

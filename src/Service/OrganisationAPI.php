@@ -3,7 +3,6 @@
 namespace Metarisc\Service;
 
 use Metarisc\MetariscAbstract;
-use Psr\Http\Message\ResponseInterface;
 
 class OrganisationAPI extends MetariscAbstract
 {
@@ -22,7 +21,7 @@ class OrganisationAPI extends MetariscAbstract
     /**
      * Récupération des détails d'une organisation.
      */
-    public function getOrganisation(string $org_id) : ResponseInterface
+    public function getOrganisation(string $org_id) : \Metarisc\Model\Organisation
     {
         $table = [
             'org_id' => $org_id,
@@ -30,6 +29,13 @@ class OrganisationAPI extends MetariscAbstract
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/organisations/{org_id}');
 
-        return $this->request('GET', $path);
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Organisation::unserialize($object);
     }
 }

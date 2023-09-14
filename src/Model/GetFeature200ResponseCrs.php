@@ -7,12 +7,25 @@ class GetFeature200ResponseCrs
     private ?string $type                                                   = null;
     private ?\Metarisc\Model\GetFeature200ResponseCrsProperties $properties = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var string $data['type'] */
+        $object->setType($data['type']);
+
+        /** @var array<array-key, mixed> $data['properties'] */
+        $object->setProperties($data['properties']);
+
+        return $object;
+    }
+
     public function getType() : ?string
     {
         return $this->type;
     }
 
-    public function setType(string $type) : void
+    public function setType(string $type = null) : void
     {
         $this->type=$type;
     }
@@ -22,8 +35,8 @@ class GetFeature200ResponseCrs
         return $this->properties;
     }
 
-    public function setProperties(GetFeature200ResponseCrsProperties $properties) : void
+    public function setProperties(array $properties) : void
     {
-        $this->properties=$properties;
+        $this->properties=\Metarisc\Model\GetFeature200ResponseCrsProperties::unserialize($properties);
     }
 }

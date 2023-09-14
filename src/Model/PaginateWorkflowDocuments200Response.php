@@ -2,16 +2,16 @@
 
 namespace Metarisc\Model;
 
-class PaginateContacts200Response
+class PaginateWorkflowDocuments200Response
 {
-    private ?array $data                                      = null;
-    private ?\Metarisc\Model\PaginatePoi200ResponseMeta $meta = null;
+    private ?array $data                                           = null;
+    private ?\Metarisc\Model\PaginateDossiers200ResponseMeta $meta = null;
 
     public static function unserialize(array $data) : self
     {
         $object = new self();
 
-        /** @var \Metarisc\Model\Contact[] $data['data'] */
+        /** @var \Metarisc\Model\Document[] $data['data'] */
         $object->setData($data['data']);
 
         /** @var array<array-key, mixed> $data['meta'] */
@@ -30,13 +30,13 @@ class PaginateContacts200Response
         $this->data=$data;
     }
 
-    public function getMeta() : ?PaginatePoi200ResponseMeta
+    public function getMeta() : ?PaginateDossiers200ResponseMeta
     {
         return $this->meta;
     }
 
     public function setMeta(array $meta) : void
     {
-        $this->meta=\Metarisc\Model\PaginatePoi200ResponseMeta::unserialize($meta);
+        $this->meta=\Metarisc\Model\PaginateDossiers200ResponseMeta::unserialize($meta);
     }
 }

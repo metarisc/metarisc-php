@@ -13,12 +13,43 @@ class Utilisateur
     private ?bool $is_active       = null;
     private ?bool $is_verified     = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var string $data['id'] */
+        $object->setId($data['id']);
+
+        /** @var string $data['first_name'] */
+        $object->setFirstName($data['first_name']);
+
+        /** @var string $data['last_name'] */
+        $object->setLastName($data['last_name']);
+
+        /** @var string $data['created_at'] */
+        $object->setCreatedAt($data['created_at']);
+
+        /** @var string $data['updated_at'] */
+        $object->setUpdatedAt($data['updated_at']);
+
+        /** @var string $data['timezone'] */
+        $object->setTimezone($data['timezone']);
+
+        /** @var bool $data['is_active'] */
+        $object->setIsActive($data['is_active']);
+
+        /** @var bool $data['is_verified'] */
+        $object->setIsVerified($data['is_verified']);
+
+        return $object;
+    }
+
     public function getId() : ?string
     {
         return $this->id;
     }
 
-    public function setId(string $id) : void
+    public function setId(string $id = null) : void
     {
         $this->id=$id;
     }
@@ -28,7 +59,7 @@ class Utilisateur
         return $this->first_name;
     }
 
-    public function setFirstName(string $first_name) : void
+    public function setFirstName(string $first_name = null) : void
     {
         $this->first_name=$first_name;
     }
@@ -38,7 +69,7 @@ class Utilisateur
         return $this->last_name;
     }
 
-    public function setLastName(string $last_name) : void
+    public function setLastName(string $last_name = null) : void
     {
         $this->last_name=$last_name;
     }
@@ -48,9 +79,9 @@ class Utilisateur
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTime $created_at) : void
+    public function setCreatedAt(?string $created_at) : void
     {
-        $this->created_at=$created_at;
+        $this->created_at = (\is_string($created_at)) ? \DateTime::createFromFormat(\DATE_ATOM, $created_at) : null;
     }
 
     public function getUpdatedAt() : ?\DateTime
@@ -58,9 +89,9 @@ class Utilisateur
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTime $updated_at) : void
+    public function setUpdatedAt(?string $updated_at) : void
     {
-        $this->updated_at=$updated_at;
+        $this->updated_at = (\is_string($updated_at)) ? \DateTime::createFromFormat(\DATE_ATOM, $updated_at) : null;
     }
 
     public function getTimezone() : ?string
@@ -68,7 +99,7 @@ class Utilisateur
         return $this->timezone;
     }
 
-    public function setTimezone(string $timezone) : void
+    public function setTimezone(string $timezone = null) : void
     {
         $this->timezone=$timezone;
     }
@@ -78,7 +109,7 @@ class Utilisateur
         return $this->is_active;
     }
 
-    public function setIsActive(bool $is_active) : void
+    public function setIsActive(bool $is_active = null) : void
     {
         $this->is_active=$is_active;
     }
@@ -88,7 +119,7 @@ class Utilisateur
         return $this->is_verified;
     }
 
-    public function setIsVerified(bool $is_verified) : void
+    public function setIsVerified(bool $is_verified = null) : void
     {
         $this->is_verified=$is_verified;
     }

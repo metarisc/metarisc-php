@@ -11,18 +11,45 @@ class Dossier
     private ?string $id                   = null;
     private ?\Metarisc\Model\Type $type   = null;
     private ?string $description          = null;
-    private ?string $programmation        = null;
     private ?\DateTime $date_de_creation  = null;
     private ?string $createur             = null;
     private ?string $application_utilisee = null;
     private ?string $statut               = null;
+
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var string $data['id'] */
+        $object->setId($data['id']);
+
+        /** @var array<array-key, mixed> $data['type'] */
+        $object->setType($data['type']);
+
+        /** @var string $data['description'] */
+        $object->setDescription($data['description']);
+
+        /** @var string $data['date_de_creation'] */
+        $object->setDateDeCreation($data['date_de_creation']);
+
+        /** @var string $data['createur'] */
+        $object->setCreateur($data['createur']);
+
+        /** @var string $data['application_utilisee'] */
+        $object->setApplicationUtilisee($data['application_utilisee']);
+
+        /** @var string $data['statut'] */
+        $object->setStatut($data['statut']);
+
+        return $object;
+    }
 
     public function getId() : ?string
     {
         return $this->id;
     }
 
-    public function setId(string $id) : void
+    public function setId(string $id = null) : void
     {
         $this->id=$id;
     }
@@ -32,9 +59,9 @@ class Dossier
         return $this->type;
     }
 
-    public function setType(Type $type) : void
+    public function setType(array $type) : void
     {
-        $this->type=$type;
+        $this->type=\Metarisc\Model\Type::unserialize($type);
     }
 
     public function getDescription() : ?string
@@ -42,19 +69,9 @@ class Dossier
         return $this->description;
     }
 
-    public function setDescription(string $description) : void
+    public function setDescription(string $description = null) : void
     {
         $this->description=$description;
-    }
-
-    public function getProgrammation() : ?string
-    {
-        return $this->programmation;
-    }
-
-    public function setProgrammation(string $programmation) : void
-    {
-        $this->programmation=$programmation;
     }
 
     public function getDateDeCreation() : ?\DateTime
@@ -62,9 +79,9 @@ class Dossier
         return $this->date_de_creation;
     }
 
-    public function setDateDeCreation(\DateTime $date_de_creation) : void
+    public function setDateDeCreation(?string $date_de_creation) : void
     {
-        $this->date_de_creation=$date_de_creation;
+        $this->date_de_creation = (\is_string($date_de_creation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_creation) : null;
     }
 
     public function getCreateur() : ?string
@@ -72,7 +89,7 @@ class Dossier
         return $this->createur;
     }
 
-    public function setCreateur(string $createur) : void
+    public function setCreateur(string $createur = null) : void
     {
         $this->createur=$createur;
     }
@@ -82,7 +99,7 @@ class Dossier
         return $this->application_utilisee;
     }
 
-    public function setApplicationUtilisee(string $application_utilisee) : void
+    public function setApplicationUtilisee(string $application_utilisee = null) : void
     {
         $this->application_utilisee=$application_utilisee;
     }
@@ -92,7 +109,7 @@ class Dossier
         return $this->statut;
     }
 
-    public function setStatut(string $statut) : void
+    public function setStatut(string $statut = null) : void
     {
         $this->statut=$statut;
     }

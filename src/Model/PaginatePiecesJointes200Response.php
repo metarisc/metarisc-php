@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class PaginateContacts200Response
+class PaginatePiecesJointes200Response
 {
     private ?array $data                                      = null;
     private ?\Metarisc\Model\PaginatePoi200ResponseMeta $meta = null;
@@ -11,7 +11,7 @@ class PaginateContacts200Response
     {
         $object = new self();
 
-        /** @var \Metarisc\Model\Contact[] $data['data'] */
+        /** @var \Metarisc\Model\PieceJointe[] $data['data'] */
         $object->setData($data['data']);
 
         /** @var array<array-key, mixed> $data['meta'] */

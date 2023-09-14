@@ -3,7 +3,6 @@
 namespace Metarisc\Service;
 
 use Metarisc\MetariscAbstract;
-use Psr\Http\Message\ResponseInterface;
 
 class PingAPI extends MetariscAbstract
 {
@@ -22,13 +21,20 @@ class PingAPI extends MetariscAbstract
     /**
      * Permet de s'assurer que le service Metarisc est en ligne. Ping ... Pong !
      */
-    public function ping() : ResponseInterface
+    public function ping() : \Metarisc\Model\Ping200Response
     {
         $table = [
             ];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/ping');
 
-        return $this->request('GET', $path);
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Ping200Response::unserialize($object);
     }
 }

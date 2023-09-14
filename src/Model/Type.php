@@ -8,12 +8,28 @@ class Type
     private ?string $titre     = null;
     private ?string $categorie = null;
 
+    public static function unserialize(array $data) : self
+    {
+        $object = new self();
+
+        /** @var string $data['id'] */
+        $object->setId($data['id']);
+
+        /** @var string $data['titre'] */
+        $object->setTitre($data['titre']);
+
+        /** @var string $data['categorie'] */
+        $object->setCategorie($data['categorie']);
+
+        return $object;
+    }
+
     public function getId() : ?string
     {
         return $this->id;
     }
 
-    public function setId(string $id) : void
+    public function setId(string $id = null) : void
     {
         $this->id=$id;
     }
@@ -23,7 +39,7 @@ class Type
         return $this->titre;
     }
 
-    public function setTitre(string $titre) : void
+    public function setTitre(string $titre = null) : void
     {
         $this->titre=$titre;
     }
@@ -33,7 +49,7 @@ class Type
         return $this->categorie;
     }
 
-    public function setCategorie(string $categorie) : void
+    public function setCategorie(string $categorie = null) : void
     {
         $this->categorie=$categorie;
     }
