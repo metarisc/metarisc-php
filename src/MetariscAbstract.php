@@ -3,6 +3,7 @@
 namespace Metarisc;
 
 use GuzzleHttp\Utils;
+use Metarisc\Auth\OAuth2;
 use GuzzleHttp\Middleware;
 use Pagerfanta\Pagerfanta;
 use GuzzleHttp\HandlerStack;
@@ -114,25 +115,9 @@ abstract class MetariscAbstract
      */
     public static function authorizeUrl(array $config = []) : string
     {
-        $resolver = new OptionsResolver();
+        trigger_error('authorizeUrl method is deprecated. Use Oauth2::authorizeUrl', \E_USER_DEPRECATED);
 
-        $resolver->setRequired(['response_type', 'client_id']);
-        $resolver->setDefined(['redirect_uri', 'scope']);
-
-        $resolver->setDefaults([
-            'authorize_url' => 'https://lemur-17.cloud-iam.com/auth/realms/metariscoidc/protocol/openid-connect/auth',
-            'response_type' => 'code',
-        ]);
-
-        $config = $resolver->resolve($config);
-
-        $authorize_url = (string) $config['authorize_url'];
-
-        unset($config['authorize_url']);
-
-        $query_string = http_build_query($config);
-
-        return $authorize_url.'?'.$query_string;
+        return OAuth2::authorizeUrl($config);
     }
 
     /**
