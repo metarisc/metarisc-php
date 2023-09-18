@@ -38,7 +38,7 @@
         "fix-cs": "php vendor/bin/php-cs-fixer fix --config=vendor/kdubuc/php-cs-fixer-rules/php-cs-fixer.php",
         "check-cs": "php vendor/bin/php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no --config=vendor/kdubuc/php-cs-fixer-rules/php-cs-fixer.php",
         "analyze": "php vendor/bin/psalm --no-cache",
-        "test": "php vendor/bin/phpunit tests"
+        "tests": "php vendor/bin/phpunit tests"
     },
 
     "autoload": {
