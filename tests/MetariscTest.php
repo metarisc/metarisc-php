@@ -11,7 +11,7 @@ class MetariscTest extends TestCase
     public function testInitialization() : void
     {
         $client = new Metarisc([
-            'client_id' => 'xx',
+            'metarisc_url' => 'https://metarisc.dev',
         ]);
 
         $this->assertInstanceOf(MetariscAbstract::class, $client);
