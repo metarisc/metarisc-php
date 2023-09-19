@@ -32,10 +32,11 @@ Pour utiliser le flow [Client credential Grant]( https://datatracker.ietf.org/do
 ```php
 $metarisc = new \Metarisc\Metarisc([
     'metarisc_url' => 'https://api.metarisc.fr', // Optionnel
-    'access_token_url' => 'https://lemur-17.cloud-iam.com/auth/realms/metariscoidc/protocol/openid-connect/token', // Optionnel
-    'grant_type' => 'client_credentials',
     'client_id' => 'your_client_id',
     'client_secret' => 'your_client_secret', // Optionnel
+]);
+
+$metarisc->authenticate('oauth2:client_credentials', [
     'scope' => 'openid', // Optionnel
 ]);
 ```
@@ -47,7 +48,7 @@ Pour utiliser le flow [Authorization Code Grant]( https://datatracker.ietf.org/d
 Pour faciliter la génération de l'URI vers le formulaire OAuth2 de Metarisc :
 
 ```php
-$metarisc = \Metarisc\Metarisc::authorizeUrl([
+$metarisc = \Metarisc\Auth\OAuth2::authorizeUrl([
     'client_id' => 'xx',
     'redirect_uri' => 'xx', // Optionnel
     'scope' => 'xx', // Optionnel
@@ -60,13 +61,14 @@ Lorsque l'utilisateur a accepté la demande, le serveur d'autorisation redirige 
 ```php
 $metarisc = new \Metarisc\Metarisc([
     'metarisc_url' => 'https://api.metarisc.fr', // Optionnel
-    'access_token_url' => 'https://lemur-17.cloud-iam.com/auth/realms/metariscoidc/protocol/openid-connect/token', // Optionnel
-    'grant_type' => 'code',
-    'code' => 'your_authorization_code',
-    'redirect_uri' => 'https://your_redirect_uri', // Optionnel
     'client_id' => 'your_client_id', 
     'client_secret' => 'your_client_secret', // Optionnel
+]);
+
+$metarisc->authenticate('oauth2:client_credentials', [
+    'code' => 'your_authorization_code',
     'scope' => 'openid', // Optionnel
+    'redirect_uri' => 'https://your_redirect_uri', // Optionnel
 ]);
 ```
 
