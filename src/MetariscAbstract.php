@@ -9,6 +9,7 @@ use Pagerfanta\Pagerfanta;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\BodySummarizer;
 use Composer\CaBundle\CaBundle;
+use Psr\SimpleCache\CacheInterface;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleRetry\GuzzleRetryMiddleware;
 use kamermans\OAuth2\OAuth2Middleware;
@@ -18,11 +19,11 @@ use Psr\Http\Message\ResponseInterface;
 use kamermans\OAuth2\GrantType\AuthorizationCode;
 use kamermans\OAuth2\GrantType\ClientCredentials;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use kamermans\OAuth2\Persistence\SimpleCacheTokenPersistence;
 
 abstract class MetariscAbstract
 {
-    public const METARISC_URL     = 'https://api.metarisc.fr/';
-    public const ACCESS_TOKEN_URL = 'https://lemur-17.cloud-iam.com/auth/realms/metariscoidc/protocol/openid-connect/token';
+    public const METARISC_URL = 'https://api.metarisc.fr/';
 
     private HttpClient $http_client;
     private array $config;
@@ -30,13 +31,10 @@ abstract class MetariscAbstract
     /**
      * Création d'une nouvelle instance d'un service Metarisc.
      *
-     * La configuration doit contenir au moins :
-     * - CLIENT_ID (Le client_id de l'application inscrite sur Metarisc ID pour communiquer avec Metarisc)
-     * - CLIENT_SECRET (Le client_secret de l'application inscrite sur Metarisc ID pour communiquer avec Metarisc)
-     *
-     * La configuration peut contenir aussi :
-     * - METARISC_URL
-     * - ACCESS_TOKEN_URL
+     * La configuration peut contenir :
+     * - client_id
+     * - metarisc_url : URL de l'API Metarisc (optionnel)
+     * - client_secret (optionnel)
      **/
     final public function __construct(array $config = [])
     {
@@ -46,15 +44,11 @@ abstract class MetariscAbstract
 
         // Paramètres par défauts
         $resolver->setDefaults([
-            'metarisc_url'     => self::METARISC_URL,
-            'access_token_url' => self::ACCESS_TOKEN_URL,
-            'grant_type'       => 'client_credentials',
-            'client_id'        => null,
-            'client_secret'    => null,
-            'code'             => null,
-            'redirect_uri'     => null,
-            'scope'            => 'openid',
+            'metarisc_url'  => self::METARISC_URL,
+            'client_secret' => '',
         ]);
+
+        $resolver->setRequired(['client_id']);
 
         $this->config = $resolver->resolve($config);
 
@@ -92,20 +86,10 @@ abstract class MetariscAbstract
         $prepare_body_middleware = Middleware::redirect();
         $stack->push($prepare_body_middleware, 'prepare_body');
 
-        // Middleware : OAuth2 auth
-        $auth_server_http_client = new HttpClient(['base_uri' => $this->getConfig()['access_token_url'], 'verify' => CaBundle::getSystemCaRootBundlePath()]);
-        $grant_type              = match ($this->getConfig()['grant_type']) {
-            'client_credentials' => new ClientCredentials($auth_server_http_client, $this->getConfig()),
-            'code'               => new AuthorizationCode($auth_server_http_client, $this->getConfig())
-        };
-        $stack->push(new OAuth2Middleware($grant_type));
-
         // Création du client HTTP servant à communiquer avec Plat'AU
         $this->http_client = new HttpClient([
             'base_uri' => $this->getConfig()['metarisc_url'],
             'timeout'  => 30.0,
-            'handler'  => $stack,
-            'auth'     => 'oauth',
             'verify'   => CaBundle::getSystemCaRootBundlePath(),
         ]);
     }
@@ -176,5 +160,55 @@ abstract class MetariscAbstract
         );
 
         return new Pagerfanta($adapter);
+    }
+
+    /**
+     * Déclenche une authentification d'un compte utilisateur Metarisc afin de réaliser des appels
+     * aux endpoints protégés.
+     *
+     * En fonction de l'auth_method choisi, différents params sont attendus :
+     * - oauth2:client_credentials :
+     *     - scope
+     * - oauth2:authorization_code :
+     *     - scope
+     *     - redirect_uri
+     *     - code
+     *
+     * Un SimpleCache peut être utilisé pour gérer la persistence des token d'authentification.
+     */
+    public function authenticate(string $auth_method, array $params, ?CacheInterface $cache) : void
+    {
+        $http_client = new HttpClient([
+            'base_uri' => OAuth2::ACCESS_TOKEN_URL,
+            'verify'   => CaBundle::getSystemCaRootBundlePath(),
+        ]);
+
+        $grant_type = match ($auth_method) {
+            'oauth2:client_credentials' => new ClientCredentials($http_client, [
+                'client_id'     => $this->getConfig()['client_id'],
+                'client_secret' => $this->getConfig()['client_secret'],
+                'scope'         => $params['scope'] ?? '',
+            ]),
+            'oauth2:authorization_code' => new AuthorizationCode($http_client, [
+                'client_id'     => $this->getConfig()['client_id'],
+                'client_secret' => $this->getConfig()['client_secret'],
+                'scope'         => $params['scope'] ?? '',
+                'redirect_uri'  => $params['redirect_uri'] ?? '',
+                'code'          => $params['code'] ?? '',
+            ])
+        };
+
+        $middleware = new OAuth2Middleware($grant_type);
+
+        if (null !== $cache) {
+            $middleware->setTokenPersistence(new SimpleCacheTokenPersistence($cache, 'metarisc-oauth2-token'));
+        }
+
+        /** @psalm-suppress DeprecatedMethod */
+        $handler = $this->http_client->getConfig('handler');
+
+        \assert($handler instanceof HandlerStack);
+
+        $handler->push($middleware);
     }
 }
