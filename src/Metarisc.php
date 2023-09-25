@@ -29,6 +29,6 @@ class Metarisc extends MetariscAbstract
 
         \assert(null !== $class_name, "Service $name inconnu");
 
-        return new $class_name($this->getConfig());
+        return new $class_name($this->getConfig(), $this->getClient());
     }
 }
