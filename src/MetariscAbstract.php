@@ -2,30 +2,17 @@
 
 namespace Metarisc;
 
-use GuzzleHttp\Utils;
 use Metarisc\Auth\OAuth2;
-use GuzzleHttp\Middleware;
 use Pagerfanta\Pagerfanta;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\BodySummarizer;
-use Composer\CaBundle\CaBundle;
-use Psr\SimpleCache\CacheInterface;
-use GuzzleHttp\Client as HttpClient;
-use GuzzleRetry\GuzzleRetryMiddleware;
-use kamermans\OAuth2\OAuth2Middleware;
-use Psr\Http\Message\RequestInterface;
 use Pagerfanta\Adapter\CallbackAdapter;
 use Psr\Http\Message\ResponseInterface;
-use kamermans\OAuth2\GrantType\AuthorizationCode;
-use kamermans\OAuth2\GrantType\ClientCredentials;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use kamermans\OAuth2\Persistence\SimpleCacheTokenPersistence;
 
 abstract class MetariscAbstract
 {
     public const METARISC_URL = 'https://api.metarisc.fr/';
 
-    private HttpClient $http_client;
+    private Client $http_client;
     private array $config;
 
     /**
@@ -36,7 +23,7 @@ abstract class MetariscAbstract
      * - metarisc_url : URL de l'API Metarisc (optionnel)
      * - client_secret (optionnel)
      **/
-    final public function __construct(array $config = [])
+    final public function __construct(array $config = [], Client $client = null)
     {
         // Gestion des options de configuration.
         // (OptionsResolver allows to create an options system with required options, defaults, validation (type, value), normalization and more)
@@ -52,46 +39,8 @@ abstract class MetariscAbstract
 
         $this->config = $resolver->resolve($config);
 
-        // Initialisation du pipeline HTTP utilisé par Guzzle
-        $stack = new HandlerStack(Utils::chooseHandler());
-
-        // Retry statregy : on va demander au client Metarisc d'essayer plusieurs fois une requête qui pose problème
-        // afin d'éviter de tomber à cause d'un problème de connexion.
-        $stack->push(GuzzleRetryMiddleware::factory([
-            'max_retry_attempts' => 5,
-            'retry_on_status'    => [429, 503, 500],
-            'on_retry_callback'  => function (int $attemptNumber, float $delay, RequestInterface &$request, array &$options, ?ResponseInterface $response) {
-                $message = sprintf(
-                    "Un problème est survenu lors de la requête à %s : Metarisc a répondu avec un code %s. Nous allons attendre %s secondes avant de réessayer. Ceci est l'essai numéro %s.",
-                    $request->getUri()->getPath(),
-                    $response ? $response->getStatusCode() : '???',
-                    number_format($delay, 2),
-                    $attemptNumber
-                );
-                echo $message.\PHP_EOL;
-            },
-        ]));
-
-        // Personnalisation du middleware de gestion d'erreur (permettant d'éviter de tronquer les messages d'erreur
-        // renvoyés par Metarisc)
-        $stack->push(Middleware::httpErrors(new BodySummarizer(16384)), 'http_errors');
-
-        // Autorise le suivi des redirections
-        /** @var callable(callable): callable $redirect_middleware */
-        $redirect_middleware = Middleware::redirect();
-        $stack->push($redirect_middleware, 'allow_redirects');
-
-        // Prépare les requests contenants un body, en ajoutant Content-Length, Content-Type, et les entêtes attendues.
-        /** @var callable(callable): callable $prepare_body_middleware */
-        $prepare_body_middleware = Middleware::redirect();
-        $stack->push($prepare_body_middleware, 'prepare_body');
-
-        // Création du client HTTP servant à communiquer avec Plat'AU
-        $this->http_client = new HttpClient([
-            'base_uri' => $this->getConfig()['metarisc_url'],
-            'timeout'  => 30.0,
-            'verify'   => CaBundle::getSystemCaRootBundlePath(),
-        ]);
+        // If no HTTP Client is provided, init with Metarisc Default HTTP Client
+        $this->http_client = $client ?? new Client($this->getConfig());
     }
 
     /**
@@ -113,13 +62,18 @@ abstract class MetariscAbstract
     }
 
     /**
+     * Récupération du client HTTP utilisé par le service Metarisc.
+     */
+    public function getClient() : Client
+    {
+        return $this->http_client;
+    }
+
+    /**
      * Lancement d'une requête vers Metarisc.
      */
     public function request(string $method, string $uri = '', array $options = []) : ResponseInterface
     {
-        // Suppression du leading slash car cela peut rentrer en conflit avec la base uri
-        $uri = ltrim($uri, '/');
-
         return $this->http_client->request($method, $uri, $options);
     }
 
@@ -176,39 +130,11 @@ abstract class MetariscAbstract
      *
      * Un SimpleCache peut être utilisé pour gérer la persistence des token d'authentification.
      */
-    public function authenticate(string $auth_method, array $params, ?CacheInterface $cache) : void
+    public function authenticate(string $auth_method, array $params) : void
     {
-        $http_client = new HttpClient([
-            'base_uri' => OAuth2::ACCESS_TOKEN_URL,
-            'verify'   => CaBundle::getSystemCaRootBundlePath(),
+        $this->http_client->authenticate($auth_method, $params + [
+            'client_id'     => $this->getConfig()['client_id'],
+            'client_secret' => $this->getConfig()['client_secret'],
         ]);
-
-        $grant_type = match ($auth_method) {
-            'oauth2:client_credentials' => new ClientCredentials($http_client, [
-                'client_id'     => $this->getConfig()['client_id'],
-                'client_secret' => $this->getConfig()['client_secret'],
-                'scope'         => $params['scope'] ?? '',
-            ]),
-            'oauth2:authorization_code' => new AuthorizationCode($http_client, [
-                'client_id'     => $this->getConfig()['client_id'],
-                'client_secret' => $this->getConfig()['client_secret'],
-                'scope'         => $params['scope'] ?? '',
-                'redirect_uri'  => $params['redirect_uri'] ?? '',
-                'code'          => $params['code'] ?? '',
-            ])
-        };
-
-        $middleware = new OAuth2Middleware($grant_type);
-
-        if (null !== $cache) {
-            $middleware->setTokenPersistence(new SimpleCacheTokenPersistence($cache, 'metarisc-oauth2-token'));
-        }
-
-        /** @psalm-suppress DeprecatedMethod */
-        $handler = $this->http_client->getConfig('handler');
-
-        \assert($handler instanceof HandlerStack);
-
-        $handler->push($middleware);
     }
 }
