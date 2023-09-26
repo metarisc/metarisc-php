@@ -74,7 +74,9 @@ abstract class MetariscAbstract
      */
     public function request(string $method, string $uri = '', array $options = []) : ResponseInterface
     {
-        return $this->http_client->request($method, $uri, $options);
+        return $this->http_client->request($method, $uri, $options + [
+            'auth' => 'oauth'
+        ]);
     }
 
     /**
