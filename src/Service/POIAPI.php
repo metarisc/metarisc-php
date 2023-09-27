@@ -43,17 +43,16 @@ class POIAPI extends MetariscAbstract
     /**
      * Récupération de la liste des contacts d'un POI.
      */
-    public function paginateContacts(string $poi_id, int $page = null, int $per_page = null) : Pagerfanta
+    public function paginateContacts(string $poi_id) : Pagerfanta
     {
         $table = [
+            'poi_id'=> $poi_id,
             ];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}/contacts');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'page'     => $page,
-                'per_page' => $per_page, ],
+            'params' => [],
         ]);
     }
 

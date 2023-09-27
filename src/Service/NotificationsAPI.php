@@ -35,7 +35,7 @@ class NotificationsAPI extends MetariscAbstract
     /**
      * Récupération des détails d'une notification correspondante à l'id donné.
      */
-    public function getNotification(string $notification_id, \Metarisc\Model\Notification $notification = null) : \Metarisc\Model\Notification
+    public function getNotification(string $notification_id) : \Metarisc\Model\Notification
     {
         $table = [
             'notification_id' => $notification_id,
@@ -56,7 +56,7 @@ class NotificationsAPI extends MetariscAbstract
     /**
      * Récupération des détails de toutes les notifications existantes.
      */
-    public function paginateNotifications(int $page = null, int $per_page = null) : Pagerfanta
+    public function paginateNotifications() : Pagerfanta
     {
         $table = [
             ];
@@ -64,9 +64,7 @@ class NotificationsAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/notifications/');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'page'     => $page,
-                'per_page' => $per_page, ],
+            'params' => [],
         ]);
     }
 

@@ -43,7 +43,7 @@ class DossiersAPI extends MetariscAbstract
     /**
      * Récupération de la liste des dossiers selon des critères de recherche.
      */
-    public function paginateDossiers(int $page = null, int $per_page = null) : Pagerfanta
+    public function paginateDossiers() : Pagerfanta
     {
         $table = [
             ];
@@ -51,9 +51,7 @@ class DossiersAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'page'     => $page,
-                'per_page' => $per_page, ],
+            'params' => [],
         ]);
     }
 

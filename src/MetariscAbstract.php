@@ -75,7 +75,7 @@ abstract class MetariscAbstract
     public function request(string $method, string $uri = '', array $options = []) : ResponseInterface
     {
         return $this->http_client->request($method, $uri, $options + [
-                'auth' => 'oauth'
+                'auth' => 'oauth',
             ]);
     }
 
@@ -85,7 +85,7 @@ abstract class MetariscAbstract
     public function pagination(string $method, string $uri = '', array $options = []) : Pagerfanta
     {
         $adapter = new CallbackAdapter(
-        // A callable to count the number items in the list
+            // A callable to count the number items in the list
             function () use ($method, $uri, $options) : int {
                 $page = json_decode($this->request($method, $uri, $options)->getBody()->__toString(), true, 512, \JSON_THROW_ON_ERROR);
                 \assert(\is_array($page), 'La pagination renvoyée par Metarisc est incorrecte : la page renvoyée est invalide');

@@ -43,7 +43,7 @@ class SupportAPI extends MetariscAbstract
     /**
      * Récupération de la liste des tickets de support.
      */
-    public function paginateTickets(int $page = null, int $per_page = null) : Pagerfanta
+    public function paginateTickets() : Pagerfanta
     {
         $table = [
             ];
@@ -51,9 +51,7 @@ class SupportAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/support/');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'page'     => $page,
-                'per_page' => $per_page, ],
+            'params' => [],
         ]);
     }
 
