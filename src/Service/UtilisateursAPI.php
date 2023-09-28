@@ -44,8 +44,7 @@ class UtilisateursAPI extends MetariscAbstract
      */
     public function getUtilisateursMoi1() : \Metarisc\Model\Utilisateur
     {
-        $table = [
-            ];
+        $table = [];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/utilisateurs/@moi');
 
@@ -62,34 +61,28 @@ class UtilisateursAPI extends MetariscAbstract
     /**
      * Liste toutes les adresses mail de l'utilisateur connecté, y compris les adresses non publiquement accessibles.
      */
-    public function paginateMoiEmails(int $page = null, int $per_page = null) : Pagerfanta
+    public function paginateMoiEmails() : Pagerfanta
     {
-        $table = [
-            ];
+        $table = [];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/@moi/emails');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'page'     => $page,
-                'per_page' => $per_page, ],
+            'params' => [],
         ]);
     }
 
     /**
      * Liste toutes les adresses mail de l'utilisateur connecté, y compris les adresses non publiquement accessibles.
      */
-    public function paginateMoiEmails1(int $page = null, int $per_page = null) : Pagerfanta
+    public function paginateMoiEmails1() : Pagerfanta
     {
-        $table = [
-            ];
+        $table = [];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/utilisateurs/@moi/emails');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'page'     => $page,
-                'per_page' => $per_page, ],
+            'params' => [],
         ]);
     }
 }

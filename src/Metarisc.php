@@ -6,6 +6,7 @@ use Metarisc\Service\POIAPI;
 use Metarisc\Service\PingAPI;
 use Metarisc\Service\SupportAPI;
 use Metarisc\Service\DossiersAPI;
+use Metarisc\Service\EvenementsAPI;
 use Metarisc\Service\OrganisationAPI;
 use Metarisc\Service\UtilisateursAPI;
 use Metarisc\Service\NotificationsAPI;
@@ -20,6 +21,7 @@ class Metarisc extends MetariscAbstract
         'ping'                 => PingAPI::class,
         'support'              => SupportAPI::class,
         'utilisateurs'         => UtilisateursAPI::class,
+        'evenements'           => EvenementsAPI::class,
     ];
 
     public function __get(string $name)
