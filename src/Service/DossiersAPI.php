@@ -2,23 +2,12 @@
 
 namespace Metarisc\Service;
 
+use Metarisc\Utils;
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
 
 class DossiersAPI extends MetariscAbstract
 {
-    protected function replacements(array $replacement_table) : \Closure
-    {
-        return function (array $matches) use ($replacement_table) : string {
-            /** @var array-key $key */
-            $key = $matches[1];
-            /** @var string $replacement */
-            $replacement = $replacement_table[$key] ?? $matches[0];
-
-            return $replacement;
-        };
-    }
-
     /**
      * Récupération de l'ensemble des données d'un dossier.
      */
@@ -28,7 +17,7 @@ class DossiersAPI extends MetariscAbstract
             'dossier_id' => $dossier_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}');
 
         $response =  $this->request('GET', $path);
 
@@ -41,6 +30,28 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
+     * Rédupération des détails d'un workflow.
+     */
+    public function getDossierWorkflowsWorkflow(string $dossier_id, string $workflow_id) : \Metarisc\Model\Workflow
+    {
+        $table = [
+            'dossier_id'  => $dossier_id,
+            'workflow_id' => $workflow_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}');
+
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Workflow::unserialize($object);
+    }
+
+    /**
      * Récupération de la liste des dossiers selon des critères de recherche.
      */
     public function paginateDossiers() : Pagerfanta
@@ -48,7 +59,7 @@ class DossiersAPI extends MetariscAbstract
         $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -64,7 +75,7 @@ class DossiersAPI extends MetariscAbstract
             'dossier_id' => $dossier_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}/suivi_administratif');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/suivi_administratif');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -80,7 +91,7 @@ class DossiersAPI extends MetariscAbstract
             'dossier_id' => $dossier_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}/tags');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/tags');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -97,7 +108,7 @@ class DossiersAPI extends MetariscAbstract
             'workflow_id' => $workflow_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/documents');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/documents');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -113,7 +124,7 @@ class DossiersAPI extends MetariscAbstract
             'dossier_id' => $dossier_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}/workflows');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -129,7 +140,7 @@ class DossiersAPI extends MetariscAbstract
             'dossier_id' => $dossier_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/dossiers/{dossier_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}');
 
         $this->request('PATCH', $path, [
             'json' => [

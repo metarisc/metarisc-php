@@ -2,23 +2,12 @@
 
 namespace Metarisc\Service;
 
+use Metarisc\Utils;
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
 
 class POIAPI extends MetariscAbstract
 {
-    protected function replacements(array $replacement_table) : \Closure
-    {
-        return function (array $matches) use ($replacement_table) : string {
-            /** @var array-key $key */
-            $key = $matches[1];
-            /** @var string $replacement */
-            $replacement = $replacement_table[$key] ?? $matches[0];
-
-            return $replacement;
-        };
-    }
-
     /**
      * Récupération de l'ensemble des données d'un POI.
      */
@@ -28,7 +17,7 @@ class POIAPI extends MetariscAbstract
             'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}');
 
         $response =  $this->request('GET', $path);
 
@@ -46,10 +35,10 @@ class POIAPI extends MetariscAbstract
     public function paginateContacts(string $poi_id) : Pagerfanta
     {
         $table = [
-            'poi_id'   => $poi_id,
+            'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}/contacts');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}/contacts');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -62,10 +51,10 @@ class POIAPI extends MetariscAbstract
     public function paginateHistorique(string $poi_id) : Pagerfanta
     {
         $table = [
-            'poi_id'   => $poi_id,
+            'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}/historique');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}/historique');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -78,10 +67,10 @@ class POIAPI extends MetariscAbstract
     public function paginatePiecesJointes(string $poi_id) : Pagerfanta
     {
         $table = [
-            'poi_id'   => $poi_id,
+            'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}/pieces_jointes');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}/pieces_jointes');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -93,9 +82,10 @@ class POIAPI extends MetariscAbstract
      */
     public function paginatePoi() : Pagerfanta
     {
-        $table = [];
+        $table = [
+            ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -111,7 +101,7 @@ class POIAPI extends MetariscAbstract
             'poi_id' => $poi_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/poi/{poi_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}');
 
         $this->request('PATCH', $path, [
             'json' => [

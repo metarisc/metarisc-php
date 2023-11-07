@@ -2,23 +2,12 @@
 
 namespace Metarisc\Service;
 
+use Metarisc\Utils;
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
 
 class EvenementsAPI extends MetariscAbstract
 {
-    protected function replacements(array $replacement_table) : \Closure
-    {
-        return function (array $matches) use ($replacement_table) : string {
-            /** @var array-key $key */
-            $key = $matches[1];
-            /** @var string $replacement */
-            $replacement = $replacement_table[$key] ?? $matches[0];
-
-            return $replacement;
-        };
-    }
-
     /**
      * Suppression d'un événement correspondant à l'id donné.
      */
@@ -28,20 +17,20 @@ class EvenementsAPI extends MetariscAbstract
             'evenement_id' => $evenement_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/evenements/{evenement_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/{evenement_id}');
         $this->request('DELETE', $path);
     }
 
     /**
      * Récupération des détails d'un événement correspondant à l'id donné.
      */
-    public function getEvenement(string $evenement_id) : \Metarisc\Model\Evenement
+    public function getEvenement(string $evenement_id, \Metarisc\Model\Evenement $evenement = null) : \Metarisc\Model\Evenement
     {
         $table = [
             'evenement_id' => $evenement_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/evenements/{evenement_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/{evenement_id}');
 
         $response =  $this->request('GET', $path);
 
@@ -62,7 +51,7 @@ class EvenementsAPI extends MetariscAbstract
             'evenement_id' => $evenement_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/evenements/{evenement_id}/utilisateurs');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/{evenement_id}/utilisateurs');
 
         return $this->pagination('GET', $path, [
             'params' => [],
@@ -72,19 +61,15 @@ class EvenementsAPI extends MetariscAbstract
     /**
      * Récupération des détails de tous les événements calendaires existants.
      */
-    public function paginateEvenements(string $type = null, string $period = null) : Pagerfanta
+    public function paginateEvenements() : Pagerfanta
     {
         $table = [
-            'type'     => $type,
-            'period'   => $period,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/evenements/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'type'     => $type,
-                'period'   => $period],
+            'params' => [],
         ]);
     }
 
