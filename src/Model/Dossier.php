@@ -11,7 +11,7 @@ class Dossier
     private ?string $id                   = null;
     private ?\Metarisc\Model\Type $type   = null;
     private ?string $description          = null;
-    private ?\DateTime $date_de_creation  = null;
+    private ?string $date_de_creation     = null;
     private ?string $createur             = null;
     private ?string $application_utilisee = null;
     private ?string $statut               = null;
@@ -74,14 +74,14 @@ class Dossier
         $this->description=$description;
     }
 
-    public function getDateDeCreation() : ?\DateTime
+    public function getDateDeCreation() : ?string
     {
         return $this->date_de_creation;
     }
 
     public function setDateDeCreation(?string $date_de_creation) : void
     {
-        $this->date_de_creation = (\is_string($date_de_creation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_creation) : null;
+        $this->date_de_creation = $date_de_creation;
     }
 
     public function getCreateur() : ?string

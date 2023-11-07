@@ -4,14 +4,16 @@ namespace Metarisc\Model;
 
 class Utilisateur
 {
-    private ?string $id            = null;
-    private ?string $first_name    = null;
-    private ?string $last_name     = null;
-    private ?\DateTime $created_at = null;
-    private ?\DateTime $updated_at = null;
-    private ?string $timezone      = null;
-    private ?bool $is_active       = null;
-    private ?bool $is_verified     = null;
+    private ?string $id         = null;
+    private ?string $first_name = null;
+    private ?string $last_name  = null;
+    private ?string $created_at = null;
+    private ?string $updated_at = null;
+    private ?string $timezone   = null;
+    private ?bool $is_active    = null;
+    private ?bool $is_verified  = null;
+    private ?string $fonction   = null;
+    private ?string $avatar_url = null;
 
     public static function unserialize(array $data) : self
     {
@@ -40,6 +42,12 @@ class Utilisateur
 
         /** @var bool $data['is_verified'] */
         $object->setIsVerified($data['is_verified']);
+
+        /** @var string $data['fonction'] */
+        $object->setFonction($data['fonction']);
+
+        /** @var string $data['avatar_url'] */
+        $object->setAvatarUrl($data['avatar_url']);
 
         return $object;
     }
@@ -74,24 +82,24 @@ class Utilisateur
         $this->last_name=$last_name;
     }
 
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt() : ?string
     {
         return $this->created_at;
     }
 
     public function setCreatedAt(?string $created_at) : void
     {
-        $this->created_at = (\is_string($created_at)) ? \DateTime::createFromFormat(\DATE_ATOM, $created_at) : null;
+        $this->created_at = $created_at;
     }
 
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt() : ?string
     {
         return $this->updated_at;
     }
 
     public function setUpdatedAt(?string $updated_at) : void
     {
-        $this->updated_at = (\is_string($updated_at)) ? \DateTime::createFromFormat(\DATE_ATOM, $updated_at) : null;
+        $this->updated_at = $updated_at;
     }
 
     public function getTimezone() : ?string
@@ -122,5 +130,25 @@ class Utilisateur
     public function setIsVerified(bool $is_verified = null) : void
     {
         $this->is_verified=$is_verified;
+    }
+
+    public function getFonction() : ?string
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(string $fonction = null) : void
+    {
+        $this->fonction=$fonction;
+    }
+
+    public function getAvatarUrl() : ?string
+    {
+        return $this->avatar_url;
+    }
+
+    public function setAvatarUrl(string $avatar_url = null) : void
+    {
+        $this->avatar_url=$avatar_url;
     }
 }

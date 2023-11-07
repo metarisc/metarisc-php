@@ -6,8 +6,8 @@ class Workflow
 {
     private ?string $id                      = null;
     private ?string $titre                   = null;
-    private ?\DateTime $date_de_creation     = null;
-    private ?\DateTime $date_de_fin          = null;
+    private ?string $date_de_creation        = null;
+    private ?string $date_de_fin             = null;
     private ?bool $workflow_automatise       = null;
     private ?string $etat                    = null;
     private ?string $groupe_de_travail       = null;
@@ -15,6 +15,7 @@ class Workflow
     private ?bool $est_complet               = null;
     private ?string $liste_poi               = null;
     private ?string $documents               = null;
+    private ?string $type                    = null;
     private ?string $dossier_lie             = null;
     private ?string $pei_lie                 = null;
     private ?array $anomalies_levees         = null;
@@ -57,6 +58,9 @@ class Workflow
         /** @var string $data['documents'] */
         $object->setDocuments($data['documents']);
 
+        /** @var string $data['type'] */
+        $object->setType($data['type']);
+
         /** @var string $data['dossier_lie'] */
         $object->setDossierLie($data['dossier_lie']);
 
@@ -92,24 +96,24 @@ class Workflow
         $this->titre=$titre;
     }
 
-    public function getDateDeCreation() : ?\DateTime
+    public function getDateDeCreation() : ?string
     {
         return $this->date_de_creation;
     }
 
     public function setDateDeCreation(?string $date_de_creation) : void
     {
-        $this->date_de_creation = (\is_string($date_de_creation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_creation) : null;
+        $this->date_de_creation = $date_de_creation;
     }
 
-    public function getDateDeFin() : ?\DateTime
+    public function getDateDeFin() : ?string
     {
         return $this->date_de_fin;
     }
 
     public function setDateDeFin(?string $date_de_fin) : void
     {
-        $this->date_de_fin = (\is_string($date_de_fin)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_fin) : null;
+        $this->date_de_fin = $date_de_fin;
     }
 
     public function getWorkflowAutomatise() : ?bool
@@ -180,6 +184,16 @@ class Workflow
     public function setDocuments(string $documents = null) : void
     {
         $this->documents=$documents;
+    }
+
+    public function getType() : ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type = null) : void
+    {
+        $this->type=$type;
     }
 
     public function getDossierLie() : ?string

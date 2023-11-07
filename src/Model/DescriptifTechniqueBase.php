@@ -6,7 +6,7 @@ class DescriptifTechniqueBase
 {
     private ?string $libelle                = null;
     private ?string $observations_generales = null;
-    private ?\DateTime $date                = null;
+    private ?string $date                   = null;
 
     public static function unserialize(array $data) : self
     {
@@ -44,13 +44,13 @@ class DescriptifTechniqueBase
         $this->observations_generales=$observations_generales;
     }
 
-    public function getDate() : ?\DateTime
+    public function getDate() : ?string
     {
         return $this->date;
     }
 
     public function setDate(?string $date) : void
     {
-        $this->date = (\is_string($date)) ? \DateTime::createFromFormat(\DATE_ATOM, $date) : null;
+        $this->date = $date;
     }
 }

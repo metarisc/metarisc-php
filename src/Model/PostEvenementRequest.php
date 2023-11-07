@@ -4,11 +4,11 @@ namespace Metarisc\Model;
 
 class PostEvenementRequest
 {
-    private ?string $title         = null;
-    private ?string $type          = null;
-    private ?string $description   = null;
-    private ?string $date_debut    = null;
-    private ?string $date_fin      = null;
+    private ?string $title       = null;
+    private ?string $type        = null;
+    private ?string $description = null;
+    private ?string $date_debut  = null;
+    private ?string $date_fin    = null;
 
     public static function unserialize(array $data) : self
     {
