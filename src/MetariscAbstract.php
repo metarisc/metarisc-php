@@ -103,7 +103,7 @@ abstract class MetariscAbstract
             },
             // A callable to get the items for the current page in the paginated list
             function (int $offset, int $length) use ($method, $uri, $options) : iterable {
-                $page_number = (int) floor($offset / $length);
+                $page_number = (int) floor(($offset / $length) + 1);
                 $options     = array_merge_recursive($options, ['query' => ['page' => $page_number, 'per_page' => $length]]);
                 $page        = json_decode($this->request($method, $uri, $options)->getBody()->__toString(), true, 512, \JSON_THROW_ON_ERROR);
                 \assert(\is_array($page), 'La pagination renvoyée par Metarisc est incorrecte : la page renvoyée est invalide');
