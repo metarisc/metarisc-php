@@ -9,85 +9,95 @@ use Metarisc\Model\AdressePostale;
 
 class AdressePostaleTest extends TestCase
 {
-    private AdressePostale $adressePostale;
+    private AdressePostale $adresse_postale;
     private Generator $faker;
 
     protected function setUp() : void
     {
         $this->faker = Factory::create();
 
-        $this->adressePostale = new AdressePostale();
-        $this->adressePostale->setCodePostal($this->faker->postcode);
-        $this->adressePostale->setCommune($this->faker->city);
-        $this->adressePostale->setVoie($this->faker->streetName);
-        $this->adressePostale->setArrondissement($this->faker->city);
-        $this->adressePostale->setCodeInsee($this->faker->postcode);
+        $this->adresse_postale = new AdressePostale();
+        $this->adresse_postale->setCodePostal($this->faker->text);
+
+        $this->adresse_postale->setCommune($this->faker->city);
+
+        $this->adresse_postale->setVoie($this->faker->streetName);
+
+        $this->adresse_postale->setCodeInsee($this->faker->text);
+
+        $this->adresse_postale->setArrondissement($this->faker->text);
     }
 
     public function testUnserialize() : void
     {
         $data = [
-            'code_postal'   => $this->adressePostale->getCodePostal(),
-            'commune'       => $this->adressePostale->getCommune(),
-            'voie'          => $this->adressePostale->getVoie(),
-            'code_insee'    => $this->adressePostale->getCodeInsee(),
-            'arrondissement'=> $this->adressePostale->getArrondissement(),
+            'code_postal'    => $this->adresse_postale->getCodePostal(),
+            'commune'        => $this->adresse_postale->getCommune(),
+            'voie'           => $this->adresse_postale->getVoie(),
+            'code_insee'     => $this->adresse_postale->getCodeInsee(),
+            'arrondissement' => $this->adresse_postale->getArrondissement(),
         ];
         $object = AdressePostale::unserialize($data);
-
         $this->assertInstanceOf(AdressePostale::class, $object);
     }
 
-    public function testGetCodePostal() : void
+    public function testgetCodePostal() : void
     {
-        $codePostal = $this->adressePostale->getCodePostal();
-        $this->assertIsString($codePostal);
+        $code_postal = $this->adresse_postale->getCodePostal();
 
-        $this->adressePostale->setCodePostal('62800');
+        $this->assertIsString($code_postal);
 
-        $this->assertSame('62800', $this->adressePostale->getCodePostal());
-        $this->assertNotSame($codePostal, $this->adressePostale->getCodePostal());
+        $this->adresse_postale->setCodePostal('test code_postal');
+
+        $this->assertSame('test code_postal', $this->adresse_postale->getCodePostal());
+        $this->assertNotSame($code_postal, $this->adresse_postale->getCodePostal());
     }
 
-    public function testCommune() : void
+    public function testgetCommune() : void
     {
-        $commune = $this->adressePostale->getCommune();
-        $this->assertNotNull($commune);
+        $commune = $this->adresse_postale->getCommune();
 
-        $this->adressePostale->setCommune('Lievin');
+        $this->assertIsString($commune);
 
-        $this->assertSame('Lievin', $this->adressePostale->getCommune());
-        $this->assertNotSame($commune, $this->adressePostale->getCommune());
+        $this->adresse_postale->setCommune('test commune');
+
+        $this->assertSame('test commune', $this->adresse_postale->getCommune());
+        $this->assertNotSame($commune, $this->adresse_postale->getCommune());
     }
 
-    public function testVoie() : void
+    public function testgetVoie() : void
     {
-        $voie = $this->adressePostale->getVoie();
+        $voie = $this->adresse_postale->getVoie();
+
         $this->assertIsString($voie);
 
-        $this->adressePostale->setVoie('Chemin');
+        $this->adresse_postale->setVoie('test voie');
 
-        $this->assertSame('Chemin', $this->adressePostale->getVoie());
-        $this->assertNotSame($voie, $this->adressePostale->getVoie());
+        $this->assertSame('test voie', $this->adresse_postale->getVoie());
+        $this->assertNotSame($voie, $this->adresse_postale->getVoie());
     }
 
-    public function testCodeInsee() : void
+    public function testgetCodeInsee() : void
     {
-        $code_insee = $this->adressePostale->getCodeInsee();
+        $code_insee = $this->adresse_postale->getCodeInsee();
+
         $this->assertIsString($code_insee);
 
-        $this->adressePostale->setCodeInsee("code_insee");
+        $this->adresse_postale->setCodeInsee('test code_insee');
 
-        $this->assertSame("code_insee", $this->adressePostale->getCodeInsee());
-        $this->assertNotSame($code_insee, $this->adressePostale->getCodeInsee());
+        $this->assertSame('test code_insee', $this->adresse_postale->getCodeInsee());
+        $this->assertNotSame($code_insee, $this->adresse_postale->getCodeInsee());
     }
 
-    public function testArrondissement():void
+    public function testgetArrondissement() : void
     {
-        $arrondissement = $this->adressePostale->getArrondissement();
+        $arrondissement = $this->adresse_postale->getArrondissement();
+
         $this->assertIsString($arrondissement);
 
-        $this->adressePostale->setArrondissement("arrondissement");
-        $this->assertSame("arrondissement", $this->adressePostale->getArrondissement());
+        $this->adresse_postale->setArrondissement('test arrondissement');
+
+        $this->assertSame('test arrondissement', $this->adresse_postale->getArrondissement());
+        $this->assertNotSame($arrondissement, $this->adresse_postale->getArrondissement());
     }
 }
