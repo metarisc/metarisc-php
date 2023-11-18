@@ -4,9 +4,9 @@ namespace Metarisc;
 
 use Metarisc\Auth\OAuth2;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\Adapter\CallbackAdapter;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Metarisc\Pagerfanta\Adapter\MetariscPaginationAdapter;
 
 abstract class MetariscAbstract
 {
@@ -84,36 +84,7 @@ abstract class MetariscAbstract
      */
     public function pagination(string $method, string $uri = '', array $options = []) : Pagerfanta
     {
-        $adapter = new CallbackAdapter(
-            // A callable to count the number items in the list
-            function () use ($method, $uri, $options) : int {
-                $page = json_decode($this->request($method, $uri, $options)->getBody()->__toString(), true, 512, \JSON_THROW_ON_ERROR);
-                \assert(\is_array($page), 'La pagination renvoyée par Metarisc est incorrecte : la page renvoyée est invalide');
-                \assert(\array_key_exists('meta', $page), 'La pagination renvoyée par Metarisc est incorrecte : il manque les métadonnées');
-                $meta = $page['meta'];
-                \assert(\is_array($meta), 'La pagination renvoyée par Metarisc est incorrecte : les métadonnées sont invalides');
-                \assert(\array_key_exists('pagination', $meta), 'La pagination renvoyée par Metarisc est incorrecte : il manque les métadonnées de la pagination');
-                $pagination = $meta['pagination'];
-                \assert(\is_array($pagination), 'La pagination renvoyée par Metarisc est incorrecte : les métadonnées de la pagination sont invalides');
-                \assert(\array_key_exists('total', $pagination), 'La pagination renvoyée par Metarisc est incorrecte : il manque le total dans les métadonnées de la pagination');
-                $total = (int) $pagination['total'];
-                \assert($total >= 0, 'La pagination renvoyée par Metarisc est incorrecte : le total est négatif');
-
-                return $total;
-            },
-            // A callable to get the items for the current page in the paginated list
-            function (int $offset, int $length) use ($method, $uri, $options) : iterable {
-                $page_number = (int) floor(($offset / $length) + 1);
-                $options     = array_merge_recursive($options, ['query' => ['page' => $page_number, 'per_page' => $length]]);
-                $page        = json_decode($this->request($method, $uri, $options)->getBody()->__toString(), true, 512, \JSON_THROW_ON_ERROR);
-                \assert(\is_array($page), 'La pagination renvoyée par Metarisc est incorrecte : la page renvoyée est invalide');
-                \assert(\array_key_exists('data', $page), 'La pagination renvoyée par Metarisc est incorrecte : il manque les données');
-                $data = $page['data'];
-                \assert(\is_array($data), 'La pagination renvoyée par Metarisc est incorrecte : les données renvoyées sont invalides');
-
-                return $data;
-            }
-        );
+        $adapter = new MetariscPaginationAdapter($this, $method, $uri, $options);
 
         return new Pagerfanta($adapter);
     }
