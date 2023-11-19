@@ -4,7 +4,9 @@ namespace Metarisc;
 
 use Metarisc\Auth\OAuth2;
 use Pagerfanta\Pagerfanta;
+use Metarisc\Model\ModelAbstract;
 use Psr\Http\Message\ResponseInterface;
+use Pagerfanta\Adapter\TransformingAdapter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Metarisc\Pagerfanta\Adapter\MetariscPaginationAdapter;
 
@@ -85,6 +87,19 @@ abstract class MetariscAbstract
     public function pagination(string $method, string $uri = '', array $options = []) : Pagerfanta
     {
         $adapter = new MetariscPaginationAdapter($this, $method, $uri, $options);
+
+        // Si il existe l'option "model_class", on essaie d'unserialize les résultats de la pagination
+        // retournée avec le model donné.
+        if (\array_key_exists('model_class', $options)) {
+            $adapter = new TransformingAdapter($adapter, function ($item) use ($options) : ModelAbstract {
+                $model_class = $options['model_class'];
+                \assert(\is_string($model_class));
+                \assert(is_a($model_class, ModelAbstract::class, true));
+                \assert(\is_array($item));
+
+                return $model_class::unserialize($item);
+            });
+        }
 
         return new Pagerfanta($adapter);
     }
