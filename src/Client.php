@@ -66,6 +66,7 @@ class Client
 
         // Création du client HTTP servant à communiquer avec Plat'AU
         $this->http_client = new HttpClient([
+            'headers'  => $this->getDefaultHeaders(),
             'base_uri' => $config['metarisc_url'] ?? self::METARISC_URL,
             'timeout'  => 30.0,
             'verify'   => CaBundle::getSystemCaRootBundlePath(),
@@ -146,5 +147,25 @@ class Client
         \assert($handler instanceof HandlerStack);
 
         $handler->push($middleware);
+    }
+
+    /**
+     * Retourne les headers HTTP par défauts devant être présents dans toutes les requêtes Metarisc.
+     */
+    private function getDefaultHeaders() : array
+    {
+        $headers = [];
+
+        // UA Headers
+        $headers += [
+            'User-Agent'          => 'MetariscPhp/dev', // Format User-Agent (https://www.rfc-editor.org/rfc/rfc9110#name-user-agent)
+            'Metarisc-User-Agent' => json_encode([
+                'lang'        => 'php',
+                'php_version' => \PHP_VERSION,
+                'uname'       => php_uname(),
+            ]),
+        ];
+
+        return $headers;
     }
 }

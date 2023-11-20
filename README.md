@@ -101,4 +101,6 @@ $currentPageResults = $paginator->getCurrentPageResults();
 
 Le paginator obtenu est un objet [Pagerfanta](https://www.babdev.com/open-source/packages/pagerfanta/docs/4.x/usage).
 
+Pour demander au paginator de retourner des objets métiers, vous pouvez passer l'option ```model_class``` afin qu'il puisse désérialiser des résultats de la page.
+
 Note : Les options de requêtes disponibles sont celles de Guzzle (voir https://docs.guzzlephp.org/en/stable/request-options.html).
