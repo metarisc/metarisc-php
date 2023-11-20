@@ -14,6 +14,7 @@ use GuzzleRetry\GuzzleRetryMiddleware;
 use kamermans\OAuth2\OAuth2Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use kamermans\OAuth2\GrantType\NullGrantType;
 use kamermans\OAuth2\GrantType\AuthorizationCode;
 use kamermans\OAuth2\GrantType\ClientCredentials;
 use kamermans\OAuth2\Persistence\SimpleCacheTokenPersistence;
@@ -110,6 +111,7 @@ class Client
      *     - code
      *     - client_id
      *     - client_secret
+     * - oauth2:null : Initie aucun OAuth2 flow (permet d'utiliser le token persistence layer pour récupérer un access token sans déclencher de flow)
      *
      * Un SimpleCache peut être utilisé pour gérer la persistence des token d'authentification.
      */
@@ -121,18 +123,22 @@ class Client
         ]);
 
         $grant_type = match ($auth_method) {
+            // Client credentials flow
             'oauth2:client_credentials' => new ClientCredentials($http_client, [
                 'client_id'     => $params['client_id'] ?? '',
                 'client_secret' => $params['client_secret'] ?? '',
                 'scope'         => $params['scope'] ?? '',
             ]),
+            // Authorization code flow
             'oauth2:authorization_code' => new AuthorizationCode($http_client, [
                 'client_id'     => $params['client_id'] ?? '',
                 'client_secret' => $params['client_secret'] ?? '',
                 'scope'         => $params['scope'] ?? '',
                 'redirect_uri'  => $params['redirect_uri'] ?? '',
                 'code'          => $params['code'] ?? '',
-            ])
+            ]),
+            // Initie aucun OAuth2 flow (permet d'utiliser le token persistence layer pour récupérer un access token sans déclencher de flow)
+            'oauth2:null' => new NullGrantType()
         };
 
         $middleware = new OAuth2Middleware($grant_type);
