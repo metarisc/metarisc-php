@@ -69,6 +69,7 @@ class Client
 
         // Création du client HTTP servant à communiquer avec Plat'AU
         $this->http_client = new HttpClient([
+            'handler'  => $stack,
             'headers'  => $this->getDefaultHeaders(),
             'base_uri' => $config['metarisc_url'] ?? self::METARISC_URL,
             'timeout'  => 30.0,
