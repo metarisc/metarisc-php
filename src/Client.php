@@ -25,6 +25,7 @@ class Client
 
     private HttpClient $http_client;
     private ?CacheInterface $token_persistence;
+    private ?OAuth2Middleware $oauth2_middleware = null;
 
     /**
      * Construction d'un client HTTP.
@@ -117,6 +118,8 @@ class Client
      */
     public function authenticate(string $auth_method, array $params) : void
     {
+        $this->clearCredentials();
+
         $http_client = new HttpClient([
             'base_uri' => OAuth2::ACCESS_TOKEN_URL,
             'verify'   => CaBundle::getSystemCaRootBundlePath(),
@@ -141,10 +144,10 @@ class Client
             'oauth2:null' => new NullGrantType()
         };
 
-        $middleware = new OAuth2Middleware($grant_type);
+        $this->oauth2_middleware = new OAuth2Middleware($grant_type);
 
         if (null !== $this->token_persistence) {
-            $middleware->setTokenPersistence(new SimpleCacheTokenPersistence($this->token_persistence, 'metarisc-oauth2-token'));
+            $this->oauth2_middleware->setTokenPersistence(new SimpleCacheTokenPersistence($this->token_persistence, 'metarisc-oauth2-token'));
         }
 
         /** @psalm-suppress DeprecatedMethod */
@@ -152,7 +155,35 @@ class Client
 
         \assert($handler instanceof HandlerStack);
 
-        $handler->push($middleware);
+        $handler->push($this->oauth2_middleware, 'auth');
+    }
+
+    /**
+     * Récupèration des identifiants obtenus par la fonction authenticate.
+     */
+    public function getCredentials() : array
+    {
+        return [
+            'access_token' => $this->oauth2_middleware?->getAccessToken(),
+        ];
+    }
+
+    /**
+     * Clear des identifiants obtenus par la fonction authenticate.
+     */
+    public function clearCredentials() : void
+    {
+        // Suppression de l'access token de la couche de persistence
+        $this->oauth2_middleware?->deleteAccessToken();
+
+        // Suppression du middleware d'authentification de la stack guzzle (pour éviter une reauth non voulue)
+        /** @psalm-suppress DeprecatedMethod */
+        $handler = $this->http_client->getConfig('handler');
+        \assert($handler instanceof HandlerStack);
+        $handler->remove('auth');
+
+        // Suppression de la trace du middleware dans le client pour éviter la récupération des données imemory
+        $this->oauth2_middleware = null;
     }
 
     /**
