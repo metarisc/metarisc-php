@@ -17,6 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 use kamermans\OAuth2\GrantType\NullGrantType;
 use kamermans\OAuth2\GrantType\AuthorizationCode;
 use kamermans\OAuth2\GrantType\ClientCredentials;
+use kamermans\OAuth2\Persistence\TokenPersistenceInterface;
 use kamermans\OAuth2\Persistence\SimpleCacheTokenPersistence;
 
 class Client
@@ -24,13 +25,13 @@ class Client
     public const METARISC_URL = 'https://api.metarisc.fr/';
 
     private HttpClient $http_client;
-    private ?CacheInterface $token_persistence;
+    private CacheInterface|TokenPersistenceInterface|null $token_persistence;
     private ?OAuth2Middleware $oauth2_middleware = null;
 
     /**
      * Construction d'un client HTTP.
      */
-    public function __construct(array $config, CacheInterface $token_persistence = null)
+    public function __construct(array $config, CacheInterface|TokenPersistenceInterface $token_persistence = null)
     {
         // Initialisation du pipeline HTTP utilisé par Guzzle
         $stack = new HandlerStack(Utils::chooseHandler());
@@ -81,7 +82,7 @@ class Client
      * Configuration de la persistence des access token permettant de conserver les
      * identifications d'authorization.
      */
-    public function setTokenPersistence(CacheInterface $cache) : void
+    public function setTokenPersistence(CacheInterface|TokenPersistenceInterface $cache) : void
     {
         $this->token_persistence = $cache;
     }
@@ -147,7 +148,11 @@ class Client
         $this->oauth2_middleware = new OAuth2Middleware($grant_type);
 
         if (null !== $this->token_persistence) {
-            $this->oauth2_middleware->setTokenPersistence(new SimpleCacheTokenPersistence($this->token_persistence, 'metarisc-oauth2-token'));
+            $this->oauth2_middleware->setTokenPersistence(
+                $this->token_persistence instanceof CacheInterface ?
+                    new SimpleCacheTokenPersistence($this->token_persistence, 'metarisc-oauth2-token') :
+                    $this->token_persistence
+            );
         }
 
         /** @psalm-suppress DeprecatedMethod */
