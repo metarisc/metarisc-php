@@ -14,9 +14,12 @@ use GuzzleRetry\GuzzleRetryMiddleware;
 use kamermans\OAuth2\OAuth2Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Kevinrob\GuzzleCache\CacheMiddleware;
 use kamermans\OAuth2\GrantType\NullGrantType;
 use kamermans\OAuth2\GrantType\AuthorizationCode;
 use kamermans\OAuth2\GrantType\ClientCredentials;
+use Kevinrob\GuzzleCache\Storage\Psr16CacheStorage;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use kamermans\OAuth2\Persistence\TokenPersistenceInterface;
 use kamermans\OAuth2\Persistence\SimpleCacheTokenPersistence;
 
@@ -77,6 +80,23 @@ class Client
         ]);
 
         $this->token_persistence = $token_persistence;
+    }
+
+    /**
+     * Enable HTTP Client caching.
+     */
+    public function enableCache(CacheInterface $cache = null) : void
+    {
+        /** @psalm-suppress DeprecatedMethod */
+        $handler = $this->http_client->getConfig('handler');
+
+        \assert($handler instanceof HandlerStack);
+
+        $handler->push(
+            new CacheMiddleware(
+                $cache ? new PrivateCacheStrategy(new Psr16CacheStorage($cache)) : new PrivateCacheStrategy()
+            ), 'cache'
+        );
     }
 
     /**
