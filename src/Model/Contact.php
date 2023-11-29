@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Contact
+class Contact extends ModelAbstract
 {
     private ?string $id           = null;
     private ?string $nom          = null;

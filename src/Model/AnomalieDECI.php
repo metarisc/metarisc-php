@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class AnomalieDECI
+class AnomalieDECI extends ModelAbstract
 {
     private ?string $code           = null;
     private ?string $texte          = null;

@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class PieceJointe
+class PieceJointe extends ModelAbstract
 {
     private ?string $id          = null;
     private ?string $url         = null;

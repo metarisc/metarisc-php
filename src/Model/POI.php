@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class POI
+class POI extends ModelAbstract
 {
     private ?string $id                                                = null;
     private ?string $date_de_realisation                               = null;

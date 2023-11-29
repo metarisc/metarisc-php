@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class PatchPoiRequest
+class PatchPoiRequest extends ModelAbstract
 {
     private ?string $test = null;
 

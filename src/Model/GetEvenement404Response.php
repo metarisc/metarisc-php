@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class GetEvenement404Response
+class GetEvenement404Response extends ModelAbstract
 {
     private ?int $status_code = null;
     private ?string $type     = null;

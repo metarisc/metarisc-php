@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class PostNotificationRequest
+class PostNotificationRequest extends ModelAbstract
 {
     private ?string $title          = null;
     private ?string $message        = null;

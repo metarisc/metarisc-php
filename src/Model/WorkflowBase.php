@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class WorkflowBase
+class WorkflowBase extends ModelAbstract
 {
     private ?string $id                = null;
     private ?string $titre             = null;

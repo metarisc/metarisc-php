@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class SuiviAdministratif
+class SuiviAdministratif extends ModelAbstract
 {
     private ?string $description         = null;
     private ?string $date_ajout          = null;

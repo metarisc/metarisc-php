@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Tag
+class Tag extends ModelAbstract
 {
     private ?string $message = null;
 

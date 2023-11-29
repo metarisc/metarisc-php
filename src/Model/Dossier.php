@@ -6,7 +6,7 @@ namespace Metarisc\Model;
  * Un dossier représente la vie d'un POI
 */
 
-class Dossier
+class Dossier extends ModelAbstract
 {
     private ?string $id                   = null;
     private ?\Metarisc\Model\Type $type   = null;

@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class DescriptifTechniquePENAAllOfRealimentation
+class DescriptifTechniquePENAAllOfRealimentation extends ModelAbstract
 {
     private ?float $debit                 = null;
     private ?float $diametre_canalisation = null;

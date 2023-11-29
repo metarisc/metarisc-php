@@ -6,7 +6,7 @@ namespace Metarisc\Model;
  * Une notification est un objet créé pour avertir ou informer un utilisateur pour un évévemenent spécifique.
 */
 
-class Notification
+class Notification extends ModelAbstract
 {
     private ?string $id              = null;
     private ?string $title           = null;

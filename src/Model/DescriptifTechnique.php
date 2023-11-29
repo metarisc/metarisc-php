@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class DescriptifTechnique
+class DescriptifTechnique extends ModelAbstract
 {
     private ?string $libelle                                              = null;
     private ?string $observations_generales                               = null;

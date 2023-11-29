@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Email
+class Email extends ModelAbstract
 {
     private ?string $email             = null;
     private ?bool $is_primary          = null;

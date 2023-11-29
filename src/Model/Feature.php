@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Feature
+class Feature extends ModelAbstract
 {
     private ?string $type                              = null;
     private ?array $properties                         = null;

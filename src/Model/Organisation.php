@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Organisation
+class Organisation extends ModelAbstract
 {
     private ?string $id       = null;
     private ?string $nom      = null;

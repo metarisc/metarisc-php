@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Evenement
+class Evenement extends ModelAbstract
 {
     private ?string $id          = null;
     private ?string $title       = null;

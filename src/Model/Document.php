@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Document
+class Document extends ModelAbstract
 {
     private ?string $id = null;
 

@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Utilisateur1
+class Utilisateur1 extends ModelAbstract
 {
     private ?string $id = null;
 

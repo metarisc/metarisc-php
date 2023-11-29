@@ -6,7 +6,7 @@ namespace Metarisc\Model;
  * Représente une adresse postale permettant de localiser un POI.
 */
 
-class AdressePostale
+class AdressePostale extends ModelAbstract
 {
     private ?string $code_postal    = null;
     private ?string $commune        = null;

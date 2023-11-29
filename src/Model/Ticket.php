@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Ticket
+class Ticket extends ModelAbstract
 {
     private ?int $id                  = null;
     private ?string $subject          = null;

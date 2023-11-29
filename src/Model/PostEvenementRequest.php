@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class PostEvenementRequest
+class PostEvenementRequest extends ModelAbstract
 {
     private ?string $title       = null;
     private ?string $type        = null;
