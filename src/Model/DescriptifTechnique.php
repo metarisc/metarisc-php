@@ -2,11 +2,11 @@
 
 namespace Metarisc\Model;
 
-class DescriptifTechnique
+class DescriptifTechnique extends ModelAbstract
 {
     private ?string $libelle                                              = null;
     private ?string $observations_generales                               = null;
-    private ?\DateTime $date                                              = null;
+    private ?string $date                                                 = null;
     private ?array $anomalies                                             = null;
     private ?bool $est_reglementaire                                      = null;
     private ?bool $est_reforme                                            = null;
@@ -108,14 +108,14 @@ class DescriptifTechnique
         $this->observations_generales=$observations_generales;
     }
 
-    public function getDate() : ?\DateTime
+    public function getDate() : ?string
     {
         return $this->date;
     }
 
     public function setDate(?string $date) : void
     {
-        $this->date = (\is_string($date)) ? \DateTime::createFromFormat(\DATE_ATOM, $date) : null;
+        $this->date = $date;
     }
 
     public function getAnomalies() : ?array
@@ -233,9 +233,9 @@ class DescriptifTechnique
         return $this->pesees;
     }
 
-    public function setPesees(?array $pesees) : void
+    public function setPesees(array $pesees) : void
     {
-        $this->pesees = (null !== $pesees) ? \Metarisc\Model\DescriptifTechniquePIBIAllOfPesees::unserialize($pesees) : null;
+        $this->pesees=\Metarisc\Model\DescriptifTechniquePIBIAllOfPesees::unserialize($pesees);
     }
 
     public function getEssaisEnginUtilise() : ?string
@@ -263,9 +263,9 @@ class DescriptifTechnique
         return $this->volumes;
     }
 
-    public function setVolumes(?array $volumes) : void
+    public function setVolumes(array $volumes) : void
     {
-        $this->volumes = (null !== $volumes) ? \Metarisc\Model\DescriptifTechniquePENAAllOfVolumes::unserialize($volumes) : null;
+        $this->volumes=\Metarisc\Model\DescriptifTechniquePENAAllOfVolumes::unserialize($volumes);
     }
 
     public function getRealimentation() : ?array

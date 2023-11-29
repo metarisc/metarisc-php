@@ -2,23 +2,12 @@
 
 namespace Metarisc\Service;
 
+use Metarisc\Utils;
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
 
 class NotificationsAPI extends MetariscAbstract
 {
-    protected function replacements(array $replacement_table) : \Closure
-    {
-        return function (array $matches) use ($replacement_table) : string {
-            /** @var array-key $key */
-            $key = $matches[1];
-            /** @var string $replacement */
-            $replacement = $replacement_table[$key] ?? $matches[0];
-
-            return $replacement;
-        };
-    }
-
     /**
      * Suppression d'une notification correspondante à l'id donné.
      */
@@ -28,7 +17,7 @@ class NotificationsAPI extends MetariscAbstract
             'notification_id' => $notification_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/notifications/{notification_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/notifications/{notification_id}');
         $this->request('DELETE', $path);
     }
 
@@ -41,7 +30,7 @@ class NotificationsAPI extends MetariscAbstract
             'notification_id' => $notification_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/notifications/{notification_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/notifications/{notification_id}');
 
         $response =  $this->request('GET', $path);
 
@@ -61,10 +50,11 @@ class NotificationsAPI extends MetariscAbstract
         $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/notifications/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/notifications/');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Notification::class,
         ]);
     }
 

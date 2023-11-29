@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class PostDossierRequest
+class PostDossierRequest extends ModelAbstract
 {
     private ?string $titre       = null;
     private ?string $description = null;

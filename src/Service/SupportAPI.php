@@ -2,23 +2,12 @@
 
 namespace Metarisc\Service;
 
+use Metarisc\Utils;
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
 
 class SupportAPI extends MetariscAbstract
 {
-    protected function replacements(array $replacement_table) : \Closure
-    {
-        return function (array $matches) use ($replacement_table) : string {
-            /** @var array-key $key */
-            $key = $matches[1];
-            /** @var string $replacement */
-            $replacement = $replacement_table[$key] ?? $matches[0];
-
-            return $replacement;
-        };
-    }
-
     /**
      * Récupération des détails du ticket.
      */
@@ -28,7 +17,7 @@ class SupportAPI extends MetariscAbstract
             'ticket_id' => $ticket_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/support/{ticket_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/support/{ticket_id}');
 
         $response =  $this->request('GET', $path);
 
@@ -43,17 +32,16 @@ class SupportAPI extends MetariscAbstract
     /**
      * Récupération de la liste des tickets de support.
      */
-    public function paginateTickets(int $page = null, int $per_page = null) : Pagerfanta
+    public function paginateTickets() : Pagerfanta
     {
         $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/support/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/support/');
 
         return $this->pagination('GET', $path, [
-            'params' => [
-                'page'     => $page,
-                'per_page' => $per_page, ],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Ticket::class,
         ]);
     }
 

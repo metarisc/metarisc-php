@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class GetFeature200Response
+class GetFeature200Response extends ModelAbstract
 {
     private ?string $type                                  = null;
     private ?\Metarisc\Model\GetFeature200ResponseCrs $crs = null;

@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class POIReferencesExterieuresInner
+class POIReferencesExterieuresInner extends ModelAbstract
 {
     private ?string $titre  = null;
     private ?string $valeur = null;

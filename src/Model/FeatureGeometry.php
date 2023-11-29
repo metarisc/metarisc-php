@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class FeatureGeometry
+class FeatureGeometry extends ModelAbstract
 {
     private ?string $type       = null;
     private ?array $bbox        = null;

@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class PostTicketRequest
+class PostTicketRequest extends ModelAbstract
 {
     private ?string $subject     = null;
     private ?string $description = null;

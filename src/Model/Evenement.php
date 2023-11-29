@@ -2,14 +2,14 @@
 
 namespace Metarisc\Model;
 
-class Evenement
+class Evenement extends ModelAbstract
 {
-    private ?string $id            = null;
-    private ?string $title         = null;
-    private ?string $type          = null;
-    private ?string $description   = null;
-    private ?\DateTime $date_debut = null;
-    private ?\DateTime $date_fin   = null;
+    private ?string $id          = null;
+    private ?string $title       = null;
+    private ?string $type        = null;
+    private ?string $description = null;
+    private ?string $date_debut  = null;
+    private ?string $date_fin    = null;
 
     public static function unserialize(array $data) : self
     {
@@ -76,23 +76,23 @@ class Evenement
         $this->description=$description;
     }
 
-    public function getDateDebut() : ?\DateTime
+    public function getDateDebut() : ?string
     {
         return $this->date_debut;
     }
 
     public function setDateDebut(?string $date_debut) : void
     {
-        $this->date_debut = (\is_string($date_debut)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_debut) : null;
+        $this->date_debut = $date_debut;
     }
 
-    public function getDateFin() : ?\DateTime
+    public function getDateFin() : ?string
     {
         return $this->date_fin;
     }
 
     public function setDateFin(?string $date_fin) : void
     {
-        $this->date_fin = (\is_string($date_fin)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_fin) : null;
+        $this->date_fin = $date_fin;
     }
 }

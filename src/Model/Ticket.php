@@ -2,15 +2,15 @@
 
 namespace Metarisc\Model;
 
-class Ticket
+class Ticket extends ModelAbstract
 {
     private ?int $id                  = null;
     private ?string $subject          = null;
     private ?string $description      = null;
     private ?string $description_html = null;
     private ?string $status           = null;
-    private ?\DateTime $created_at    = null;
-    private ?\DateTime $updated_at    = null;
+    private ?string $created_at       = null;
+    private ?string $updated_at       = null;
 
     public static function unserialize(array $data) : self
     {
@@ -90,23 +90,23 @@ class Ticket
         $this->status=$status;
     }
 
-    public function getCreatedAt() : ?\DateTime
+    public function getCreatedAt() : ?string
     {
         return $this->created_at;
     }
 
     public function setCreatedAt(?string $created_at) : void
     {
-        $this->created_at = (\is_string($created_at)) ? \DateTime::createFromFormat(\DATE_ATOM, $created_at) : null;
+        $this->created_at = $created_at;
     }
 
-    public function getUpdatedAt() : ?\DateTime
+    public function getUpdatedAt() : ?string
     {
         return $this->updated_at;
     }
 
     public function setUpdatedAt(?string $updated_at) : void
     {
-        $this->updated_at = (\is_string($updated_at)) ? \DateTime::createFromFormat(\DATE_ATOM, $updated_at) : null;
+        $this->updated_at = $updated_at;
     }
 }

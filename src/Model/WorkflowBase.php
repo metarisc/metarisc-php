@@ -2,19 +2,20 @@
 
 namespace Metarisc\Model;
 
-class WorkflowBase
+class WorkflowBase extends ModelAbstract
 {
-    private ?string $id                  = null;
-    private ?string $titre               = null;
-    private ?\DateTime $date_de_creation = null;
-    private ?\DateTime $date_de_fin      = null;
-    private ?bool $workflow_automatise   = null;
-    private ?string $etat                = null;
-    private ?string $groupe_de_travail   = null;
-    private ?string $observations        = null;
-    private ?bool $est_complet           = null;
-    private ?string $liste_poi           = null;
-    private ?string $documents           = null;
+    private ?string $id                = null;
+    private ?string $titre             = null;
+    private ?string $date_de_creation  = null;
+    private ?string $date_de_fin       = null;
+    private ?bool $workflow_automatise = null;
+    private ?string $etat              = null;
+    private ?string $groupe_de_travail = null;
+    private ?string $observations      = null;
+    private ?bool $est_complet         = null;
+    private ?string $liste_poi         = null;
+    private ?string $documents         = null;
+    private ?string $type              = null;
 
     public static function unserialize(array $data) : self
     {
@@ -53,6 +54,9 @@ class WorkflowBase
         /** @var string $data['documents'] */
         $object->setDocuments($data['documents']);
 
+        /** @var string $data['type'] */
+        $object->setType($data['type']);
+
         return $object;
     }
 
@@ -76,24 +80,24 @@ class WorkflowBase
         $this->titre=$titre;
     }
 
-    public function getDateDeCreation() : ?\DateTime
+    public function getDateDeCreation() : ?string
     {
         return $this->date_de_creation;
     }
 
     public function setDateDeCreation(?string $date_de_creation) : void
     {
-        $this->date_de_creation = (\is_string($date_de_creation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_creation) : null;
+        $this->date_de_creation = $date_de_creation;
     }
 
-    public function getDateDeFin() : ?\DateTime
+    public function getDateDeFin() : ?string
     {
         return $this->date_de_fin;
     }
 
     public function setDateDeFin(?string $date_de_fin) : void
     {
-        $this->date_de_fin = (\is_string($date_de_fin)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_fin) : null;
+        $this->date_de_fin = $date_de_fin;
     }
 
     public function getWorkflowAutomatise() : ?bool
@@ -164,5 +168,15 @@ class WorkflowBase
     public function setDocuments(string $documents = null) : void
     {
         $this->documents=$documents;
+    }
+
+    public function getType() : ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type = null) : void
+    {
+        $this->type=$type;
     }
 }

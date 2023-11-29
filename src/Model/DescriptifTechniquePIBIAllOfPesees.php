@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class DescriptifTechniquePIBIAllOfPesees
+class DescriptifTechniquePIBIAllOfPesees extends ModelAbstract
 {
     private ?float $debit_1bar            = null;
     private ?float $pression_debit_requis = null;

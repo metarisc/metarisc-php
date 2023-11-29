@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class DescriptifTechniquePENAAllOfVolumes
+class DescriptifTechniquePENAAllOfVolumes extends ModelAbstract
 {
     private ?float $reel      = null;
     private ?float $theorique = null;

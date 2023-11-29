@@ -2,23 +2,12 @@
 
 namespace Metarisc\Service;
 
+use Metarisc\Utils;
 use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
 
 class UtilisateursAPI extends MetariscAbstract
 {
-    protected function replacements(array $replacement_table) : \Closure
-    {
-        return function (array $matches) use ($replacement_table) : string {
-            /** @var array-key $key */
-            $key = $matches[1];
-            /** @var string $replacement */
-            $replacement = $replacement_table[$key] ?? $matches[0];
-
-            return $replacement;
-        };
-    }
-
     /**
      * L'utilisateur connecté retourné par ce point de terminaison utilise le token d'accès généré par le service OpenID Connect afin de le lier à une identité connue de Metarisc. Si l'utilisateur est inconnu une erreur est retournée.
      */
@@ -27,7 +16,7 @@ class UtilisateursAPI extends MetariscAbstract
         $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/@moi');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/@moi');
 
         $response =  $this->request('GET', $path);
 
@@ -44,9 +33,10 @@ class UtilisateursAPI extends MetariscAbstract
      */
     public function getUtilisateursMoi1() : \Metarisc\Model\Utilisateur
     {
-        $table = [];
+        $table = [
+            ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/utilisateurs/@moi');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/@moi');
 
         $response =  $this->request('GET', $path);
 
@@ -63,12 +53,14 @@ class UtilisateursAPI extends MetariscAbstract
      */
     public function paginateMoiEmails() : Pagerfanta
     {
-        $table = [];
+        $table = [
+            ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/@moi/emails');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/@moi/emails');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Email::class,
         ]);
     }
 
@@ -77,12 +69,14 @@ class UtilisateursAPI extends MetariscAbstract
      */
     public function paginateMoiEmails1() : Pagerfanta
     {
-        $table = [];
+        $table = [
+            ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/utilisateurs/@moi/emails');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/@moi/emails');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Email::class,
         ]);
     }
 }

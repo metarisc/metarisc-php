@@ -2,10 +2,10 @@
 
 namespace Metarisc\Model;
 
-class SuiviAdministratif
+class SuiviAdministratif extends ModelAbstract
 {
     private ?string $description         = null;
-    private ?\DateTime $date_ajout       = null;
+    private ?string $date_ajout          = null;
     private ?bool $evenement_automatique = null;
     private ?string $createur            = null;
 
@@ -38,14 +38,14 @@ class SuiviAdministratif
         $this->description=$description;
     }
 
-    public function getDateAjout() : ?\DateTime
+    public function getDateAjout() : ?string
     {
         return $this->date_ajout;
     }
 
     public function setDateAjout(?string $date_ajout) : void
     {
-        $this->date_ajout = (\is_string($date_ajout)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_ajout) : null;
+        $this->date_ajout = $date_ajout;
     }
 
     public function getEvenementAutomatique() : ?bool

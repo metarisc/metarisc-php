@@ -6,15 +6,15 @@ namespace Metarisc\Model;
  * Une notification est un objet créé pour avertir ou informer un utilisateur pour un évévemenent spécifique.
 */
 
-class Notification
+class Notification extends ModelAbstract
 {
-    private ?string $id                 = null;
-    private ?string $title              = null;
-    private ?string $message            = null;
-    private ?array $contexte            = null;
-    private ?\DateTime $date_creation   = null;
-    private ?\DateTime $date_de_lecture = null;
-    private ?string $utilisateur_id     = null;
+    private ?string $id              = null;
+    private ?string $title           = null;
+    private ?string $message         = null;
+    private ?array $contexte         = null;
+    private ?string $date_creation   = null;
+    private ?string $date_de_lecture = null;
+    private ?string $utilisateur_id  = null;
 
     public static function unserialize(array $data) : self
     {
@@ -84,24 +84,24 @@ class Notification
         $this->contexte=$contexte;
     }
 
-    public function getDateCreation() : ?\DateTime
+    public function getDateCreation() : ?string
     {
         return $this->date_creation;
     }
 
     public function setDateCreation(?string $date_creation) : void
     {
-        $this->date_creation = (\is_string($date_creation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_creation) : null;
+        $this->date_creation = $date_creation;
     }
 
-    public function getDateDeLecture() : ?\DateTime
+    public function getDateDeLecture() : ?string
     {
         return $this->date_de_lecture;
     }
 
     public function setDateDeLecture(?string $date_de_lecture) : void
     {
-        $this->date_de_lecture = (\is_string($date_de_lecture)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_lecture) : null;
+        $this->date_de_lecture = $date_de_lecture;
     }
 
     public function getUtilisateurId() : ?string

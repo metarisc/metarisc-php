@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Type
+class Type extends ModelAbstract
 {
     private ?string $id        = null;
     private ?string $titre     = null;

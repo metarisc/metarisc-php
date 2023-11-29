@@ -2,22 +2,12 @@
 
 namespace Metarisc\Service;
 
+use Metarisc\Utils;
+use Pagerfanta\Pagerfanta;
 use Metarisc\MetariscAbstract;
 
 class OrganisationAPI extends MetariscAbstract
 {
-    protected function replacements(array $replacement_table) : \Closure
-    {
-        return function (array $matches) use ($replacement_table) : string {
-            /** @var array-key $key */
-            $key = $matches[1];
-            /** @var string $replacement */
-            $replacement = $replacement_table[$key] ?? $matches[0];
-
-            return $replacement;
-        };
-    }
-
     /**
      * Récupération des détails d'une organisation.
      */
@@ -27,7 +17,7 @@ class OrganisationAPI extends MetariscAbstract
             'org_id' => $org_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', $this->replacements($table), '/organisations/{org_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}');
 
         $response =  $this->request('GET', $path);
 
@@ -37,5 +27,21 @@ class OrganisationAPI extends MetariscAbstract
         \assert(\is_array($object));
 
         return \Metarisc\Model\Organisation::unserialize($object);
+    }
+
+    /**
+     * Liste paginée des organisations.
+     */
+    public function paginateOrganisations() : Pagerfanta
+    {
+        $table = [
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Organisation::class,
+        ]);
     }
 }

@@ -14,14 +14,14 @@ use Metarisc\Service\NotificationsAPI;
 class Metarisc extends MetariscAbstract
 {
     public static array $class_map =  [
-        'dossiers'             => DossiersAPI::class,
-        'notifications'        => NotificationsAPI::class,
-        'organisations'        => OrganisationAPI::class,
-        'poi'                  => POIAPI::class,
-        'ping'                 => PingAPI::class,
-        'support'              => SupportAPI::class,
-        'utilisateurs'         => UtilisateursAPI::class,
-        'evenements'           => EvenementsAPI::class,
+        'dossiers'     => DossiersAPI::class,
+        'evenements'   => EvenementsAPI::class,
+        'notifications'=> NotificationsAPI::class,
+        'organisations'=> OrganisationAPI::class,
+        'poi'          => POIAPI::class,
+        'ping'         => PingAPI::class,
+        'support'      => SupportAPI::class,
+        'utilisateurs' => UtilisateursAPI::class,
     ];
 
     public function __get(string $name)

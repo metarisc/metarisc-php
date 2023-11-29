@@ -2,11 +2,11 @@
 
 namespace Metarisc\Model;
 
-class POI
+class POI extends ModelAbstract
 {
     private ?string $id                                                = null;
-    private ?\DateTime $date_de_realisation                            = null;
-    private ?\DateTime $date_de_derniere_mise_a_jour                   = null;
+    private ?string $date_de_realisation                               = null;
+    private ?string $date_de_derniere_mise_a_jour                      = null;
     private ?string $statut                                            = null;
     private ?array $references_exterieures                             = null;
     private ?\Metarisc\Model\DescriptifTechnique $descriptif_technique = null;
@@ -54,24 +54,24 @@ class POI
         $this->id=$id;
     }
 
-    public function getDateDeRealisation() : ?\DateTime
+    public function getDateDeRealisation() : ?string
     {
         return $this->date_de_realisation;
     }
 
     public function setDateDeRealisation(?string $date_de_realisation) : void
     {
-        $this->date_de_realisation = (\is_string($date_de_realisation)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_realisation) : null;
+        $this->date_de_realisation = $date_de_realisation;
     }
 
-    public function getDateDeDerniereMiseAJour() : ?\DateTime
+    public function getDateDeDerniereMiseAJour() : ?string
     {
         return $this->date_de_derniere_mise_a_jour;
     }
 
     public function setDateDeDerniereMiseAJour(?string $date_de_derniere_mise_a_jour) : void
     {
-        $this->date_de_derniere_mise_a_jour = (\is_string($date_de_derniere_mise_a_jour)) ? \DateTime::createFromFormat(\DATE_ATOM, $date_de_derniere_mise_a_jour) : null;
+        $this->date_de_derniere_mise_a_jour = $date_de_derniere_mise_a_jour;
     }
 
     public function getStatut() : ?string
