@@ -41,7 +41,8 @@ class POIAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}/contacts');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Contact::class,
         ]);
     }
 
@@ -57,7 +58,8 @@ class POIAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}/historique');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\DescriptifTechnique::class,
         ]);
     }
 
@@ -73,7 +75,8 @@ class POIAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/{poi_id}/pieces_jointes');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\PieceJointe::class,
         ]);
     }
 
@@ -88,7 +91,8 @@ class POIAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/poi/');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\POI::class,
         ]);
     }
 

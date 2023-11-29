@@ -40,7 +40,8 @@ class OrganisationAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Organisation::class,
         ]);
     }
 }

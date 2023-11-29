@@ -59,7 +59,8 @@ class UtilisateursAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/@moi/emails');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Email::class,
         ]);
     }
 
@@ -74,7 +75,8 @@ class UtilisateursAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/@moi/emails');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Email::class,
         ]);
     }
 }

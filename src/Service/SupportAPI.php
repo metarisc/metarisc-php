@@ -40,7 +40,8 @@ class SupportAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/support/');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Ticket::class,
         ]);
     }
 

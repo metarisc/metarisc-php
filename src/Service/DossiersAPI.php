@@ -62,7 +62,8 @@ class DossiersAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Dossier::class,
         ]);
     }
 
@@ -78,7 +79,8 @@ class DossiersAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/suivi_administratif');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\SuiviAdministratif::class,
         ]);
     }
 
@@ -94,7 +96,8 @@ class DossiersAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/tags');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Tag::class,
         ]);
     }
 
@@ -111,7 +114,8 @@ class DossiersAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/documents');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Document::class,
         ]);
     }
 
@@ -127,7 +131,8 @@ class DossiersAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Workflow::class,
         ]);
     }
 

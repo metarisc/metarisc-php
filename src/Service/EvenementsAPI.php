@@ -54,7 +54,8 @@ class EvenementsAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/{evenement_id}/utilisateurs');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Utilisateur1::class,
         ]);
     }
 
@@ -69,7 +70,8 @@ class EvenementsAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/');
 
         return $this->pagination('GET', $path, [
-            'params' => [],
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Evenement::class,
         ]);
     }
 
