@@ -14,8 +14,13 @@ use GuzzleRetry\GuzzleRetryMiddleware;
 use kamermans\OAuth2\OAuth2Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Kevinrob\GuzzleCache\CacheMiddleware;
+use kamermans\OAuth2\GrantType\NullGrantType;
 use kamermans\OAuth2\GrantType\AuthorizationCode;
 use kamermans\OAuth2\GrantType\ClientCredentials;
+use Kevinrob\GuzzleCache\Storage\Psr16CacheStorage;
+use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
+use kamermans\OAuth2\Persistence\TokenPersistenceInterface;
 use kamermans\OAuth2\Persistence\SimpleCacheTokenPersistence;
 
 class Client
@@ -23,12 +28,13 @@ class Client
     public const METARISC_URL = 'https://api.metarisc.fr/';
 
     private HttpClient $http_client;
-    private ?CacheInterface $token_persistence;
+    private CacheInterface|TokenPersistenceInterface|null $token_persistence;
+    private ?OAuth2Middleware $oauth2_middleware = null;
 
     /**
      * Construction d'un client HTTP.
      */
-    public function __construct(array $config, CacheInterface $token_persistence = null)
+    public function __construct(array $config, CacheInterface|TokenPersistenceInterface $token_persistence = null)
     {
         // Initialisation du pipeline HTTP utilisé par Guzzle
         $stack = new HandlerStack(Utils::chooseHandler());
@@ -66,6 +72,7 @@ class Client
 
         // Création du client HTTP servant à communiquer avec Plat'AU
         $this->http_client = new HttpClient([
+            'handler'  => $stack,
             'headers'  => $this->getDefaultHeaders(),
             'base_uri' => $config['metarisc_url'] ?? self::METARISC_URL,
             'timeout'  => 30.0,
@@ -76,10 +83,27 @@ class Client
     }
 
     /**
+     * Enable HTTP Client caching.
+     */
+    public function enableCache(CacheInterface $cache = null) : void
+    {
+        /** @psalm-suppress DeprecatedMethod */
+        $handler = $this->http_client->getConfig('handler');
+
+        \assert($handler instanceof HandlerStack);
+
+        $handler->push(
+            new CacheMiddleware(
+                $cache ? new PrivateCacheStrategy(new Psr16CacheStorage($cache)) : new PrivateCacheStrategy()
+            ), 'cache'
+        );
+    }
+
+    /**
      * Configuration de la persistence des access token permettant de conserver les
      * identifications d'authorization.
      */
-    public function setTokenPersistence(CacheInterface $cache) : void
+    public function setTokenPersistence(CacheInterface|TokenPersistenceInterface $cache) : void
     {
         $this->token_persistence = $cache;
     }
@@ -110,35 +134,46 @@ class Client
      *     - code
      *     - client_id
      *     - client_secret
+     * - oauth2:null : Initie aucun OAuth2 flow (permet d'utiliser le token persistence layer pour récupérer un access token sans déclencher de flow)
      *
      * Un SimpleCache peut être utilisé pour gérer la persistence des token d'authentification.
      */
     public function authenticate(string $auth_method, array $params) : void
     {
+        $this->clearCredentials();
+
         $http_client = new HttpClient([
             'base_uri' => OAuth2::ACCESS_TOKEN_URL,
             'verify'   => CaBundle::getSystemCaRootBundlePath(),
         ]);
 
         $grant_type = match ($auth_method) {
+            // Client credentials flow
             'oauth2:client_credentials' => new ClientCredentials($http_client, [
                 'client_id'     => $params['client_id'] ?? '',
                 'client_secret' => $params['client_secret'] ?? '',
                 'scope'         => $params['scope'] ?? '',
             ]),
+            // Authorization code flow
             'oauth2:authorization_code' => new AuthorizationCode($http_client, [
                 'client_id'     => $params['client_id'] ?? '',
                 'client_secret' => $params['client_secret'] ?? '',
                 'scope'         => $params['scope'] ?? '',
                 'redirect_uri'  => $params['redirect_uri'] ?? '',
                 'code'          => $params['code'] ?? '',
-            ])
+            ]),
+            // Initie aucun OAuth2 flow (permet d'utiliser le token persistence layer pour récupérer un access token sans déclencher de flow)
+            'oauth2:null' => new NullGrantType()
         };
 
-        $middleware = new OAuth2Middleware($grant_type);
+        $this->oauth2_middleware = new OAuth2Middleware($grant_type);
 
         if (null !== $this->token_persistence) {
-            $middleware->setTokenPersistence(new SimpleCacheTokenPersistence($this->token_persistence, 'metarisc-oauth2-token'));
+            $this->oauth2_middleware->setTokenPersistence(
+                $this->token_persistence instanceof CacheInterface ?
+                    new SimpleCacheTokenPersistence($this->token_persistence, 'metarisc-oauth2-token') :
+                    $this->token_persistence
+            );
         }
 
         /** @psalm-suppress DeprecatedMethod */
@@ -146,7 +181,35 @@ class Client
 
         \assert($handler instanceof HandlerStack);
 
-        $handler->push($middleware);
+        $handler->push($this->oauth2_middleware, 'auth');
+    }
+
+    /**
+     * Récupèration des identifiants obtenus par la fonction authenticate.
+     */
+    public function getCredentials() : array
+    {
+        return [
+            'access_token' => $this->oauth2_middleware?->getAccessToken(),
+        ];
+    }
+
+    /**
+     * Clear des identifiants obtenus par la fonction authenticate.
+     */
+    public function clearCredentials() : void
+    {
+        // Suppression de l'access token de la couche de persistence
+        $this->oauth2_middleware?->deleteAccessToken();
+
+        // Suppression du middleware d'authentification de la stack guzzle (pour éviter une reauth non voulue)
+        /** @psalm-suppress DeprecatedMethod */
+        $handler = $this->http_client->getConfig('handler');
+        \assert($handler instanceof HandlerStack);
+        $handler->remove('auth');
+
+        // Suppression de la trace du middleware dans le client pour éviter la récupération des données imemory
+        $this->oauth2_middleware = null;
     }
 
     /**
