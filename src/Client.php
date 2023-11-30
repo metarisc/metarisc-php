@@ -190,7 +190,8 @@ class Client
     public function getCredentials() : array
     {
         return [
-            'access_token' => $this->oauth2_middleware?->getAccessToken(),
+            'access_token'  => $this->oauth2_middleware?->getAccessToken(),
+            'refresh_token' => $this->oauth2_middleware?->getRawToken()?->getRefreshToken(),
         ];
     }
 
