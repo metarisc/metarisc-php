@@ -15,6 +15,7 @@ use kamermans\OAuth2\OAuth2Middleware;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Kevinrob\GuzzleCache\CacheMiddleware;
+use kamermans\OAuth2\GrantType\RefreshToken;
 use kamermans\OAuth2\GrantType\NullGrantType;
 use kamermans\OAuth2\GrantType\AuthorizationCode;
 use kamermans\OAuth2\GrantType\ClientCredentials;
@@ -142,6 +143,8 @@ class Client
     {
         $this->clearCredentials();
 
+        $refresh_grant_type = null;
+
         $http_client = new HttpClient([
             'base_uri' => OAuth2::ACCESS_TOKEN_URL,
             'verify'   => CaBundle::getSystemCaRootBundlePath(),
@@ -166,7 +169,16 @@ class Client
             'oauth2:null' => new NullGrantType()
         };
 
-        $this->oauth2_middleware = new OAuth2Middleware($grant_type);
+        // Activation du refresh token si le grant est AuthorizationCode
+        if ($grant_type instanceof AuthorizationCode) {
+            $refresh_grant_type = new RefreshToken($http_client, [
+                'client_id'     => $params['client_id'] ?? '',
+                'client_secret' => $params['client_secret'] ?? '',
+                'scope'         => $params['scope'] ?? '',
+            ]);
+        }
+
+        $this->oauth2_middleware = new OAuth2Middleware($grant_type, $refresh_grant_type);
 
         if (null !== $this->token_persistence) {
             $this->oauth2_middleware->setTokenPersistence(
