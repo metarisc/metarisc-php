@@ -65,10 +65,11 @@ $metarisc = new \Metarisc\Metarisc([
     'client_secret' => 'your_client_secret', // Optionnel
 ]);
 
-$metarisc->authenticate('oauth2:client_credentials', [
+$metarisc->authenticate('oauth2:authorization_code', [
     'code' => 'your_authorization_code',
     'scope' => 'openid', // Optionnel
     'redirect_uri' => 'https://your_redirect_uri', // Optionnel
+    'enable_refresh_token_grant_type' => false, // Optionnel
 ]);
 ```
 

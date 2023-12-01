@@ -169,8 +169,8 @@ class Client
             'oauth2:null' => new NullGrantType()
         };
 
-        // Activation du refresh token si le grant est AuthorizationCode
-        if ($grant_type instanceof AuthorizationCode) {
+        // Activation du refresh token à la demande
+        if (\array_key_exists('enable_refresh_token_grant_type', $params) && true === $params['enable_refresh_token_grant_type']) {
             $refresh_grant_type = new RefreshToken($http_client, [
                 'client_id'     => $params['client_id'] ?? '',
                 'client_secret' => $params['client_secret'] ?? '',
