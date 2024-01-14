@@ -61,7 +61,7 @@ class Dossier extends ModelAbstract
 
     public function setType(array $type) : void
     {
-        $this->type=\Metarisc\Model\Type::unserialize($type);
+        $this->type=Type::unserialize($type);
     }
 
     public function getDescription() : ?string

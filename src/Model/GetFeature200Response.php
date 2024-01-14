@@ -41,7 +41,7 @@ class GetFeature200Response extends ModelAbstract
 
     public function setCrs(array $crs) : void
     {
-        $this->crs=\Metarisc\Model\GetFeature200ResponseCrs::unserialize($crs);
+        $this->crs=GetFeature200ResponseCrs::unserialize($crs);
     }
 
     public function getFeatures() : ?array

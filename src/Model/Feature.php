@@ -51,6 +51,6 @@ class Feature extends ModelAbstract
 
     public function setGeometry(array $geometry) : void
     {
-        $this->geometry=\Metarisc\Model\FeatureGeometry::unserialize($geometry);
+        $this->geometry=FeatureGeometry::unserialize($geometry);
     }
 }
