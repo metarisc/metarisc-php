@@ -101,7 +101,7 @@ class POI extends ModelAbstract
 
     public function setDescriptifTechnique(array $descriptif_technique) : void
     {
-        $this->descriptif_technique=\Metarisc\Model\DescriptifTechnique::unserialize($descriptif_technique);
+        $this->descriptif_technique=DescriptifTechnique::unserialize($descriptif_technique);
     }
 
     public function getGeometrie() : ?string
@@ -121,6 +121,6 @@ class POI extends ModelAbstract
 
     public function setAdressePostale(array $adresse_postale) : void
     {
-        $this->adresse_postale=\Metarisc\Model\AdressePostale::unserialize($adresse_postale);
+        $this->adresse_postale=AdressePostale::unserialize($adresse_postale);
     }
 }

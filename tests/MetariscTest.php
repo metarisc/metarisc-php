@@ -12,7 +12,7 @@ class MetariscTest extends TestCase
     {
         $client = new Metarisc([
             'metarisc_url' => 'https://metarisc.dev',
-            'client_id'    => 'my_client_id'
+            'client_id'    => 'my_client_id',
         ]);
 
         $this->assertInstanceOf(MetariscAbstract::class, $client);

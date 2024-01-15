@@ -37,6 +37,6 @@ class GetFeature200ResponseCrs extends ModelAbstract
 
     public function setProperties(array $properties) : void
     {
-        $this->properties=\Metarisc\Model\GetFeature200ResponseCrsProperties::unserialize($properties);
+        $this->properties=GetFeature200ResponseCrsProperties::unserialize($properties);
     }
 }

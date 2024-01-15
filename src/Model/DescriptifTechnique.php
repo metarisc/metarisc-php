@@ -235,7 +235,7 @@ class DescriptifTechnique extends ModelAbstract
 
     public function setPesees(array $pesees) : void
     {
-        $this->pesees=\Metarisc\Model\DescriptifTechniquePIBIAllOfPesees::unserialize($pesees);
+        $this->pesees=DescriptifTechniquePIBIAllOfPesees::unserialize($pesees);
     }
 
     public function getEssaisEnginUtilise() : ?string
@@ -265,7 +265,7 @@ class DescriptifTechnique extends ModelAbstract
 
     public function setVolumes(array $volumes) : void
     {
-        $this->volumes=\Metarisc\Model\DescriptifTechniquePENAAllOfVolumes::unserialize($volumes);
+        $this->volumes=DescriptifTechniquePENAAllOfVolumes::unserialize($volumes);
     }
 
     public function getRealimentation() : ?array
