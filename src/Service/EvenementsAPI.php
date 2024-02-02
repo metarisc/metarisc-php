@@ -24,7 +24,7 @@ class EvenementsAPI extends MetariscAbstract
     /**
      * Récupération des détails d'un événement correspondant à l'id donné.
      */
-    public function getEvenement(string $evenement_id, \Metarisc\Model\Evenement $evenement = null) : \Metarisc\Model\Evenement
+    public function getEvenementDetails(string $evenement_id, \Metarisc\Model\Evenement $evenement = null) : \Metarisc\Model\Evenement
     {
         $table = [
             'evenement_id' => $evenement_id,
@@ -55,7 +55,7 @@ class EvenementsAPI extends MetariscAbstract
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\Utilisateur1::class,
+            'model_class' => \Metarisc\Model\Utilisateur::class,
         ]);
     }
 
@@ -67,7 +67,7 @@ class EvenementsAPI extends MetariscAbstract
         $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements');
 
         return $this->pagination('GET', $path, [
             'params'      => [],
@@ -76,11 +76,11 @@ class EvenementsAPI extends MetariscAbstract
     }
 
     /**
-     * Création d'un événement.
+     * TODO : Création d'un événement.
      */
     public function postEvenement(\Metarisc\Model\PostEvenementRequest $post_evenement_request) : void
     {
-        $this->request('POST', '/evenements/', [
+        $this->request('POST', '/evenements', [
             'json' => [
                 'title'       => $post_evenement_request->getTitle(),
                 'type'        => $post_evenement_request->getType(),
