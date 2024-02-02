@@ -30,9 +30,9 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
-     * Rédupération des détails d'un workflow.
+     * Récupération des détails d'un workflow.
      */
-    public function getDossierWorkflowsWorkflow(string $dossier_id, string $workflow_id) : \Metarisc\Model\Workflow
+    public function getDossierWorkflowsDetails(string $dossier_id, string $workflow_id) : \Metarisc\Model\Workflow
     {
         $table = [
             'dossier_id'  => $dossier_id,
@@ -52,42 +52,9 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération de la liste des dossiers selon des critères de recherche.
-     */
-    public function paginateDossiers() : Pagerfanta
-    {
-        $table = [
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/');
-
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => \Metarisc\Model\Dossier::class,
-        ]);
-    }
-
-    /**
-     * Récupération de la liste du suivi administratif d'un dossier.
-     */
-    public function paginateSuiviAdministratif(string $dossier_id) : Pagerfanta
-    {
-        $table = [
-            'dossier_id' => $dossier_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/suivi_administratif');
-
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => \Metarisc\Model\SuiviAdministratif::class,
-        ]);
-    }
-
-    /**
      * Récupération de la liste des tags d'un dossier.
      */
-    public function paginateTags(string $dossier_id) : Pagerfanta
+    public function paginateDossierTags(string $dossier_id) : Pagerfanta
     {
         $table = [
             'dossier_id' => $dossier_id,
@@ -104,7 +71,7 @@ class DossiersAPI extends MetariscAbstract
     /**
      * Liste des documents liés à un workflow.
      */
-    public function paginateWorkflowDocuments(string $dossier_id, string $workflow_id) : Pagerfanta
+    public function paginateDossierWorkflowDocuments(string $dossier_id, string $workflow_id) : Pagerfanta
     {
         $table = [
             'dossier_id'  => $dossier_id,
@@ -122,7 +89,7 @@ class DossiersAPI extends MetariscAbstract
     /**
      * Récupération de la liste des workflows d'un dossier.
      */
-    public function paginateWorkflows(string $dossier_id) : Pagerfanta
+    public function paginateDossierWorkflows(string $dossier_id) : Pagerfanta
     {
         $table = [
             'dossier_id' => $dossier_id,
@@ -137,7 +104,23 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
-     * Modification d'un dossier existant.
+     * Récupération de la liste des dossiers selon des critères de recherche.
+     */
+    public function paginateDossiers() : Pagerfanta
+    {
+        $table = [
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Dossier::class,
+        ]);
+    }
+
+    /**
+     * TODO : Modification d'un dossier existant.
      */
     public function patchDossier(string $dossier_id, \Metarisc\Model\Dossier $dossier = null) : void
     {
@@ -161,11 +144,11 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
-     * Création d'un nouveau dossier.
+     * TODO : Création d'un nouveau dossier.
      */
     public function postDossier(\Metarisc\Model\PostDossierRequest $post_dossier_request) : void
     {
-        $this->request('POST', '/dossiers/', [
+        $this->request('POST', '/dossiers', [
             'json' => [
                 'titre'       => $post_dossier_request->getTitre(),
                 'description' => $post_dossier_request->getDescription(),

@@ -43,14 +43,14 @@ class NotificationsAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération des détails de toutes les notifications existantes.
+     * Récupération des détails de toutes les notifications existantes pour l'utilisateur connecté.
      */
     public function paginateNotifications() : Pagerfanta
     {
         $table = [
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/notifications/');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/notifications');
 
         return $this->pagination('GET', $path, [
             'params'      => [],
@@ -63,7 +63,7 @@ class NotificationsAPI extends MetariscAbstract
      */
     public function postNotification(\Metarisc\Model\PostNotificationRequest $post_notification_request) : void
     {
-        $this->request('POST', '/notifications/', [
+        $this->request('POST', '/notifications', [
             'json' => [
                 'title'          => $post_notification_request->getTitle(),
                 'message'        => $post_notification_request->getMessage(),
