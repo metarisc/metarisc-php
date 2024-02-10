@@ -9,6 +9,27 @@ use Metarisc\MetariscAbstract;
 class UtilisateursAPI extends MetariscAbstract
 {
     /**
+     * Retourne un utilisateur Metarisc.
+     */
+    public function getUtilisateurDetails(string $utilisateur_id) : \Metarisc\Model\Utilisateur
+    {
+        $table = [
+            'utilisateur_id' => $utilisateur_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/{utilisateur_id}');
+
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Utilisateur::unserialize($object);
+    }
+
+    /**
      * L'utilisateur connecté retourné par ce point de terminaison utilise le token d'accès généré par le service OpenID Connect afin de le lier à une identité connue de Metarisc. Si l'utilisateur est inconnu une erreur est retournée.
      */
     public function getUtilisateursMoi() : \Metarisc\Model\Utilisateur
@@ -37,6 +58,23 @@ class UtilisateursAPI extends MetariscAbstract
             ];
 
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/@moi/emails');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Email::class,
+        ]);
+    }
+
+    /**
+     * Retourne une liste des adresses mail publiques d'un utilisateur.
+     */
+    public function paginateUtilisateurEmails(string $utilisateur_id) : Pagerfanta
+    {
+        $table = [
+            'utilisateur_id' => $utilisateur_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/{utilisateur_id}/emails');
 
         return $this->pagination('GET', $path, [
             'params'      => [],

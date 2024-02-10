@@ -2,7 +2,9 @@
 
 namespace Metarisc;
 
+use Metarisc\Service\MoiAPI;
 use Metarisc\Service\PEIAPI;
+use Metarisc\Service\FeedAPI;
 use Metarisc\Service\PingAPI;
 use Metarisc\Service\DossiersAPI;
 use Metarisc\Service\EvenementsAPI;
@@ -14,9 +16,11 @@ class Metarisc extends MetariscAbstract
 {
     public static array $class_map =  [
         'utilisateurs'  => UtilisateursAPI::class,
+        'feed'          => FeedAPI::class,
         'dossiers'      => DossiersAPI::class,
         'organisations' => OrganisationsAPI::class,
         'pei'           => PEIAPI::class,
+        'moi'           => MoiAPI::class,
         'ping'          => PingAPI::class,
         'evenements'    => EvenementsAPI::class,
         'notifications' => NotificationsAPI::class,
