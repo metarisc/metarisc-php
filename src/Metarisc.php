@@ -6,6 +6,7 @@ use Metarisc\Service\MoiAPI;
 use Metarisc\Service\PEIAPI;
 use Metarisc\Service\FeedAPI;
 use Metarisc\Service\PingAPI;
+use Metarisc\Service\SupportAPI;
 use Metarisc\Service\DossiersAPI;
 use Metarisc\Service\EvenementsAPI;
 use Metarisc\Service\UtilisateursAPI;
@@ -23,6 +24,7 @@ class Metarisc extends MetariscAbstract
         'moi'           => MoiAPI::class,
         'ping'          => PingAPI::class,
         'evenements'    => EvenementsAPI::class,
+        'support'       => SupportAPI::class,
         'notifications' => NotificationsAPI::class,
     ];
 
