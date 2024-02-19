@@ -75,7 +75,7 @@ class PEIAPI extends MetariscAbstract
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\DescriptifTechnique::class,
+            'model_class' => \Metarisc\Model\DescriptifTechniqueDECI::class,
         ]);
     }
 

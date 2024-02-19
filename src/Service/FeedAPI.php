@@ -11,7 +11,7 @@ class FeedAPI extends MetariscAbstract
     /**
      * Récupération d'une liste de message composant un flux d'activité pour l'utilisateur connecté.
      */
-    public function getFeedMessages() : Pagerfanta
+    public function paginateFeedMessages() : Pagerfanta
     {
         $table = [
             ];
