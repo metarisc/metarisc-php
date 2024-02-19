@@ -4,14 +4,15 @@ namespace Metarisc\Model;
 
 class PEI extends ModelAbstract
 {
-    private ?string $id                                                = null;
-    private ?string $date_de_realisation                               = null;
-    private ?string $date_de_derniere_mise_a_jour                      = null;
-    private ?string $statut                                            = null;
-    private ?array $references_exterieures                             = null;
-    private ?\Metarisc\Model\DescriptifTechnique $descriptif_technique = null;
-    private ?string $geometrie                                         = null;
-    private ?\Metarisc\Model\AdressePostale $adresse_postale           = null;
+    private ?string $id                                                        = null;
+    private ?string $date_de_realisation                                       = null;
+    private ?string $date_de_derniere_mise_a_jour                              = null;
+    private ?array $references_exterieures                                     = null;
+    private ?\Metarisc\Model\DescriptifTechniqueDECIBase $descriptif_technique = null;
+    private ?\Metarisc\Model\AdressePostale $implantation                      = null;
+    private ?string $genre                                                     = null;
+    private ?string $numero                                                    = null;
+    private ?string $numero_compteur                                           = null;
 
     public static function unserialize(array $data) : self
     {
@@ -26,20 +27,23 @@ class PEI extends ModelAbstract
         /** @var string $data['date_de_derniere_mise_a_jour'] */
         $object->setDateDeDerniereMiseAJour($data['date_de_derniere_mise_a_jour']);
 
-        /** @var string $data['statut'] */
-        $object->setStatut($data['statut']);
-
         /** @var \Metarisc\Model\PEIReferencesExterieuresInner[] $data['references_exterieures'] */
         $object->setReferencesExterieures($data['references_exterieures']);
 
         /** @var array<array-key, mixed> $data['descriptif_technique'] */
         $object->setDescriptifTechnique($data['descriptif_technique']);
 
-        /** @var string $data['geometrie'] */
-        $object->setGeometrie($data['geometrie']);
+        /** @var array<array-key, mixed> $data['implantation'] */
+        $object->setImplantation($data['implantation']);
 
-        /** @var array<array-key, mixed> $data['adresse_postale'] */
-        $object->setAdressePostale($data['adresse_postale']);
+        /** @var string $data['genre'] */
+        $object->setGenre($data['genre']);
+
+        /** @var string $data['numero'] */
+        $object->setNumero($data['numero']);
+
+        /** @var string $data['numero_compteur'] */
+        $object->setNumeroCompteur($data['numero_compteur']);
 
         return $object;
     }
@@ -74,16 +78,6 @@ class PEI extends ModelAbstract
         $this->date_de_derniere_mise_a_jour = $date_de_derniere_mise_a_jour;
     }
 
-    public function getStatut() : ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(string $statut = null) : void
-    {
-        $this->statut=$statut;
-    }
-
     public function getReferencesExterieures() : ?array
     {
         return $this->references_exterieures;
@@ -94,33 +88,53 @@ class PEI extends ModelAbstract
         $this->references_exterieures=$references_exterieures;
     }
 
-    public function getDescriptifTechnique() : ?DescriptifTechnique
+    public function getDescriptifTechnique() : ?DescriptifTechniqueDECIBase
     {
         return $this->descriptif_technique;
     }
 
     public function setDescriptifTechnique(array $descriptif_technique) : void
     {
-        $this->descriptif_technique=DescriptifTechnique::unserialize($descriptif_technique);
+        $this->descriptif_technique=DescriptifTechniqueDECIBase::unserialize($descriptif_technique);
     }
 
-    public function getGeometrie() : ?string
+    public function getImplantation() : ?AdressePostale
     {
-        return $this->geometrie;
+        return $this->implantation;
     }
 
-    public function setGeometrie(string $geometrie = null) : void
+    public function setImplantation(array $implantation) : void
     {
-        $this->geometrie=$geometrie;
+        $this->implantation=AdressePostale::unserialize($implantation);
     }
 
-    public function getAdressePostale() : ?AdressePostale
+    public function getGenre() : ?string
     {
-        return $this->adresse_postale;
+        return $this->genre;
     }
 
-    public function setAdressePostale(array $adresse_postale) : void
+    public function setGenre(string $genre = null) : void
     {
-        $this->adresse_postale=AdressePostale::unserialize($adresse_postale);
+        $this->genre=$genre;
+    }
+
+    public function getNumero() : ?string
+    {
+        return $this->numero;
+    }
+
+    public function setNumero(string $numero = null) : void
+    {
+        $this->numero=$numero;
+    }
+
+    public function getNumeroCompteur() : ?string
+    {
+        return $this->numero_compteur;
+    }
+
+    public function setNumeroCompteur(string $numero_compteur = null) : void
+    {
+        $this->numero_compteur=$numero_compteur;
     }
 }

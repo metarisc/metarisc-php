@@ -4,32 +4,8 @@ namespace Metarisc\Model;
 
 class DescriptifTechniquePENA extends DescriptifTechniqueDECIBase
 {
-    private ?string $essais_engin_utilise = null;
-    private ?array $equipements           = null;
-
-    private ?string $nature                                               = null;
-    private ?\Metarisc\Model\DescriptifTechniquePENAAllOfVolumes $volumes = null;
-    private ?array $realimentation                                        = null;
-
-    public function getEssaisEnginUtilise() : ?string
-    {
-        return $this->essais_engin_utilise;
-    }
-
-    public function setEssaisEnginUtilise(string $essais_engin_utilise) : void
-    {
-        $this->essais_engin_utilise=$essais_engin_utilise;
-    }
-
-    public function getEquipements() : ?array
-    {
-        return $this->equipements;
-    }
-
-    public function setEquipements(array $equipements) : void
-    {
-        $this->equipements=$equipements;
-    }
+    private ?string $nature = null;
+    private ?float $volume  = null;
 
     public function getNature() : ?string
     {
@@ -41,23 +17,13 @@ class DescriptifTechniquePENA extends DescriptifTechniqueDECIBase
         $this->nature=$nature;
     }
 
-    public function getVolumes() : ?DescriptifTechniquePENAAllOfVolumes
+    public function getVolume() : ?float
     {
-        return $this->volumes;
+        return $this->volume;
     }
 
-    public function setVolumes(DescriptifTechniquePENAAllOfVolumes $volumes) : void
+    public function setVolume(float $volume) : void
     {
-        $this->volumes=$volumes;
-    }
-
-    public function getRealimentation() : ?array
-    {
-        return $this->realimentation;
-    }
-
-    public function setRealimentation(array $realimentation) : void
-    {
-        $this->realimentation=$realimentation;
+        $this->volume=$volume;
     }
 }

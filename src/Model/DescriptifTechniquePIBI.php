@@ -4,12 +4,13 @@ namespace Metarisc\Model;
 
 class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
 {
-    private ?string $numero_serie_appareil         = null;
-    private ?float $surpression                    = null;
-    private ?string $nature                        = null;
-    private ?array $caracteristiques_particulieres = null;
-
-    private ?\Metarisc\Model\DescriptifTechniquePIBIAllOfPesees $pesees = null;
+    private ?string $numero_serie_appareil = null;
+    private ?float $surpression            = null;
+    private ?string $nature                = null;
+    private ?float $debit_1bar             = null;
+    private ?float $pression               = null;
+    private ?float $pression_statique      = null;
+    private ?float $debit_gueule_bee       = null;
 
     public function getNumeroSerieAppareil() : ?string
     {
@@ -41,23 +42,43 @@ class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
         $this->nature=$nature;
     }
 
-    public function getCaracteristiquesParticulieres() : ?array
+    public function getDebit1bar() : ?float
     {
-        return $this->caracteristiques_particulieres;
+        return $this->debit_1bar;
     }
 
-    public function setCaracteristiquesParticulieres(array $caracteristiques_particulieres) : void
+    public function setDebit1bar(float $debit_1bar) : void
     {
-        $this->caracteristiques_particulieres=$caracteristiques_particulieres;
+        $this->debit_1bar=$debit_1bar;
     }
 
-    public function getPesees() : ?DescriptifTechniquePIBIAllOfPesees
+    public function getPression() : ?float
     {
-        return $this->pesees;
+        return $this->pression;
     }
 
-    public function setPesees(DescriptifTechniquePIBIAllOfPesees $pesees) : void
+    public function setPression(float $pression) : void
     {
-        $this->pesees=$pesees;
+        $this->pression=$pression;
+    }
+
+    public function getPressionStatique() : ?float
+    {
+        return $this->pression_statique;
+    }
+
+    public function setPressionStatique(float $pression_statique) : void
+    {
+        $this->pression_statique=$pression_statique;
+    }
+
+    public function getDebitGueuleBee() : ?float
+    {
+        return $this->debit_gueule_bee;
+    }
+
+    public function setDebitGueuleBee(float $debit_gueule_bee) : void
+    {
+        $this->debit_gueule_bee=$debit_gueule_bee;
     }
 }
