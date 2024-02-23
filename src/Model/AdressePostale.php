@@ -8,11 +8,15 @@ namespace Metarisc\Model;
 
 class AdressePostale extends ModelAbstract
 {
-    private ?string $code_postal    = null;
-    private ?string $commune        = null;
-    private ?string $voie           = null;
-    private ?string $code_insee     = null;
-    private ?string $arrondissement = null;
+    private ?string $code_postal                 = null;
+    private ?string $commune                     = null;
+    private ?string $voie                        = null;
+    private ?string $code_insee                  = null;
+    private ?string $arrondissement              = null;
+    private ?float $latitude                     = null;
+    private ?float $longitude                    = null;
+    private ?string $localisation_operationnelle = null;
+    private ?string $complement                  = null;
 
     public static function unserialize(array $data) : self
     {
@@ -32,6 +36,18 @@ class AdressePostale extends ModelAbstract
 
         /** @var string $data['arrondissement'] */
         $object->setArrondissement($data['arrondissement']);
+
+        /** @var float $data['latitude'] */
+        $object->setLatitude($data['latitude']);
+
+        /** @var float $data['longitude'] */
+        $object->setLongitude($data['longitude']);
+
+        /** @var string $data['localisation_operationnelle'] */
+        $object->setLocalisationOperationnelle($data['localisation_operationnelle']);
+
+        /** @var string $data['complement'] */
+        $object->setComplement($data['complement']);
 
         return $object;
     }
@@ -84,5 +100,45 @@ class AdressePostale extends ModelAbstract
     public function setArrondissement(string $arrondissement = null) : void
     {
         $this->arrondissement=$arrondissement;
+    }
+
+    public function getLatitude() : ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(float $latitude = null) : void
+    {
+        $this->latitude=$latitude;
+    }
+
+    public function getLongitude() : ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude = null) : void
+    {
+        $this->longitude=$longitude;
+    }
+
+    public function getLocalisationOperationnelle() : ?string
+    {
+        return $this->localisation_operationnelle;
+    }
+
+    public function setLocalisationOperationnelle(string $localisation_operationnelle = null) : void
+    {
+        $this->localisation_operationnelle=$localisation_operationnelle;
+    }
+
+    public function getComplement() : ?string
+    {
+        return $this->complement;
+    }
+
+    public function setComplement(string $complement = null) : void
+    {
+        $this->complement=$complement;
     }
 }

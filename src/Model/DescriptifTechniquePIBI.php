@@ -4,23 +4,12 @@ namespace Metarisc\Model;
 
 class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
 {
-    private ?string $numero_serie_appareil = null;
-    private ?float $surpression            = null;
-    private ?string $nature                = null;
-    private ?float $debit_1bar             = null;
-    private ?float $pression               = null;
-    private ?float $pression_statique      = null;
-    private ?float $debit_gueule_bee       = null;
-
-    public function getNumeroSerieAppareil() : ?string
-    {
-        return $this->numero_serie_appareil;
-    }
-
-    public function setNumeroSerieAppareil(string $numero_serie_appareil) : void
-    {
-        $this->numero_serie_appareil=$numero_serie_appareil;
-    }
+    private ?float $surpression       = null;
+    private ?string $nature           = null;
+    private ?float $debit_1bar        = null;
+    private ?float $pression          = null;
+    private ?float $pression_statique = null;
+    private ?float $debit_gueule_bee  = null;
 
     public function getSurpression() : ?float
     {

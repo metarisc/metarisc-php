@@ -13,6 +13,7 @@ class PEI extends ModelAbstract
     private ?string $genre                                                     = null;
     private ?string $numero                                                    = null;
     private ?string $numero_compteur                                           = null;
+    private ?string $numero_serie_appareil                                     = null;
 
     public static function unserialize(array $data) : self
     {
@@ -44,6 +45,9 @@ class PEI extends ModelAbstract
 
         /** @var string $data['numero_compteur'] */
         $object->setNumeroCompteur($data['numero_compteur']);
+
+        /** @var string $data['numero_serie_appareil'] */
+        $object->setNumeroSerieAppareil($data['numero_serie_appareil']);
 
         return $object;
     }
@@ -136,5 +140,15 @@ class PEI extends ModelAbstract
     public function setNumeroCompteur(string $numero_compteur = null) : void
     {
         $this->numero_compteur=$numero_compteur;
+    }
+
+    public function getNumeroSerieAppareil() : ?string
+    {
+        return $this->numero_serie_appareil;
+    }
+
+    public function setNumeroSerieAppareil(string $numero_serie_appareil = null) : void
+    {
+        $this->numero_serie_appareil=$numero_serie_appareil;
     }
 }

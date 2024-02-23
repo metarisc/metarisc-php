@@ -16,7 +16,6 @@ class DescriptifTechniqueDECI extends ModelAbstract
     private ?string $date                   = null;
     private ?string $statut                 = null;
     private ?bool $est_disponible           = null;
-    private ?string $numero_serie_appareil  = null;
     private ?float $surpression             = null;
     private ?string $nature                 = null;
     private ?float $debit_1bar              = null;
@@ -64,9 +63,6 @@ class DescriptifTechniqueDECI extends ModelAbstract
 
         /** @var bool $data['est_disponible'] */
         $object->setEstDisponible($data['est_disponible']);
-
-        /** @var string $data['numero_serie_appareil'] */
-        $object->setNumeroSerieAppareil($data['numero_serie_appareil']);
 
         /** @var float $data['surpression'] */
         $object->setSurpression($data['surpression']);
@@ -210,16 +206,6 @@ class DescriptifTechniqueDECI extends ModelAbstract
     public function setEstDisponible(bool $est_disponible = null) : void
     {
         $this->est_disponible=$est_disponible;
-    }
-
-    public function getNumeroSerieAppareil() : ?string
-    {
-        return $this->numero_serie_appareil;
-    }
-
-    public function setNumeroSerieAppareil(string $numero_serie_appareil = null) : void
-    {
-        $this->numero_serie_appareil=$numero_serie_appareil;
     }
 
     public function getSurpression() : ?float
