@@ -4,17 +4,19 @@ namespace Metarisc\Model;
 
 class Contact extends ModelAbstract
 {
-    private ?string $id           = null;
-    private ?string $nom          = null;
-    private ?string $prenom       = null;
-    private ?string $fonction     = null;
-    private ?string $telephone    = null;
-    private ?string $adresse      = null;
-    private ?string $site_web_url = null;
-    private ?string $civilite     = null;
-    private ?string $societe      = null;
-    private ?string $email        = null;
-    private ?string $observations = null;
+    private ?string $id                 = null;
+    private ?string $nom                = null;
+    private ?string $prenom             = null;
+    private ?string $fonction           = null;
+    private ?string $telephone_fixe     = null;
+    private ?string $telephone_portable = null;
+    private ?string $telephone_fax      = null;
+    private ?string $adresse            = null;
+    private ?string $site_web_url       = null;
+    private ?string $civilite           = null;
+    private ?string $societe            = null;
+    private ?string $email              = null;
+    private ?string $observations       = null;
 
     public static function unserialize(array $data) : self
     {
@@ -32,8 +34,14 @@ class Contact extends ModelAbstract
         /** @var string $data['fonction'] */
         $object->setFonction($data['fonction']);
 
-        /** @var string $data['telephone'] */
-        $object->setTelephone($data['telephone']);
+        /** @var string $data['telephone_fixe'] */
+        $object->setTelephoneFixe($data['telephone_fixe']);
+
+        /** @var string $data['telephone_portable'] */
+        $object->setTelephonePortable($data['telephone_portable']);
+
+        /** @var string $data['telephone_fax'] */
+        $object->setTelephoneFax($data['telephone_fax']);
 
         /** @var string $data['adresse'] */
         $object->setAdresse($data['adresse']);
@@ -96,14 +104,34 @@ class Contact extends ModelAbstract
         $this->fonction=$fonction;
     }
 
-    public function getTelephone() : ?string
+    public function getTelephoneFixe() : ?string
     {
-        return $this->telephone;
+        return $this->telephone_fixe;
     }
 
-    public function setTelephone(string $telephone = null) : void
+    public function setTelephoneFixe(string $telephone_fixe = null) : void
     {
-        $this->telephone=$telephone;
+        $this->telephone_fixe=$telephone_fixe;
+    }
+
+    public function getTelephonePortable() : ?string
+    {
+        return $this->telephone_portable;
+    }
+
+    public function setTelephonePortable(string $telephone_portable = null) : void
+    {
+        $this->telephone_portable=$telephone_portable;
+    }
+
+    public function getTelephoneFax() : ?string
+    {
+        return $this->telephone_fax;
+    }
+
+    public function setTelephoneFax(string $telephone_fax = null) : void
+    {
+        $this->telephone_fax=$telephone_fax;
     }
 
     public function getAdresse() : ?string
