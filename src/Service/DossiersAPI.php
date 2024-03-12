@@ -82,7 +82,7 @@ class DossiersAPI extends MetariscAbstract
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\Document::class,
+            'model_class' => \Metarisc\Model\PieceJointe::class,
         ]);
     }
 

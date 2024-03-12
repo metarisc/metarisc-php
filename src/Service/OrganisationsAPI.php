@@ -30,6 +30,40 @@ class OrganisationsAPI extends MetariscAbstract
     }
 
     /**
+     * Récupération de la liste des géo-services d'une organisation.
+     */
+    public function paginateOrganisationGeoservices(string $org_id) : Pagerfanta
+    {
+        $table = [
+            'org_id' => $org_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/geoservices');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\OrganisationGeoservice::class,
+        ]);
+    }
+
+    /**
+     * Récupération de la liste des membres d'une organisation.
+     */
+    public function paginateOrganisationMembres(string $org_id) : Pagerfanta
+    {
+        $table = [
+            'org_id' => $org_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/membres');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\OrganisationMembre::class,
+        ]);
+    }
+
+    /**
      * Liste paginée des organisations.
      */
     public function paginateOrganisations() : Pagerfanta
