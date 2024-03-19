@@ -4,20 +4,20 @@ namespace Metarisc\Model;
 
 class OrganisationMembre extends ModelAbstract
 {
-    private ?string $organisation_id  = null;
-    private ?string $utilisateur_id   = null;
-    private ?string $date_integration = null;
-    private ?string $role             = null;
+    private ?\Metarisc\Model\Organisation $organisation = null;
+    private ?\Metarisc\Model\Utilisateur $utilisateur   = null;
+    private ?string $date_integration                   = null;
+    private ?string $role                               = null;
 
     public static function unserialize(array $data) : self
     {
         $object = new self();
 
-        /** @var string $data['organisation_id'] */
-        $object->setOrganisationId($data['organisation_id']);
+        /** @var array<array-key, mixed> $data['organisation'] */
+        $object->setOrganisation($data['organisation']);
 
-        /** @var string $data['utilisateur_id'] */
-        $object->setUtilisateurId($data['utilisateur_id']);
+        /** @var array<array-key, mixed> $data['utilisateur'] */
+        $object->setUtilisateur($data['utilisateur']);
 
         /** @var string $data['date_integration'] */
         $object->setDateIntegration($data['date_integration']);
@@ -28,24 +28,24 @@ class OrganisationMembre extends ModelAbstract
         return $object;
     }
 
-    public function getOrganisationId() : ?string
+    public function getOrganisation() : ?Organisation
     {
-        return $this->organisation_id;
+        return $this->organisation;
     }
 
-    public function setOrganisationId(string $organisation_id = null) : void
+    public function setOrganisation(array $organisation) : void
     {
-        $this->organisation_id=$organisation_id;
+        $this->organisation=Organisation::unserialize($organisation);
     }
 
-    public function getUtilisateurId() : ?string
+    public function getUtilisateur() : ?Utilisateur
     {
-        return $this->utilisateur_id;
+        return $this->utilisateur;
     }
 
-    public function setUtilisateurId(string $utilisateur_id = null) : void
+    public function setUtilisateur(array $utilisateur) : void
     {
-        $this->utilisateur_id=$utilisateur_id;
+        $this->utilisateur=Utilisateur::unserialize($utilisateur);
     }
 
     public function getDateIntegration() : ?string
