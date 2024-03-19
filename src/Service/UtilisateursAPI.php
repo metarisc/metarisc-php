@@ -81,4 +81,21 @@ class UtilisateursAPI extends MetariscAbstract
             'model_class' => \Metarisc\Model\Email::class,
         ]);
     }
+
+    /**
+     * Retourne une liste d'organisations dont l'utilisateur est membre.
+     */
+    public function paginateUtilisateurOrganisations(string $utilisateur_id) : Pagerfanta
+    {
+        $table = [
+            'utilisateur_id' => $utilisateur_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/{utilisateur_id}/organisations');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\OrganisationMembre::class,
+        ]);
+    }
 }

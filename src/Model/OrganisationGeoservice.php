@@ -4,11 +4,11 @@ namespace Metarisc\Model;
 
 class OrganisationGeoservice extends ModelAbstract
 {
-    private ?string $id              = null;
-    private ?string $organisation_id = null;
-    private ?string $nom             = null;
-    private ?string $type            = null;
-    private ?string $url             = null;
+    private ?string $id                                 = null;
+    private ?\Metarisc\Model\Organisation $organisation = null;
+    private ?string $nom                                = null;
+    private ?string $type                               = null;
+    private ?string $url                                = null;
 
     public static function unserialize(array $data) : self
     {
@@ -17,8 +17,8 @@ class OrganisationGeoservice extends ModelAbstract
         /** @var string $data['id'] */
         $object->setId($data['id']);
 
-        /** @var string $data['organisation_id'] */
-        $object->setOrganisationId($data['organisation_id']);
+        /** @var array<array-key, mixed> $data['organisation'] */
+        $object->setOrganisation($data['organisation']);
 
         /** @var string $data['nom'] */
         $object->setNom($data['nom']);
@@ -42,14 +42,14 @@ class OrganisationGeoservice extends ModelAbstract
         $this->id=$id;
     }
 
-    public function getOrganisationId() : ?string
+    public function getOrganisation() : ?Organisation
     {
-        return $this->organisation_id;
+        return $this->organisation;
     }
 
-    public function setOrganisationId(string $organisation_id = null) : void
+    public function setOrganisation(array $organisation) : void
     {
-        $this->organisation_id=$organisation_id;
+        $this->organisation=Organisation::unserialize($organisation);
     }
 
     public function getNom() : ?string
