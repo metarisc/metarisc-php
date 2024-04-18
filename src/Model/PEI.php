@@ -4,16 +4,16 @@ namespace Metarisc\Model;
 
 class PEI extends ModelAbstract
 {
-    private ?string $id                                                        = null;
-    private ?string $date_de_realisation                                       = null;
-    private ?string $date_de_derniere_mise_a_jour                              = null;
-    private ?array $references_exterieures                                     = null;
-    private ?\Metarisc\Model\DescriptifTechniqueDECIBase $descriptif_technique = null;
-    private ?\Metarisc\Model\AdressePostale $implantation                      = null;
-    private ?string $genre                                                     = null;
-    private ?string $numero                                                    = null;
-    private ?string $numero_compteur                                           = null;
-    private ?string $numero_serie_appareil                                     = null;
+    private ?string $id                                                    = null;
+    private ?string $date_de_realisation                                   = null;
+    private ?string $date_de_derniere_mise_a_jour                          = null;
+    private ?array $references_exterieures                                 = null;
+    private ?\Metarisc\Model\DescriptifTechniqueDECI $descriptif_technique = null;
+    private ?\Metarisc\Model\AdressePostale $implantation                  = null;
+    private ?string $genre                                                 = null;
+    private ?string $numero                                                = null;
+    private ?string $numero_compteur                                       = null;
+    private ?string $numero_serie_appareil                                 = null;
 
     public static function unserialize(array $data) : self
     {
@@ -92,14 +92,14 @@ class PEI extends ModelAbstract
         $this->references_exterieures=$references_exterieures;
     }
 
-    public function getDescriptifTechnique() : ?DescriptifTechniqueDECIBase
+    public function getDescriptifTechnique() : ?DescriptifTechniqueDECI
     {
         return $this->descriptif_technique;
     }
 
     public function setDescriptifTechnique(array $descriptif_technique) : void
     {
-        $this->descriptif_technique=DescriptifTechniqueDECIBase::unserialize($descriptif_technique);
+        $this->descriptif_technique=DescriptifTechniqueDECI::unserialize($descriptif_technique);
     }
 
     public function getImplantation() : ?AdressePostale

@@ -8,11 +8,12 @@ namespace Metarisc\Model;
 
 class ERP extends ModelAbstract
 {
-    private ?string $id                                   = null;
-    private ?string $date_de_realisation                  = null;
-    private ?string $date_de_derniere_mise_a_jour         = null;
-    private ?array $references_exterieures                = null;
-    private ?\Metarisc\Model\AdressePostale $implantation = null;
+    private ?string $id                                                   = null;
+    private ?string $date_de_realisation                                  = null;
+    private ?string $date_de_derniere_mise_a_jour                         = null;
+    private ?array $references_exterieures                                = null;
+    private ?\Metarisc\Model\AdressePostale $implantation                 = null;
+    private ?\Metarisc\Model\DescriptifTechniqueERP $descriptif_technique = null;
 
     public static function unserialize(array $data) : self
     {
@@ -32,6 +33,9 @@ class ERP extends ModelAbstract
 
         /** @var array<array-key, mixed> $data['implantation'] */
         $object->setImplantation($data['implantation']);
+
+        /** @var array<array-key, mixed> $data['descriptif_technique'] */
+        $object->setDescriptifTechnique($data['descriptif_technique']);
 
         return $object;
     }
@@ -84,5 +88,15 @@ class ERP extends ModelAbstract
     public function setImplantation(array $implantation) : void
     {
         $this->implantation=AdressePostale::unserialize($implantation);
+    }
+
+    public function getDescriptifTechnique() : ?DescriptifTechniqueERP
+    {
+        return $this->descriptif_technique;
+    }
+
+    public function setDescriptifTechnique(array $descriptif_technique) : void
+    {
+        $this->descriptif_technique=DescriptifTechniqueERP::unserialize($descriptif_technique);
     }
 }

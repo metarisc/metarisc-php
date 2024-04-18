@@ -10,6 +10,7 @@ class TourneeDeciPei extends ModelAbstract
     private ?string $essais_engin_utilise = null;
     private ?\Metarisc\Model\PEI $pei     = null;
     private ?bool $est_controle           = null;
+    private ?int $ordre                   = null;
 
     public static function unserialize(array $data) : self
     {
@@ -32,6 +33,9 @@ class TourneeDeciPei extends ModelAbstract
 
         /** @var bool $data['est_controle'] */
         $object->setEstControle($data['est_controle']);
+
+        /** @var int $data['ordre'] */
+        $object->setOrdre($data['ordre']);
 
         return $object;
     }
@@ -94,5 +98,15 @@ class TourneeDeciPei extends ModelAbstract
     public function setEstControle(bool $est_controle = null) : void
     {
         $this->est_controle=$est_controle;
+    }
+
+    public function getOrdre() : ?int
+    {
+        return $this->ordre;
+    }
+
+    public function setOrdre(int $ordre = null) : void
+    {
+        $this->ordre=$ordre;
     }
 }

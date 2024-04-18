@@ -9,9 +9,22 @@ use Metarisc\MetariscAbstract;
 class CommissionsAPI extends MetariscAbstract
 {
     /**
+     * Suppression d'une commission.
+     */
+    public function deleteCommission(string $commission_id) : void
+    {
+        $table = [
+            'commission_id' => $commission_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}');
+        $this->request('DELETE', $path);
+    }
+
+    /**
      * Récupération des détails de la commission.
      */
-    public function getCommission(string $commission_id) : Pagerfanta
+    public function getCommission(string $commission_id) : \Metarisc\Model\Commission
     {
         $table = [
             'commission_id' => $commission_id,
@@ -19,10 +32,14 @@ class CommissionsAPI extends MetariscAbstract
 
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}');
 
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => Commission::class,
-        ]);
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\Commission::unserialize($object);
     }
 
     /**
@@ -95,6 +112,59 @@ class CommissionsAPI extends MetariscAbstract
         return $this->pagination('GET', $path, [
             'params'      => [],
             'model_class' => \Metarisc\Model\Commission::class,
+        ]);
+    }
+
+    /**
+     * Ajoute une commission.
+     */
+    public function postCommission(\Metarisc\Model\PostCommissionRequest $post_commission_request) : void
+    {
+        $this->request('POST', '/commissions', [
+            'json' => [
+                'type'    => $post_commission_request->getType(),
+                'libelle' => $post_commission_request->getLibelle(),
+            ],
+        ]);
+    }
+
+    /**
+     * Ajout d'une date de passage en commission.
+     */
+    public function postCommissionDate(string $commission_id, \Metarisc\Model\PostCommissionDateRequest $post_commission_date_request = null) : void
+    {
+        $table = [
+            'commission_id' => $commission_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'libelle'       => $post_commission_date_request?->getLibelle(),
+                'type'          => $post_commission_date_request?->getType(),
+                'date_de_debut' => $post_commission_date_request?->getDateDeDebut(),
+                'date_de_fin'   => $post_commission_date_request?->getDateDeFin(),
+            ],
+        ]);
+    }
+
+    /**
+     * Ajout d'un dossier à l'ordre du jour d'un passage en commission.
+     */
+    public function postCommissionDateDossier(string $commission_id, string $date_id, \Metarisc\Model\PostCommissionDateDossierRequest $post_commission_date_dossier_request = null) : void
+    {
+        $table = [
+            'commission_id' => $commission_id,
+            'date_id'       => $date_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}/ordre_du_jour');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'dossier_id' => $post_commission_date_dossier_request?->getDossierId(),
+            ],
         ]);
     }
 }

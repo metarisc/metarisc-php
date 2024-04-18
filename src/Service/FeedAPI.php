@@ -23,4 +23,18 @@ class FeedAPI extends MetariscAbstract
             'model_class' => \Metarisc\Model\FeedMessage::class,
         ]);
     }
+
+    /**
+     * Ajoute un message dans le feed général.
+     */
+    public function postMessage(\Metarisc\Model\PostMessageRequest $post_message_request) : void
+    {
+        $this->request('POST', '/feed', [
+            'json' => [
+                'type'  => $post_message_request->getType(),
+                'titre' => $post_message_request->getTitre(),
+                'texte' => $post_message_request->getTexte(),
+            ],
+        ]);
+    }
 }

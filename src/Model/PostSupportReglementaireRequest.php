@@ -2,9 +2,8 @@
 
 namespace Metarisc\Model;
 
-class PrescriptionSupportReglementaire extends ModelAbstract
+class PostSupportReglementaireRequest extends ModelAbstract
 {
-    private ?string $id             = null;
     private ?string $nature         = null;
     private ?string $legifrance_cid = null;
     private ?string $contenu        = null;
@@ -15,9 +14,6 @@ class PrescriptionSupportReglementaire extends ModelAbstract
     public static function unserialize(array $data) : self
     {
         $object = new self();
-
-        /** @var string $data['id'] */
-        $object->setId($data['id']);
 
         /** @var string $data['nature'] */
         $object->setNature($data['nature']);
@@ -38,16 +34,6 @@ class PrescriptionSupportReglementaire extends ModelAbstract
         $object->setReference($data['reference']);
 
         return $object;
-    }
-
-    public function getId() : ?string
-    {
-        return $this->id;
-    }
-
-    public function setId(string $id = null) : void
-    {
-        $this->id=$id;
     }
 
     public function getNature() : ?string

@@ -2,11 +2,10 @@
 
 namespace Metarisc\Model;
 
-class PostDossierRequest extends ModelAbstract
+class WorkflowStepWorkflow extends ModelAbstract
 {
-    private ?string $titre       = null;
-    private ?string $description = null;
-    private ?string $type        = null;
+    private ?string $titre = null;
+    private ?string $type  = null;
 
     public static function unserialize(array $data) : self
     {
@@ -14,9 +13,6 @@ class PostDossierRequest extends ModelAbstract
 
         /** @var string $data['titre'] */
         $object->setTitre($data['titre']);
-
-        /** @var string $data['description'] */
-        $object->setDescription($data['description']);
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
@@ -32,16 +28,6 @@ class PostDossierRequest extends ModelAbstract
     public function setTitre(string $titre = null) : void
     {
         $this->titre=$titre;
-    }
-
-    public function getDescription() : ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description = null) : void
-    {
-        $this->description=$description;
     }
 
     public function getType() : ?string

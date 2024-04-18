@@ -2,6 +2,7 @@
 
 namespace Metarisc;
 
+use Metarisc\Service\ERPAPI;
 use Metarisc\Service\MoiAPI;
 use Metarisc\Service\PEIAPI;
 use Metarisc\Service\FeedAPI;
@@ -20,20 +21,22 @@ use Metarisc\Service\PrescriptionsAPI;
 class Metarisc extends MetariscAbstract
 {
     public static array $class_map =  [
-        'utilisateurs'  => UtilisateursAPI::class,
-        'dossiers'      => DossiersAPI::class,
-        'moi'           => MoiAPI::class,
-        'ping'          => PingAPI::class,
-        'anomalies'     => AnomaliesAPI::class,
-        'feed'          => FeedAPI::class,
-        'tournees_deci' => TournesDECIAPI::class,
-        'organisations' => OrganisationsAPI::class,
-        'pei'           => PEIAPI::class,
-        'commissions'   => CommissionsAPI::class,
-        'evenements'    => EvenementsAPI::class,
-        'prescriptions' => PrescriptionsAPI::class,
-        'support'       => SupportAPI::class,
-        'notifications' => NotificationsAPI::class,
+        'utilisateurs'            => UtilisateursAPI::class,
+        'erp'                     => ERPAPI::class,
+        'dossiers'                => DossiersAPI::class,
+        'moi'                     => MoiAPI::class,
+        'ping'                    => PingAPI::class,
+        'anomalies'               => AnomaliesAPI::class,
+        'supports_reglementaires' => PrescriptionsAPI::class,
+        'feed'                    => FeedAPI::class,
+        'tournees_deci'           => TournesDECIAPI::class,
+        'organisations'           => OrganisationsAPI::class,
+        'pei'                     => PEIAPI::class,
+        'commissions'             => CommissionsAPI::class,
+        'evenements'              => EvenementsAPI::class,
+        'prescriptions'           => PrescriptionsAPI::class,
+        'support'                 => SupportAPI::class,
+        'notifications'           => NotificationsAPI::class,
     ];
 
     public function __get(string $name)
