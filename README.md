@@ -38,6 +38,7 @@ $metarisc = new \Metarisc\Metarisc([
 
 $metarisc->authenticate('oauth2:client_credentials', [
     'scope' => 'openid', // Optionnel
+    'access_token_url' => 'https://id.metarisc.fr/auth/realms/production/protocol/openid-connect/token', // Optionnel
 ]);
 ```
 
@@ -68,6 +69,7 @@ $metarisc = new \Metarisc\Metarisc([
 $metarisc->authenticate('oauth2:authorization_code', [
     'code' => 'your_authorization_code',
     'scope' => 'openid', // Optionnel
+    'access_token_url' => 'https://id.metarisc.fr/auth/realms/production/protocol/openid-connect/token', // Optionnel
     'redirect_uri' => 'https://your_redirect_uri', // Optionnel
     'enable_refresh_token_grant_type' => false, // Optionnel
 ]);

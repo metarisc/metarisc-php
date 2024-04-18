@@ -126,10 +126,12 @@ class Client
      *
      * En fonction de l'auth_method choisi, différents params sont attendus :
      * - oauth2:client_credentials :
+     *     - access_token_url
      *     - scope
      *     - client_id
      *     - client_secret
      * - oauth2:authorization_code :
+     *     - access_token_url
      *     - scope
      *     - redirect_uri
      *     - code
@@ -146,7 +148,7 @@ class Client
         $refresh_grant_type = null;
 
         $http_client = new HttpClient([
-            'base_uri' => OAuth2::ACCESS_TOKEN_URL,
+            'base_uri' => $params['access_token_url'] ?? OAuth2::ACCESS_TOKEN_URL,
             'verify'   => CaBundle::getSystemCaRootBundlePath(),
         ]);
 
