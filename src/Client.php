@@ -35,7 +35,7 @@ class Client
     /**
      * Construction d'un client HTTP.
      */
-    public function __construct(array $config, CacheInterface|TokenPersistenceInterface $token_persistence = null)
+    public function __construct(array $config = [], CacheInterface|TokenPersistenceInterface $token_persistence = null)
     {
         // Initialisation du pipeline HTTP utilisé par Guzzle
         $stack = new HandlerStack(Utils::chooseHandler());
@@ -71,7 +71,7 @@ class Client
         $prepare_body_middleware = Middleware::redirect();
         $stack->push($prepare_body_middleware, 'prepare_body');
 
-        // Création du client HTTP servant à communiquer avec Plat'AU
+        // Création du client HTTP servant à communiquer avec Metarisc
         $this->http_client = new HttpClient([
             'handler'  => $stack,
             'headers'  => $this->getDefaultHeaders(),
