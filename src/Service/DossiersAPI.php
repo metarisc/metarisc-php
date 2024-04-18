@@ -52,6 +52,40 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
+     * Récupération de la liste des contacts d'un dossier.
+     */
+    public function paginateDossierContacts(string $dossier_id) : Pagerfanta
+    {
+        $table = [
+            'dossier_id' => $dossier_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/contacts');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Workflow::class,
+        ]);
+    }
+
+    /**
+     * Récupération de la liste des documents d'un dossier.
+     */
+    public function paginateDossierDocuments(string $dossier_id) : Pagerfanta
+    {
+        $table = [
+            'dossier_id' => $dossier_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/documents');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Workflow::class,
+        ]);
+    }
+
+    /**
      * Récupération de la liste des tags d'un dossier.
      */
     public function paginateDossierTags(string $dossier_id) : Pagerfanta
@@ -132,19 +166,23 @@ class DossiersAPI extends MetariscAbstract
 
         $this->request('PATCH', $path, [
             'json' => [
-                'id'                   => $dossier?->getId(),
-                'type'                 => $dossier?->getType(),
-                'description'          => $dossier?->getDescription(),
-                'date_de_creation'     => $dossier?->getDateDeCreation(),
-                'createur'             => $dossier?->getCreateur(),
-                'application_utilisee' => $dossier?->getApplicationUtilisee(),
-                'statut'               => $dossier?->getStatut(),
+                'id'                       => $dossier?->getId(),
+                'type'                     => $dossier?->getType(),
+                'description'              => $dossier?->getDescription(),
+                'date_de_creation'         => $dossier?->getDateDeCreation(),
+                'createur'                 => $dossier?->getCreateur(),
+                'application_utilisee_nom' => $dossier?->getApplicationUtiliseeNom(),
+                'statut'                   => $dossier?->getStatut(),
+                'objet'                    => $dossier?->getObjet(),
+                'pei'                      => $dossier?->getPei(),
+                'erp'                      => $dossier?->getErp(),
+                'workflow_actif'           => $dossier?->getWorkflowActif(),
             ],
         ]);
     }
 
     /**
-     * TODO : Création d'un nouveau dossier.
+     * Création d'un nouveau dossier.
      */
     public function postDossier(\Metarisc\Model\PostDossierRequest $post_dossier_request) : void
     {
@@ -152,7 +190,40 @@ class DossiersAPI extends MetariscAbstract
             'json' => [
                 'titre'       => $post_dossier_request->getTitre(),
                 'description' => $post_dossier_request->getDescription(),
-                'workflows'   => $post_dossier_request->getWorkflows(),
+                'type'        => $post_dossier_request->getType(),
+            ],
+        ]);
+    }
+
+    /**
+     * Mise à jour d'un workflow.
+     */
+    public function updateDossierWorkflowsDetails(string $dossier_id, string $workflow_id, \Metarisc\Model\UpdateDossierWorkflowsDetailsRequest $update_dossier_workflows_details_request = null) : void
+    {
+        $table = [
+            'dossier_id'  => $dossier_id,
+            'workflow_id' => $workflow_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'est_valide'               => $update_dossier_workflows_details_request?->getEstValide(),
+                'passage_commission_id'    => $update_dossier_workflows_details_request?->getPassageCommissionId(),
+                'avis_favorable'           => $update_dossier_workflows_details_request?->getAvisFavorable(),
+                'commission_id'            => $update_dossier_workflows_details_request?->getCommissionId(),
+                'date_arrivee_secretariat' => $update_dossier_workflows_details_request?->getDateArriveeSecretariat(),
+                'analyse_de_risque'        => $update_dossier_workflows_details_request?->getAnalyseDeRisque(),
+                'avis_rapporteur'          => $update_dossier_workflows_details_request?->getAvisRapporteur(),
+                'descriptif_effectifs'     => $update_dossier_workflows_details_request?->getDescriptifEffectifs(),
+                'facteur_dangerosite'      => $update_dossier_workflows_details_request?->getFacteurDangerosite(),
+                'derogations'              => $update_dossier_workflows_details_request?->getDerogations(),
+                'prescriptions'            => $update_dossier_workflows_details_request?->getPrescriptions(),
+                'mesures_compensatoires'   => $update_dossier_workflows_details_request?->getMesuresCompensatoires(),
+                'mesures_complementaires'  => $update_dossier_workflows_details_request?->getMesuresComplementaires(),
+                'observations'             => $update_dossier_workflows_details_request?->getObservations(),
+                'termine'                  => $update_dossier_workflows_details_request?->getTermine(),
             ],
         ]);
     }

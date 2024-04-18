@@ -95,4 +95,20 @@ class PEIAPI extends MetariscAbstract
             'model_class' => \Metarisc\Model\PieceJointe::class,
         ]);
     }
+
+    /**
+     * Ajout d'un PEI.
+     */
+    public function postPei(\Metarisc\Model\PostPeiRequest $post_pei_request) : void
+    {
+        $this->request('POST', '/pei', [
+            'json' => [
+                'implantation'          => $post_pei_request->getImplantation(),
+                'numero'                => $post_pei_request->getNumero(),
+                'numero_compteur'       => $post_pei_request->getNumeroCompteur(),
+                'numero_serie_appareil' => $post_pei_request->getNumeroSerieAppareil(),
+                'descriptif_technique'  => $post_pei_request->getDescriptifTechnique(),
+            ],
+        ]);
+    }
 }

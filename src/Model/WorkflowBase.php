@@ -7,14 +7,11 @@ class WorkflowBase extends ModelAbstract
     private ?string $id                = null;
     private ?string $titre             = null;
     private ?string $date_de_creation  = null;
+    private ?string $date_de_debut     = null;
     private ?string $date_de_fin       = null;
     private ?bool $workflow_automatise = null;
     private ?string $etat              = null;
-    private ?string $groupe_de_travail = null;
     private ?string $observations      = null;
-    private ?bool $est_complet         = null;
-    private ?string $liste_poi         = null;
-    private ?string $documents         = null;
     private ?string $type              = null;
 
     public static function unserialize(array $data) : self
@@ -30,6 +27,9 @@ class WorkflowBase extends ModelAbstract
         /** @var string $data['date_de_creation'] */
         $object->setDateDeCreation($data['date_de_creation']);
 
+        /** @var string $data['date_de_debut'] */
+        $object->setDateDeDebut($data['date_de_debut']);
+
         /** @var string $data['date_de_fin'] */
         $object->setDateDeFin($data['date_de_fin']);
 
@@ -39,20 +39,8 @@ class WorkflowBase extends ModelAbstract
         /** @var string $data['etat'] */
         $object->setEtat($data['etat']);
 
-        /** @var string $data['groupe_de_travail'] */
-        $object->setGroupeDeTravail($data['groupe_de_travail']);
-
         /** @var string $data['observations'] */
         $object->setObservations($data['observations']);
-
-        /** @var bool $data['est_complet'] */
-        $object->setEstComplet($data['est_complet']);
-
-        /** @var string $data['liste_poi'] */
-        $object->setListePoi($data['liste_poi']);
-
-        /** @var string $data['documents'] */
-        $object->setDocuments($data['documents']);
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
@@ -90,6 +78,16 @@ class WorkflowBase extends ModelAbstract
         $this->date_de_creation = $date_de_creation;
     }
 
+    public function getDateDeDebut() : ?string
+    {
+        return $this->date_de_debut;
+    }
+
+    public function setDateDeDebut(?string $date_de_debut) : void
+    {
+        $this->date_de_debut = $date_de_debut;
+    }
+
     public function getDateDeFin() : ?string
     {
         return $this->date_de_fin;
@@ -120,16 +118,6 @@ class WorkflowBase extends ModelAbstract
         $this->etat=$etat;
     }
 
-    public function getGroupeDeTravail() : ?string
-    {
-        return $this->groupe_de_travail;
-    }
-
-    public function setGroupeDeTravail(string $groupe_de_travail = null) : void
-    {
-        $this->groupe_de_travail=$groupe_de_travail;
-    }
-
     public function getObservations() : ?string
     {
         return $this->observations;
@@ -138,36 +126,6 @@ class WorkflowBase extends ModelAbstract
     public function setObservations(string $observations = null) : void
     {
         $this->observations=$observations;
-    }
-
-    public function getEstComplet() : ?bool
-    {
-        return $this->est_complet;
-    }
-
-    public function setEstComplet(bool $est_complet = null) : void
-    {
-        $this->est_complet=$est_complet;
-    }
-
-    public function getListePoi() : ?string
-    {
-        return $this->liste_poi;
-    }
-
-    public function setListePoi(string $liste_poi = null) : void
-    {
-        $this->liste_poi=$liste_poi;
-    }
-
-    public function getDocuments() : ?string
-    {
-        return $this->documents;
-    }
-
-    public function setDocuments(string $documents = null) : void
-    {
-        $this->documents=$documents;
     }
 
     public function getType() : ?string

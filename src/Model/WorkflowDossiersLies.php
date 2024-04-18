@@ -4,14 +4,14 @@ namespace Metarisc\Model;
 
 class WorkflowDossiersLies extends WorkflowBase
 {
-    private ?string $dossier_lie = null;
+    private ?array $dossier_lie = null;
 
-    public function getDossierLie() : ?string
+    public function getDossierLie() : ?array
     {
         return $this->dossier_lie;
     }
 
-    public function setDossierLie(string $dossier_lie) : void
+    public function setDossierLie(array $dossier_lie) : void
     {
         $this->dossier_lie=$dossier_lie;
     }

@@ -30,6 +30,44 @@ class OrganisationsAPI extends MetariscAbstract
     }
 
     /**
+     * Ensemble de règles utilisées pour le calcul de la conformité et de la performance DECI.
+     */
+    public function getOrganisationReglesDeci(string $org_id) : \Metarisc\Model\GetOrganisationReglesDeci200Response
+    {
+        $table = [
+            'org_id' => $org_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/regles-deci');
+
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\GetOrganisationReglesDeci200Response::unserialize($object);
+    }
+
+    /**
+     * Retourne le référentiel du paramétrage des workflows pour l'organisation.
+     */
+    public function paginateOrganisationDossiersWorkflowsSuites(string $org_id) : Pagerfanta
+    {
+        $table = [
+            'org_id' => $org_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/dossiers-workflows-suites');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\WorkflowType::class,
+        ]);
+    }
+
+    /**
      * Récupération de la liste des géo-services d'une organisation.
      */
     public function paginateOrganisationGeoservices(string $org_id) : Pagerfanta

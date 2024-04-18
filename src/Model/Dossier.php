@@ -2,19 +2,19 @@
 
 namespace Metarisc\Model;
 
-/*
- * Un dossier représente la vie d'un POI
-*/
-
 class Dossier extends ModelAbstract
 {
-    private ?string $id                   = null;
-    private ?\Metarisc\Model\Type $type   = null;
-    private ?string $description          = null;
-    private ?string $date_de_creation     = null;
-    private ?string $createur             = null;
-    private ?string $application_utilisee = null;
-    private ?string $statut               = null;
+    private ?string $id                               = null;
+    private ?string $type                             = null;
+    private ?string $description                      = null;
+    private ?string $date_de_creation                 = null;
+    private ?\Metarisc\Model\Utilisateur $createur    = null;
+    private ?string $application_utilisee_nom         = null;
+    private ?string $statut                           = null;
+    private ?string $objet                            = null;
+    private ?\Metarisc\Model\PEI $pei                 = null;
+    private ?\Metarisc\Model\ERP $erp                 = null;
+    private ?\Metarisc\Model\Workflow $workflow_actif = null;
 
     public static function unserialize(array $data) : self
     {
@@ -23,7 +23,7 @@ class Dossier extends ModelAbstract
         /** @var string $data['id'] */
         $object->setId($data['id']);
 
-        /** @var array<array-key, mixed> $data['type'] */
+        /** @var string $data['type'] */
         $object->setType($data['type']);
 
         /** @var string $data['description'] */
@@ -32,14 +32,26 @@ class Dossier extends ModelAbstract
         /** @var string $data['date_de_creation'] */
         $object->setDateDeCreation($data['date_de_creation']);
 
-        /** @var string $data['createur'] */
+        /** @var array<array-key, mixed> $data['createur'] */
         $object->setCreateur($data['createur']);
 
-        /** @var string $data['application_utilisee'] */
-        $object->setApplicationUtilisee($data['application_utilisee']);
+        /** @var string $data['application_utilisee_nom'] */
+        $object->setApplicationUtiliseeNom($data['application_utilisee_nom']);
 
         /** @var string $data['statut'] */
         $object->setStatut($data['statut']);
+
+        /** @var string $data['objet'] */
+        $object->setObjet($data['objet']);
+
+        /** @var array<array-key, mixed> $data['pei'] */
+        $object->setPei($data['pei']);
+
+        /** @var array<array-key, mixed> $data['erp'] */
+        $object->setErp($data['erp']);
+
+        /** @var array<array-key, mixed> $data['workflow_actif'] */
+        $object->setWorkflowActif($data['workflow_actif']);
 
         return $object;
     }
@@ -54,14 +66,14 @@ class Dossier extends ModelAbstract
         $this->id=$id;
     }
 
-    public function getType() : ?Type
+    public function getType() : ?string
     {
         return $this->type;
     }
 
-    public function setType(array $type) : void
+    public function setType(string $type = null) : void
     {
-        $this->type=Type::unserialize($type);
+        $this->type=$type;
     }
 
     public function getDescription() : ?string
@@ -84,24 +96,24 @@ class Dossier extends ModelAbstract
         $this->date_de_creation = $date_de_creation;
     }
 
-    public function getCreateur() : ?string
+    public function getCreateur() : ?Utilisateur
     {
         return $this->createur;
     }
 
-    public function setCreateur(string $createur = null) : void
+    public function setCreateur(array $createur) : void
     {
-        $this->createur=$createur;
+        $this->createur=Utilisateur::unserialize($createur);
     }
 
-    public function getApplicationUtilisee() : ?string
+    public function getApplicationUtiliseeNom() : ?string
     {
-        return $this->application_utilisee;
+        return $this->application_utilisee_nom;
     }
 
-    public function setApplicationUtilisee(string $application_utilisee = null) : void
+    public function setApplicationUtiliseeNom(string $application_utilisee_nom = null) : void
     {
-        $this->application_utilisee=$application_utilisee;
+        $this->application_utilisee_nom=$application_utilisee_nom;
     }
 
     public function getStatut() : ?string
@@ -112,5 +124,45 @@ class Dossier extends ModelAbstract
     public function setStatut(string $statut = null) : void
     {
         $this->statut=$statut;
+    }
+
+    public function getObjet() : ?string
+    {
+        return $this->objet;
+    }
+
+    public function setObjet(string $objet = null) : void
+    {
+        $this->objet=$objet;
+    }
+
+    public function getPei() : ?PEI
+    {
+        return $this->pei;
+    }
+
+    public function setPei(array $pei) : void
+    {
+        $this->pei=PEI::unserialize($pei);
+    }
+
+    public function getErp() : ?ERP
+    {
+        return $this->erp;
+    }
+
+    public function setErp(array $erp) : void
+    {
+        $this->erp=ERP::unserialize($erp);
+    }
+
+    public function getWorkflowActif() : ?Workflow
+    {
+        return $this->workflow_actif;
+    }
+
+    public function setWorkflowActif(array $workflow_actif) : void
+    {
+        $this->workflow_actif=Workflow::unserialize($workflow_actif);
     }
 }
