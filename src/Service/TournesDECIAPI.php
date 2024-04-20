@@ -274,6 +274,41 @@ class TournesDECIAPI extends MetariscAbstract
     
     /**
     * 
+    * Mise à jour de la tournée DECI.
+    * 
+    */
+    public function updateTourneeDeci(string $tournee_deci_id, \Metarisc\Model\PostTourneeDeciRequest $post_tournee_deci_request = null ) : void
+    {
+        $table = [
+            'tournee_deci_id' => $tournee_deci_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/tournees_deci/{tournee_deci_id}');
+
+        $this->request('POST', $path,[
+            'json' => [
+                'libelle' => $post_tournee_deci_request?->getLibelle(),
+                'description' => $post_tournee_deci_request?->getDescription(),
+                'date_de_debut' => $post_tournee_deci_request?->getDateDeDebut(),
+                'date_de_fin' => $post_tournee_deci_request?->getDateDeFin(),
+            ]
+        ]);
+
+    }
+    
+
+
+
+    
+
+    
+
+    
+
+
+    
+    /**
+    * 
     * Mise à jour du PEI contrôlé dans une tournée DECI.
     * 
     */
