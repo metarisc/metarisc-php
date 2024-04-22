@@ -4,7 +4,7 @@ namespace Metarisc\Model;
 
 class AnomalieDECI extends ModelAbstract
 {
-    private ?string $code           = null;
+    private ?int $code              = null;
     private ?string $texte          = null;
     private ?int $indice_de_gravite = null;
 
@@ -12,7 +12,7 @@ class AnomalieDECI extends ModelAbstract
     {
         $object = new self();
 
-        /** @var string $data['code'] */
+        /** @var int $data['code'] */
         $object->setCode($data['code']);
 
         /** @var string $data['texte'] */
@@ -24,12 +24,12 @@ class AnomalieDECI extends ModelAbstract
         return $object;
     }
 
-    public function getCode() : ?string
+    public function getCode() : ?int
     {
         return $this->code;
     }
 
-    public function setCode(string $code = null) : void
+    public function setCode(int $code = null) : void
     {
         $this->code=$code;
     }

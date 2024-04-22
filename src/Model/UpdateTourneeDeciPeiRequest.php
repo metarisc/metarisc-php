@@ -6,7 +6,7 @@ class UpdateTourneeDeciPeiRequest extends ModelAbstract
 {
     private ?array $liste_anomalies   = null;
     private ?string $engin_utilis     = null;
-    private ?string $ordre            = null;
+    private ?int $ordre               = null;
     private ?string $date_du_controle = null;
 
     public static function unserialize(array $data) : self
@@ -19,7 +19,7 @@ class UpdateTourneeDeciPeiRequest extends ModelAbstract
         /** @var string $data['engin_utilis'] */
         $object->setEnginUtilis($data['engin_utilis']);
 
-        /** @var string $data['ordre'] */
+        /** @var int $data['ordre'] */
         $object->setOrdre($data['ordre']);
 
         /** @var string $data['date_du_controle'] */
@@ -48,12 +48,12 @@ class UpdateTourneeDeciPeiRequest extends ModelAbstract
         $this->engin_utilis=$engin_utilis;
     }
 
-    public function getOrdre() : ?string
+    public function getOrdre() : ?int
     {
         return $this->ordre;
     }
 
-    public function setOrdre(string $ordre = null) : void
+    public function setOrdre(int $ordre = null) : void
     {
         $this->ordre=$ordre;
     }
