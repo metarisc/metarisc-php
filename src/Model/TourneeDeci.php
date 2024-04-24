@@ -4,14 +4,18 @@ namespace Metarisc\Model;
 
 class TourneeDeci extends ModelAbstract
 {
-    private ?string $id            = null;
-    private ?string $libelle       = null;
-    private ?string $description   = null;
-    private ?string $date_creation = null;
-    private ?float $pourcentage    = null;
-    private ?bool $est_terminee    = null;
-    private ?string $date_de_debut = null;
-    private ?string $date_de_fin   = null;
+    private ?string $id                                = null;
+    private ?string $libelle                           = null;
+    private ?string $description                       = null;
+    private ?string $date_creation                     = null;
+    private ?string $type                              = null;
+    private ?float $pourcentage                        = null;
+    private ?bool $est_terminee                        = null;
+    private ?string $date_de_debut                     = null;
+    private ?string $date_de_fin                       = null;
+    private ?\Metarisc\Model\TourneeDeciModele $modele = null;
+    private ?string $mois_debut                        = null;
+    private ?string $mois_fin                          = null;
 
     public static function unserialize(array $data) : self
     {
@@ -29,6 +33,9 @@ class TourneeDeci extends ModelAbstract
         /** @var string $data['date_creation'] */
         $object->setDateCreation($data['date_creation']);
 
+        /** @var string $data['type'] */
+        $object->setType($data['type']);
+
         /** @var float $data['pourcentage'] */
         $object->setPourcentage($data['pourcentage']);
 
@@ -40,6 +47,15 @@ class TourneeDeci extends ModelAbstract
 
         /** @var string $data['date_de_fin'] */
         $object->setDateDeFin($data['date_de_fin']);
+
+        /** @var array<array-key, mixed> $data['modele'] */
+        $object->setModele($data['modele']);
+
+        /** @var string $data['mois_debut'] */
+        $object->setMoisDebut($data['mois_debut']);
+
+        /** @var string $data['mois_fin'] */
+        $object->setMoisFin($data['mois_fin']);
 
         return $object;
     }
@@ -84,6 +100,16 @@ class TourneeDeci extends ModelAbstract
         $this->date_creation = $date_creation;
     }
 
+    public function getType() : ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type = null) : void
+    {
+        $this->type=$type;
+    }
+
     public function getPourcentage() : ?float
     {
         return $this->pourcentage;
@@ -122,5 +148,35 @@ class TourneeDeci extends ModelAbstract
     public function setDateDeFin(?string $date_de_fin) : void
     {
         $this->date_de_fin = $date_de_fin;
+    }
+
+    public function getModele() : ?TourneeDeciModele
+    {
+        return $this->modele;
+    }
+
+    public function setModele(array $modele) : void
+    {
+        $this->modele=TourneeDeciModele::unserialize($modele);
+    }
+
+    public function getMoisDebut() : ?string
+    {
+        return $this->mois_debut;
+    }
+
+    public function setMoisDebut(string $mois_debut = null) : void
+    {
+        $this->mois_debut=$mois_debut;
+    }
+
+    public function getMoisFin() : ?string
+    {
+        return $this->mois_fin;
+    }
+
+    public function setMoisFin(string $mois_fin = null) : void
+    {
+        $this->mois_fin=$mois_fin;
     }
 }

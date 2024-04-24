@@ -220,6 +220,10 @@ class TournesDECIAPI extends MetariscAbstract
                 'description' => $post_tournee_deci_request->getDescription(),
                 'date_de_debut' => $post_tournee_deci_request->getDateDeDebut(),
                 'date_de_fin' => $post_tournee_deci_request->getDateDeFin(),
+                'mois_debut' => $post_tournee_deci_request->getMoisDebut(),
+                'mois_fin' => $post_tournee_deci_request->getMoisFin(),
+                'modele_id' => $post_tournee_deci_request->getModeleId(),
+                'type' => $post_tournee_deci_request->getType(),
             ]
         ]);
 
@@ -277,7 +281,7 @@ class TournesDECIAPI extends MetariscAbstract
     * Mise à jour de la tournée DECI.
     * 
     */
-    public function updateTourneeDeci(string $tournee_deci_id, \Metarisc\Model\PostTourneeDeciRequest $post_tournee_deci_request = null ) : void
+    public function updateTourneeDeci(string $tournee_deci_id, \Metarisc\Model\UpdateTourneeDeciRequest $update_tournee_deci_request = null ) : void
     {
         $table = [
             'tournee_deci_id' => $tournee_deci_id,
@@ -287,10 +291,12 @@ class TournesDECIAPI extends MetariscAbstract
 
         $this->request('POST', $path,[
             'json' => [
-                'libelle' => $post_tournee_deci_request?->getLibelle(),
-                'description' => $post_tournee_deci_request?->getDescription(),
-                'date_de_debut' => $post_tournee_deci_request?->getDateDeDebut(),
-                'date_de_fin' => $post_tournee_deci_request?->getDateDeFin(),
+                'libelle' => $update_tournee_deci_request?->getLibelle(),
+                'description' => $update_tournee_deci_request?->getDescription(),
+                'date_de_debut' => $update_tournee_deci_request?->getDateDeDebut(),
+                'date_de_fin' => $update_tournee_deci_request?->getDateDeFin(),
+                'mois_debut' => $update_tournee_deci_request?->getMoisDebut(),
+                'mois_fin' => $update_tournee_deci_request?->getMoisFin(),
             ]
         ]);
 
@@ -323,10 +329,10 @@ class TournesDECIAPI extends MetariscAbstract
 
         $this->request('POST', $path,[
             'json' => [
-                'liste_anomalies' => $update_tournee_deci_pei_request?->getListeAnomalies(),
-                'engin_utilis' => $update_tournee_deci_pei_request?->getEnginUtilis(),
+                'engin_utilise' => $update_tournee_deci_pei_request?->getEnginUtilise(),
                 'ordre' => $update_tournee_deci_pei_request?->getOrdre(),
                 'date_du_controle' => $update_tournee_deci_pei_request?->getDateDuControle(),
+                'liste_anomalies' => $update_tournee_deci_pei_request?->getListeAnomalies(),
             ]
         ]);
 

@@ -11,7 +11,7 @@ class AnomaliesAPI extends MetariscAbstract
     /**
      * Suppression d'une anomalie.
      */
-    public function deleteAnomalie(string $anomalie_id) : void
+    public function deleteAnomalie(int $anomalie_id) : void
     {
         $table = [
             'anomalie_id' => $anomalie_id,
@@ -24,7 +24,7 @@ class AnomaliesAPI extends MetariscAbstract
     /**
      * Détails d'une anomalie.
      */
-    public function getAnomalie(string $anomalie_id) : \Metarisc\Model\AnomalieDECI
+    public function getAnomalie(int $anomalie_id) : \Metarisc\Model\AnomalieDECI
     {
         $table = [
             'anomalie_id' => $anomalie_id,
