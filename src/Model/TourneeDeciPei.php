@@ -22,7 +22,7 @@ class TourneeDeciPei extends ModelAbstract
         /** @var string $data['date_du_controle'] */
         $object->setDateDuControle($data['date_du_controle']);
 
-        /** @var \Metarisc\Model\AnomaliePEI[] $data['liste_anomalies'] */
+        /** @var \Metarisc\Model\TourneeDeciPeiListeAnomaliesInner[] $data['liste_anomalies'] */
         $object->setListeAnomalies($data['liste_anomalies']);
 
         /** @var string $data['essais_engin_utilise'] */
