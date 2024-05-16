@@ -4,10 +4,11 @@ namespace Metarisc\Model;
 
 class Prescription extends ModelAbstract
 {
-    private ?string $id                     = null;
-    private ?string $contenu                = null;
-    private ?string $type                   = null;
-    private ?array $supports_reglementaires = null;
+    private ?string $id                        = null;
+    private ?string $contenu                   = null;
+    private ?string $type                      = null;
+    private ?array $supports_reglementaires    = null;
+    private ?array $supports_reglementaires_id = null;
 
     public static function unserialize(array $data) : self
     {
@@ -24,6 +25,9 @@ class Prescription extends ModelAbstract
 
         /** @var \Metarisc\Model\PrescriptionSupportReglementaire[] $data['supports_reglementaires'] */
         $object->setSupportsReglementaires($data['supports_reglementaires']);
+
+        /** @var string[] $data['supports_reglementaires_id'] */
+        $object->setSupportsReglementairesId($data['supports_reglementaires_id']);
 
         return $object;
     }
@@ -66,5 +70,15 @@ class Prescription extends ModelAbstract
     public function setSupportsReglementaires(array $supports_reglementaires = null) : void
     {
         $this->supports_reglementaires=$supports_reglementaires;
+    }
+
+    public function getSupportsReglementairesId() : ?array
+    {
+        return $this->supports_reglementaires_id;
+    }
+
+    public function setSupportsReglementairesId(array $supports_reglementaires_id = null) : void
+    {
+        $this->supports_reglementaires_id=$supports_reglementaires_id;
     }
 }

@@ -111,13 +111,15 @@ class PrescriptionsAPI extends MetariscAbstract
     /**
      * Ajout d'une nouvelle prescription type dans la bibliothèque.
      */
-    public function postPrescription(\Metarisc\Model\PostPrescriptionRequest $post_prescription_request) : void
+    public function postPrescription(\Metarisc\Model\Prescription $prescription) : void
     {
         $this->request('POST', '/prescriptions', [
             'json' => [
-                'contenu'                 => $post_prescription_request->getContenu(),
-                'type'                    => $post_prescription_request->getType(),
-                'supports_reglementaires' => $post_prescription_request->getSupportsReglementaires(),
+                'id'                         => $prescription->getId(),
+                'contenu'                    => $prescription->getContenu(),
+                'type'                       => $prescription->getType(),
+                'supports_reglementaires'    => $prescription->getSupportsReglementaires(),
+                'supports_reglementaires_id' => $prescription->getSupportsReglementairesId(),
             ],
         ]);
     }
@@ -125,16 +127,17 @@ class PrescriptionsAPI extends MetariscAbstract
     /**
      * Ajouter un support réglementaire.
      */
-    public function postSupportReglementaire(\Metarisc\Model\PostSupportReglementaireRequest $post_support_reglementaire_request) : void
+    public function postSupportReglementaire(\Metarisc\Model\PrescriptionSupportReglementaire $prescription_support_reglementaire) : void
     {
         $this->request('POST', '/supports_reglementaires', [
             'json' => [
-                'nature'         => $post_support_reglementaire_request->getNature(),
-                'legifrance_cid' => $post_support_reglementaire_request->getLegifranceCid(),
-                'contenu'        => $post_support_reglementaire_request->getContenu(),
-                'titre'          => $post_support_reglementaire_request->getTitre(),
-                'etat'           => $post_support_reglementaire_request->getEtat(),
-                'reference'      => $post_support_reglementaire_request->getReference(),
+                'id'             => $prescription_support_reglementaire->getId(),
+                'nature'         => $prescription_support_reglementaire->getNature(),
+                'legifrance_cid' => $prescription_support_reglementaire->getLegifranceCid(),
+                'contenu'        => $prescription_support_reglementaire->getContenu(),
+                'titre'          => $prescription_support_reglementaire->getTitre(),
+                'etat'           => $prescription_support_reglementaire->getEtat(),
+                'reference'      => $prescription_support_reglementaire->getReference(),
             ],
         ]);
     }

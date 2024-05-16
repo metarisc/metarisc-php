@@ -78,15 +78,16 @@ class EvenementsAPI extends MetariscAbstract
     /**
      * TODO : Création d'un événement.
      */
-    public function postEvenement(\Metarisc\Model\PostEvenementRequest $post_evenement_request) : void
+    public function postEvenement(\Metarisc\Model\Evenement $evenement) : void
     {
         $this->request('POST', '/evenements', [
             'json' => [
-                'title'       => $post_evenement_request->getTitle(),
-                'type'        => $post_evenement_request->getType(),
-                'description' => $post_evenement_request->getDescription(),
-                'date_debut'  => $post_evenement_request->getDateDebut(),
-                'date_fin'    => $post_evenement_request->getDateFin(),
+                'id'          => $evenement->getId(),
+                'title'       => $evenement->getTitle(),
+                'type'        => $evenement->getType(),
+                'description' => $evenement->getDescription(),
+                'date_debut'  => $evenement->getDateDebut(),
+                'date_fin'    => $evenement->getDateFin(),
             ],
         ]);
     }

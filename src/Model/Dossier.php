@@ -4,17 +4,16 @@ namespace Metarisc\Model;
 
 class Dossier extends ModelAbstract
 {
-    private ?string $id                               = null;
-    private ?string $type                             = null;
-    private ?string $description                      = null;
-    private ?string $date_de_creation                 = null;
-    private ?\Metarisc\Model\Utilisateur $createur    = null;
-    private ?string $application_utilisee_nom         = null;
-    private ?string $statut                           = null;
-    private ?string $objet                            = null;
-    private ?\Metarisc\Model\PEI $pei                 = null;
-    private ?\Metarisc\Model\ERP $erp                 = null;
-    private ?\Metarisc\Model\Workflow $workflow_actif = null;
+    private ?string $id                            = null;
+    private ?string $type                          = null;
+    private ?string $description                   = null;
+    private ?string $date_de_creation              = null;
+    private ?\Metarisc\Model\Utilisateur $createur = null;
+    private ?string $application_utilisee_nom      = null;
+    private ?string $statut                        = null;
+    private ?string $objet                         = null;
+    private ?\Metarisc\Model\PEI $pei              = null;
+    private ?\Metarisc\Model\ERP $erp              = null;
 
     public static function unserialize(array $data) : self
     {
@@ -49,9 +48,6 @@ class Dossier extends ModelAbstract
 
         /** @var array<array-key, mixed> $data['erp'] */
         $object->setErp($data['erp']);
-
-        /** @var array<array-key, mixed> $data['workflow_actif'] */
-        $object->setWorkflowActif($data['workflow_actif']);
 
         return $object;
     }
@@ -154,15 +150,5 @@ class Dossier extends ModelAbstract
     public function setErp(array $erp) : void
     {
         $this->erp=ERP::unserialize($erp);
-    }
-
-    public function getWorkflowActif() : ?Workflow
-    {
-        return $this->workflow_actif;
-    }
-
-    public function setWorkflowActif(array $workflow_actif) : void
-    {
-        $this->workflow_actif=Workflow::unserialize($workflow_actif);
     }
 }

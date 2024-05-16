@@ -7,7 +7,6 @@ class DescriptifTechniqueERP extends ModelAbstract
     private ?string $id                              = null;
     private ?string $date                            = null;
     private ?string $statut_erp                      = null;
-    private ?bool $est_disponible                    = null;
     private ?string $genre                           = null;
     private ?\Metarisc\Model\Avis $avis_exploitation = null;
     private ?int $categorie                          = null;
@@ -31,9 +30,6 @@ class DescriptifTechniqueERP extends ModelAbstract
 
         /** @var string $data['statut_erp'] */
         $object->setStatutErp($data['statut_erp']);
-
-        /** @var bool $data['est_disponible'] */
-        $object->setEstDisponible($data['est_disponible']);
 
         /** @var string $data['genre'] */
         $object->setGenre($data['genre']);
@@ -96,16 +92,6 @@ class DescriptifTechniqueERP extends ModelAbstract
     public function setStatutErp(string $statut_erp = null) : void
     {
         $this->statut_erp=$statut_erp;
-    }
-
-    public function getEstDisponible() : ?bool
-    {
-        return $this->est_disponible;
-    }
-
-    public function setEstDisponible(bool $est_disponible = null) : void
-    {
-        $this->est_disponible=$est_disponible;
     }
 
     public function getGenre() : ?string

@@ -8,13 +8,14 @@ namespace Metarisc\Model;
 
 class Notification extends ModelAbstract
 {
-    private ?string $id              = null;
-    private ?string $title           = null;
-    private ?string $message         = null;
-    private ?array $contexte         = null;
-    private ?string $date_creation   = null;
-    private ?string $date_de_lecture = null;
-    private ?string $utilisateur_id  = null;
+    private ?string $id                               = null;
+    private ?string $title                            = null;
+    private ?string $message                          = null;
+    private ?array $contexte                          = null;
+    private ?string $date_creation                    = null;
+    private ?string $date_de_lecture                  = null;
+    private ?string $utilisateur_id                   = null;
+    private ?\Metarisc\Model\Utilisateur $utilisateur = null;
 
     public static function unserialize(array $data) : self
     {
@@ -40,6 +41,9 @@ class Notification extends ModelAbstract
 
         /** @var string $data['utilisateur_id'] */
         $object->setUtilisateurId($data['utilisateur_id']);
+
+        /** @var array<array-key, mixed> $data['utilisateur'] */
+        $object->setUtilisateur($data['utilisateur']);
 
         return $object;
     }
@@ -112,5 +116,15 @@ class Notification extends ModelAbstract
     public function setUtilisateurId(string $utilisateur_id = null) : void
     {
         $this->utilisateur_id=$utilisateur_id;
+    }
+
+    public function getUtilisateur() : ?Utilisateur
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(array $utilisateur) : void
+    {
+        $this->utilisateur=Utilisateur::unserialize($utilisateur);
     }
 }
