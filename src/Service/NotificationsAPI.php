@@ -61,14 +61,18 @@ class NotificationsAPI extends MetariscAbstract
     /**
      * Création d'une notification.
      */
-    public function postNotification(\Metarisc\Model\PostNotificationRequest $post_notification_request) : void
+    public function postNotification(\Metarisc\Model\Notification $notification) : void
     {
         $this->request('POST', '/notifications', [
             'json' => [
-                'title'          => $post_notification_request->getTitle(),
-                'message'        => $post_notification_request->getMessage(),
-                'contexte'       => $post_notification_request->getContexte(),
-                'utilisateur_id' => $post_notification_request->getUtilisateurId(),
+                'id'              => $notification->getId(),
+                'title'           => $notification->getTitle(),
+                'message'         => $notification->getMessage(),
+                'contexte'        => $notification->getContexte(),
+                'date_creation'   => $notification->getDateCreation(),
+                'date_de_lecture' => $notification->getDateDeLecture(),
+                'utilisateur_id'  => $notification->getUtilisateurId(),
+                'utilisateur'     => $notification->getUtilisateur(),
             ],
         ]);
     }

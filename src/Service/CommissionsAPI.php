@@ -118,12 +118,13 @@ class CommissionsAPI extends MetariscAbstract
     /**
      * Ajoute une commission.
      */
-    public function postCommission(\Metarisc\Model\PostCommissionRequest $post_commission_request) : void
+    public function postCommission(\Metarisc\Model\Commission $commission) : void
     {
         $this->request('POST', '/commissions', [
             'json' => [
-                'type'    => $post_commission_request->getType(),
-                'libelle' => $post_commission_request->getLibelle(),
+                'id'      => $commission->getId(),
+                'type'    => $commission->getType(),
+                'libelle' => $commission->getLibelle(),
             ],
         ]);
     }
@@ -131,7 +132,7 @@ class CommissionsAPI extends MetariscAbstract
     /**
      * Ajout d'une date de passage en commission.
      */
-    public function postCommissionDate(string $commission_id, \Metarisc\Model\PostCommissionDateRequest $post_commission_date_request = null) : void
+    public function postCommissionDate(string $commission_id, \Metarisc\Model\PassageCommission $passage_commission = null) : void
     {
         $table = [
             'commission_id' => $commission_id,
@@ -141,10 +142,11 @@ class CommissionsAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'libelle'       => $post_commission_date_request?->getLibelle(),
-                'type'          => $post_commission_date_request?->getType(),
-                'date_de_debut' => $post_commission_date_request?->getDateDeDebut(),
-                'date_de_fin'   => $post_commission_date_request?->getDateDeFin(),
+                'id'         => $passage_commission?->getId(),
+                'date_debut' => $passage_commission?->getDateDebut(),
+                'date_fin'   => $passage_commission?->getDateFin(),
+                'type'       => $passage_commission?->getType(),
+                'libelle'    => $passage_commission?->getLibelle(),
             ],
         ]);
     }

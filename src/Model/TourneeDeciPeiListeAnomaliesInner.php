@@ -5,6 +5,7 @@ namespace Metarisc\Model;
 class TourneeDeciPeiListeAnomaliesInner extends ModelAbstract
 {
     private ?\Metarisc\Model\AnomalieDECI $anomalie = null;
+    private ?int $code                              = null;
     private ?bool $a_lever                          = null;
 
     public static function unserialize(array $data) : self
@@ -13,6 +14,9 @@ class TourneeDeciPeiListeAnomaliesInner extends ModelAbstract
 
         /** @var array<array-key, mixed> $data['anomalie'] */
         $object->setAnomalie($data['anomalie']);
+
+        /** @var int $data['code'] */
+        $object->setCode($data['code']);
 
         /** @var bool $data['a_lever'] */
         $object->setALever($data['a_lever']);
@@ -28,6 +32,16 @@ class TourneeDeciPeiListeAnomaliesInner extends ModelAbstract
     public function setAnomalie(array $anomalie) : void
     {
         $this->anomalie=AnomalieDECI::unserialize($anomalie);
+    }
+
+    public function getCode() : ?int
+    {
+        return $this->code;
+    }
+
+    public function setCode(int $code = null) : void
+    {
+        $this->code=$code;
     }
 
     public function getALever() : ?bool

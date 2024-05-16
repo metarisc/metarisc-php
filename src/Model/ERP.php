@@ -14,6 +14,7 @@ class ERP extends ModelAbstract
     private ?array $references_exterieures                                = null;
     private ?\Metarisc\Model\AdressePostale $implantation                 = null;
     private ?\Metarisc\Model\DescriptifTechniqueERP $descriptif_technique = null;
+    private ?\Metarisc\Model\Contact $coordonnees                         = null;
 
     public static function unserialize(array $data) : self
     {
@@ -28,7 +29,7 @@ class ERP extends ModelAbstract
         /** @var string $data['date_de_derniere_mise_a_jour'] */
         $object->setDateDeDerniereMiseAJour($data['date_de_derniere_mise_a_jour']);
 
-        /** @var \Metarisc\Model\PEIReferencesExterieuresInner[] $data['references_exterieures'] */
+        /** @var \Metarisc\Model\ERPReferencesExterieuresInner[] $data['references_exterieures'] */
         $object->setReferencesExterieures($data['references_exterieures']);
 
         /** @var array<array-key, mixed> $data['implantation'] */
@@ -36,6 +37,9 @@ class ERP extends ModelAbstract
 
         /** @var array<array-key, mixed> $data['descriptif_technique'] */
         $object->setDescriptifTechnique($data['descriptif_technique']);
+
+        /** @var array<array-key, mixed> $data['coordonnees'] */
+        $object->setCoordonnees($data['coordonnees']);
 
         return $object;
     }
@@ -98,5 +102,15 @@ class ERP extends ModelAbstract
     public function setDescriptifTechnique(array $descriptif_technique) : void
     {
         $this->descriptif_technique=DescriptifTechniqueERP::unserialize($descriptif_technique);
+    }
+
+    public function getCoordonnees() : ?Contact
+    {
+        return $this->coordonnees;
+    }
+
+    public function setCoordonnees(array $coordonnees) : void
+    {
+        $this->coordonnees=Contact::unserialize($coordonnees);
     }
 }

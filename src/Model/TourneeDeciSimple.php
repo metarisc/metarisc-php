@@ -9,6 +9,7 @@ class TourneeDeciSimple extends TourneeDeciBase
     private ?\DateTime $date_de_debut                  = null;
     private ?\DateTime $date_de_fin                    = null;
     private ?\Metarisc\Model\TourneeDeciModele $modele = null;
+    private ?string $modele_id                         = null;
 
     public function getPourcentage() : ?float
     {
@@ -58,5 +59,15 @@ class TourneeDeciSimple extends TourneeDeciBase
     public function setModele(TourneeDeciModele $modele) : void
     {
         $this->modele=$modele;
+    }
+
+    public function getModeleId() : ?string
+    {
+        return $this->modele_id;
+    }
+
+    public function setModeleId(string $modele_id) : void
+    {
+        $this->modele_id=$modele_id;
     }
 }

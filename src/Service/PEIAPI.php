@@ -99,15 +99,20 @@ class PEIAPI extends MetariscAbstract
     /**
      * Ajout d'un PEI.
      */
-    public function postPei(\Metarisc\Model\PostPeiRequest $post_pei_request) : void
+    public function postPei(\Metarisc\Model\PEI $pei) : void
     {
         $this->request('POST', '/pei', [
             'json' => [
-                'implantation'          => $post_pei_request->getImplantation(),
-                'numero'                => $post_pei_request->getNumero(),
-                'numero_compteur'       => $post_pei_request->getNumeroCompteur(),
-                'numero_serie_appareil' => $post_pei_request->getNumeroSerieAppareil(),
-                'descriptif_technique'  => $post_pei_request->getDescriptifTechnique(),
+                'id'                           => $pei->getId(),
+                'date_de_realisation'          => $pei->getDateDeRealisation(),
+                'date_de_derniere_mise_a_jour' => $pei->getDateDeDerniereMiseAJour(),
+                'references_exterieures'       => $pei->getReferencesExterieures(),
+                'descriptif_technique'         => $pei->getDescriptifTechnique(),
+                'implantation'                 => $pei->getImplantation(),
+                'genre'                        => $pei->getGenre(),
+                'numero'                       => $pei->getNumero(),
+                'numero_compteur'              => $pei->getNumeroCompteur(),
+                'numero_serie_appareil'        => $pei->getNumeroSerieAppareil(),
             ],
         ]);
     }

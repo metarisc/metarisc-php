@@ -14,6 +14,7 @@ class TourneeDeci extends ModelAbstract
     private ?string $date_de_debut                     = null;
     private ?string $date_de_fin                       = null;
     private ?\Metarisc\Model\TourneeDeciModele $modele = null;
+    private ?string $modele_id                         = null;
     private ?string $mois_debut                        = null;
     private ?string $mois_fin                          = null;
 
@@ -50,6 +51,9 @@ class TourneeDeci extends ModelAbstract
 
         /** @var array<array-key, mixed> $data['modele'] */
         $object->setModele($data['modele']);
+
+        /** @var string $data['modele_id'] */
+        $object->setModeleId($data['modele_id']);
 
         /** @var string $data['mois_debut'] */
         $object->setMoisDebut($data['mois_debut']);
@@ -158,6 +162,16 @@ class TourneeDeci extends ModelAbstract
     public function setModele(array $modele) : void
     {
         $this->modele=TourneeDeciModele::unserialize($modele);
+    }
+
+    public function getModeleId() : ?string
+    {
+        return $this->modele_id;
+    }
+
+    public function setModeleId(string $modele_id = null) : void
+    {
+        $this->modele_id=$modele_id;
     }
 
     public function getMoisDebut() : ?string
