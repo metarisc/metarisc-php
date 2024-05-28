@@ -9,15 +9,14 @@ use Metarisc\MetariscAbstract;
 class UtilisateursAPI extends MetariscAbstract
 {
     /**
-     * Retourne un utilisateur Metarisc.
+     * L'utilisateur connecté retourné par ce point de terminaison utilise le token d'accès généré par le service OpenID Connect afin de le lier à une identité connue de Metarisc. Si l'utilisateur est inconnu une erreur est retournée.
      */
-    public function getUtilisateurDetails(string $utilisateur_id) : \Metarisc\Model\Utilisateur
+    public function getUtilisateursMoi() : \Metarisc\Model\Utilisateur
     {
         $table = [
-            'utilisateur_id' => $utilisateur_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/{utilisateur_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/@moi');
 
         $response =  $this->request('GET', $path);
 
@@ -30,14 +29,15 @@ class UtilisateursAPI extends MetariscAbstract
     }
 
     /**
-     * L'utilisateur connecté retourné par ce point de terminaison utilise le token d'accès généré par le service OpenID Connect afin de le lier à une identité connue de Metarisc. Si l'utilisateur est inconnu une erreur est retournée.
+     * Retourne un utilisateur Metarisc.
      */
-    public function getUtilisateursMoi() : \Metarisc\Model\Utilisateur
+    public function getUtilisateurDetails(string $utilisateur_id) : \Metarisc\Model\Utilisateur
     {
         $table = [
+            'utilisateur_id' => $utilisateur_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/@moi');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/{utilisateur_id}');
 
         $response =  $this->request('GET', $path);
 

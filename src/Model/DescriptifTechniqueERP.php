@@ -4,19 +4,18 @@ namespace Metarisc\Model;
 
 class DescriptifTechniqueERP extends ModelAbstract
 {
-    private ?string $id                              = null;
-    private ?string $date                            = null;
-    private ?string $statut_erp                      = null;
-    private ?string $genre                           = null;
-    private ?\Metarisc\Model\Avis $avis_exploitation = null;
-    private ?int $categorie                          = null;
-    private ?array $types_activites                  = null;
-    private ?int $periodicite                        = null;
-    private ?string $libelle                         = null;
-    private ?string $effectifs                       = null;
-    private ?bool $presence_locaux_sommeil           = null;
-    private ?string $descriptif_general              = null;
-    private ?string $descriptif_technique            = null;
+    private ?string $id                                 = null;
+    private ?string $date                               = null;
+    private ?string $statut_erp                         = null;
+    private ?string $genre                              = null;
+    private ?\Metarisc\Model\Avis $avis_exploitation    = null;
+    private ?int $categorie                             = null;
+    private ?\Metarisc\Model\ActiviteErp $type_activite = null;
+    private ?array $types_activites_secondaires         = null;
+    private ?int $periodicite                           = null;
+    private ?string $libelle                            = null;
+    private ?bool $presence_locaux_sommeil              = null;
+    private ?string $observations_generales             = null;
 
     public static function unserialize(array $data) : self
     {
@@ -40,8 +39,11 @@ class DescriptifTechniqueERP extends ModelAbstract
         /** @var int $data['categorie'] */
         $object->setCategorie($data['categorie']);
 
-        /** @var \Metarisc\Model\ActiviteErp[] $data['types_activites'] */
-        $object->setTypesActivites($data['types_activites']);
+        /** @var array<array-key, mixed> $data['type_activite'] */
+        $object->setTypeActivite($data['type_activite']);
+
+        /** @var \Metarisc\Model\ActiviteErp[] $data['types_activites_secondaires'] */
+        $object->setTypesActivitesSecondaires($data['types_activites_secondaires']);
 
         /** @var int $data['periodicite'] */
         $object->setPeriodicite($data['periodicite']);
@@ -49,17 +51,11 @@ class DescriptifTechniqueERP extends ModelAbstract
         /** @var string $data['libelle'] */
         $object->setLibelle($data['libelle']);
 
-        /** @var string $data['effectifs'] */
-        $object->setEffectifs($data['effectifs']);
-
         /** @var bool $data['presence_locaux_sommeil'] */
         $object->setPresenceLocauxSommeil($data['presence_locaux_sommeil']);
 
-        /** @var string $data['descriptif_general'] */
-        $object->setDescriptifGeneral($data['descriptif_general']);
-
-        /** @var string $data['descriptif_technique'] */
-        $object->setDescriptifTechnique($data['descriptif_technique']);
+        /** @var string $data['observations_generales'] */
+        $object->setObservationsGenerales($data['observations_generales']);
 
         return $object;
     }
@@ -124,14 +120,24 @@ class DescriptifTechniqueERP extends ModelAbstract
         $this->categorie=$categorie;
     }
 
-    public function getTypesActivites() : ?array
+    public function getTypeActivite() : ?ActiviteErp
     {
-        return $this->types_activites;
+        return $this->type_activite;
     }
 
-    public function setTypesActivites(array $types_activites = null) : void
+    public function setTypeActivite(array $type_activite) : void
     {
-        $this->types_activites=$types_activites;
+        $this->type_activite=ActiviteErp::unserialize($type_activite);
+    }
+
+    public function getTypesActivitesSecondaires() : ?array
+    {
+        return $this->types_activites_secondaires;
+    }
+
+    public function setTypesActivitesSecondaires(array $types_activites_secondaires = null) : void
+    {
+        $this->types_activites_secondaires=$types_activites_secondaires;
     }
 
     public function getPeriodicite() : ?int
@@ -154,16 +160,6 @@ class DescriptifTechniqueERP extends ModelAbstract
         $this->libelle=$libelle;
     }
 
-    public function getEffectifs() : ?string
-    {
-        return $this->effectifs;
-    }
-
-    public function setEffectifs(string $effectifs = null) : void
-    {
-        $this->effectifs=$effectifs;
-    }
-
     public function getPresenceLocauxSommeil() : ?bool
     {
         return $this->presence_locaux_sommeil;
@@ -174,23 +170,13 @@ class DescriptifTechniqueERP extends ModelAbstract
         $this->presence_locaux_sommeil=$presence_locaux_sommeil;
     }
 
-    public function getDescriptifGeneral() : ?string
+    public function getObservationsGenerales() : ?string
     {
-        return $this->descriptif_general;
+        return $this->observations_generales;
     }
 
-    public function setDescriptifGeneral(string $descriptif_general = null) : void
+    public function setObservationsGenerales(string $observations_generales = null) : void
     {
-        $this->descriptif_general=$descriptif_general;
-    }
-
-    public function getDescriptifTechnique() : ?string
-    {
-        return $this->descriptif_technique;
-    }
-
-    public function setDescriptifTechnique(string $descriptif_technique = null) : void
-    {
-        $this->descriptif_technique=$descriptif_technique;
+        $this->observations_generales=$observations_generales;
     }
 }

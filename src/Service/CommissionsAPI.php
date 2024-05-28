@@ -9,19 +9,6 @@ use Metarisc\MetariscAbstract;
 class CommissionsAPI extends MetariscAbstract
 {
     /**
-     * Suppression d'une commission.
-     */
-    public function deleteCommission(string $commission_id) : void
-    {
-        $table = [
-            'commission_id' => $commission_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}');
-        $this->request('DELETE', $path);
-    }
-
-    /**
      * Récupération des détails de la commission.
      */
     public function getCommission(string $commission_id) : \Metarisc\Model\Commission
@@ -65,20 +52,18 @@ class CommissionsAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération d'une liste de dossiers à l'ordre du jour liés à une date de passage en commission.
+     * Liste des commissions.
      */
-    public function paginateCommissionDateDossiers(string $commission_id, string $date_id) : Pagerfanta
+    public function paginateCommissions() : Pagerfanta
     {
         $table = [
-            'commission_id' => $commission_id,
-            'date_id'       => $date_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}/ordre_du_jour');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions');
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\PassageCommissionDossier::class,
+            'model_class' => \Metarisc\Model\Commission::class,
         ]);
     }
 
@@ -100,18 +85,20 @@ class CommissionsAPI extends MetariscAbstract
     }
 
     /**
-     * Liste des commissions.
+     * Récupération d'une liste de dossiers à l'ordre du jour liés à une date de passage en commission.
      */
-    public function paginateCommissions() : Pagerfanta
+    public function paginateCommissionDateDossiers(string $commission_id, string $date_id) : Pagerfanta
     {
         $table = [
+            'commission_id' => $commission_id,
+            'date_id'       => $date_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}/ordre_du_jour');
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\Commission::class,
+            'model_class' => \Metarisc\Model\PassageCommissionDossier::class,
         ]);
     }
 
@@ -154,7 +141,7 @@ class CommissionsAPI extends MetariscAbstract
     /**
      * Ajout d'un dossier à l'ordre du jour d'un passage en commission.
      */
-    public function postCommissionDateDossier(string $commission_id, string $date_id, \Metarisc\Model\PostCommissionDateDossierRequest $post_commission_date_dossier_request = null) : void
+    public function postCommissionDateDossier(string $commission_id, string $date_id, \Metarisc\Model\PassageCommissionDossier $passage_commission_dossier = null) : void
     {
         $table = [
             'commission_id' => $commission_id,
@@ -165,7 +152,11 @@ class CommissionsAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'dossier_id' => $post_commission_date_dossier_request?->getDossierId(),
+                'id'         => $passage_commission_dossier?->getId(),
+                'dossier'    => $passage_commission_dossier?->getDossier(),
+                'dossier_id' => $passage_commission_dossier?->getDossierId(),
+                'avis'       => $passage_commission_dossier?->getAvis(),
+                'statut'     => $passage_commission_dossier?->getStatut(),
             ],
         ]);
     }

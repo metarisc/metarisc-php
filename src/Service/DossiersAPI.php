@@ -52,7 +52,7 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération de la liste des contacts d'un dossier.
+     * Récupération de la liste des contacts.
      */
     public function paginateDossierContacts(string $dossier_id) : Pagerfanta
     {
@@ -64,12 +64,12 @@ class DossiersAPI extends MetariscAbstract
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\Workflow::class,
+            'model_class' => \Metarisc\Model\Contact::class,
         ]);
     }
 
     /**
-     * Récupération de la liste des documents d'un dossier.
+     * Récupération de la liste des documents.
      */
     public function paginateDossierDocuments(string $dossier_id) : Pagerfanta
     {
@@ -81,7 +81,41 @@ class DossiersAPI extends MetariscAbstract
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\Workflow::class,
+            'model_class' => \Metarisc\Model\PieceJointe::class,
+        ]);
+    }
+
+    /**
+     * Récupération de la liste des documents.
+     */
+    public function paginateDossierWorkflowsWorkflowDocuments(string $dossier_id, string $workflow_id) : Pagerfanta
+    {
+        $table = [
+            'dossier_id'  => $dossier_id,
+            'workflow_id' => $workflow_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/documents');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\PieceJointe::class,
+        ]);
+    }
+
+    /**
+     * Récupération de la liste des dossiers selon des critères de recherche.
+     */
+    public function paginateDossiers() : Pagerfanta
+    {
+        $table = [
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Dossier::class,
         ]);
     }
 
@@ -103,24 +137,6 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
-     * Liste des documents liés à un workflow.
-     */
-    public function paginateDossierWorkflowDocuments(string $dossier_id, string $workflow_id) : Pagerfanta
-    {
-        $table = [
-            'dossier_id'  => $dossier_id,
-            'workflow_id' => $workflow_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/documents');
-
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => \Metarisc\Model\PieceJointe::class,
-        ]);
-    }
-
-    /**
      * Récupération de la liste des workflows d'un dossier.
      */
     public function paginateDossierWorkflows(string $dossier_id) : Pagerfanta
@@ -138,23 +154,82 @@ class DossiersAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération de la liste des dossiers selon des critères de recherche.
+     * Ajout d'un contact.
      */
-    public function paginateDossiers() : Pagerfanta
+    public function postContactsDossier(string $dossier_id, \Metarisc\Model\Contact $contact = null) : void
     {
         $table = [
+            'dossier_id' => $dossier_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/contacts');
 
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => \Metarisc\Model\Dossier::class,
+        $this->request('POST', $path, [
+            'json' => [
+                'id'                 => $contact?->getId(),
+                'nom'                => $contact?->getNom(),
+                'prenom'             => $contact?->getPrenom(),
+                'fonction'           => $contact?->getFonction(),
+                'telephone_fixe'     => $contact?->getTelephoneFixe(),
+                'telephone_portable' => $contact?->getTelephonePortable(),
+                'telephone_fax'      => $contact?->getTelephoneFax(),
+                'adresse'            => $contact?->getAdresse(),
+                'site_web_url'       => $contact?->getSiteWebUrl(),
+                'civilite'           => $contact?->getCivilite(),
+                'societe'            => $contact?->getSociete(),
+                'email'              => $contact?->getEmail(),
+                'observations'       => $contact?->getObservations(),
+            ],
         ]);
     }
 
     /**
-     * TODO : Modification d'un dossier existant.
+     * Ajout d'un document.
+     */
+    public function postDocumentsDossier(string $dossier_id, \Metarisc\Model\PieceJointe $piece_jointe = null) : void
+    {
+        $table = [
+            'dossier_id' => $dossier_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/documents');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'id'          => $piece_jointe?->getId(),
+                'url'         => $piece_jointe?->getUrl(),
+                'nom'         => $piece_jointe?->getNom(),
+                'description' => $piece_jointe?->getDescription(),
+                'type'        => $piece_jointe?->getType(),
+            ],
+        ]);
+    }
+
+    /**
+     * Ajout d'un document.
+     */
+    public function postDocumentsWorkflowWorkflowsDossier(string $dossier_id, string $workflow_id, \Metarisc\Model\PieceJointe $piece_jointe = null) : void
+    {
+        $table = [
+            'dossier_id'  => $dossier_id,
+            'workflow_id' => $workflow_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/documents');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'id'          => $piece_jointe?->getId(),
+                'url'         => $piece_jointe?->getUrl(),
+                'nom'         => $piece_jointe?->getNom(),
+                'description' => $piece_jointe?->getDescription(),
+                'type'        => $piece_jointe?->getType(),
+            ],
+        ]);
+    }
+
+    /**
+     * Modification d'un dossier existant.
      */
     public function patchDossier(string $dossier_id, \Metarisc\Model\Dossier $dossier = null) : void
     {
@@ -164,7 +239,7 @@ class DossiersAPI extends MetariscAbstract
 
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}');
 
-        $this->request('PATCH', $path, [
+        $this->request('POST', $path, [
             'json' => [
                 'id'                       => $dossier?->getId(),
                 'type'                     => $dossier?->getType(),
@@ -174,7 +249,9 @@ class DossiersAPI extends MetariscAbstract
                 'application_utilisee_nom' => $dossier?->getApplicationUtiliseeNom(),
                 'statut'                   => $dossier?->getStatut(),
                 'objet'                    => $dossier?->getObjet(),
+                'pei_id'                   => $dossier?->getPeiId(),
                 'pei'                      => $dossier?->getPei(),
+                'erp_id'                   => $dossier?->getErpId(),
                 'erp'                      => $dossier?->getErp(),
             ],
         ]);
@@ -195,7 +272,9 @@ class DossiersAPI extends MetariscAbstract
                 'application_utilisee_nom' => $dossier->getApplicationUtiliseeNom(),
                 'statut'                   => $dossier->getStatut(),
                 'objet'                    => $dossier->getObjet(),
+                'pei_id'                   => $dossier->getPeiId(),
                 'pei'                      => $dossier->getPei(),
+                'erp_id'                   => $dossier->getErpId(),
                 'erp'                      => $dossier->getErp(),
             ],
         ]);

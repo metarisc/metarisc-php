@@ -7,7 +7,7 @@ class TourneeDeci extends ModelAbstract
     private ?string $id                                = null;
     private ?string $libelle                           = null;
     private ?string $description                       = null;
-    private ?string $date_creation                     = null;
+    private ?string $date_de_creation                  = null;
     private ?string $type                              = null;
     private ?float $pourcentage                        = null;
     private ?bool $est_terminee                        = null;
@@ -31,8 +31,8 @@ class TourneeDeci extends ModelAbstract
         /** @var string $data['description'] */
         $object->setDescription($data['description']);
 
-        /** @var string $data['date_creation'] */
-        $object->setDateCreation($data['date_creation']);
+        /** @var string $data['date_de_creation'] */
+        $object->setDateDeCreation($data['date_de_creation']);
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
@@ -94,14 +94,14 @@ class TourneeDeci extends ModelAbstract
         $this->description=$description;
     }
 
-    public function getDateCreation() : ?string
+    public function getDateDeCreation() : ?string
     {
-        return $this->date_creation;
+        return $this->date_de_creation;
     }
 
-    public function setDateCreation(?string $date_creation) : void
+    public function setDateDeCreation(?string $date_de_creation) : void
     {
-        $this->date_creation = $date_creation;
+        $this->date_de_creation = $date_de_creation;
     }
 
     public function getType() : ?string

@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class GetOrganisationReglesDeci200Response extends ModelAbstract
+class GetReglesDeciOrgOrganisations200Response extends ModelAbstract
 {
     private ?array $pibi_conformite_matrice_seuil_pesee_1bar_par_nature = null;
     private ?array $pibi_performance_natures_performance_restreinte     = null;
