@@ -9,9 +9,9 @@ use Metarisc\MetariscAbstract;
 class AnomaliesAPI extends MetariscAbstract
 {
     /**
-     * Suppression d'une anomalie.
+     * Suppression d'une anomalie DECI type.
      */
-    public function deleteAnomalie(int $anomalie_id) : void
+    public function deleteAnomalie(string $anomalie_id) : void
     {
         $table = [
             'anomalie_id' => $anomalie_id,
@@ -22,9 +22,9 @@ class AnomaliesAPI extends MetariscAbstract
     }
 
     /**
-     * Détails d'une anomalie.
+     * Détails d'une anomalie type DECI.
      */
-    public function getAnomalie(int $anomalie_id) : \Metarisc\Model\AnomalieDECI
+    public function getAnomalie(string $anomalie_id) : \Metarisc\Model\AnomalieDECI
     {
         $table = [
             'anomalie_id' => $anomalie_id,
@@ -59,7 +59,7 @@ class AnomaliesAPI extends MetariscAbstract
     }
 
     /**
-     * Ajout d'une nouvelle anomalie.
+     * Ajout d'une nouvelle anomalie DECI type pour une organisation.
      */
     public function postAnomalie(\Metarisc\Model\AnomalieDECI $anomalie_deci) : void
     {

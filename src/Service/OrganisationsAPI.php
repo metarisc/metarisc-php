@@ -9,24 +9,6 @@ use Metarisc\MetariscAbstract;
 class OrganisationsAPI extends MetariscAbstract
 {
     /**
-     * Ajout d'un utilisateur comme membre dans une organisation.
-     */
-    public function addOrganisationMembres(string $org_id, \Metarisc\Model\AddOrganisationMembresRequest $add_organisation_membres_request = null) : void
-    {
-        $table = [
-            'org_id' => $org_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/membres');
-
-        $this->request('POST', $path, [
-            'json' => [
-                'utilisateur_id' => $add_organisation_membres_request?->getUtilisateurId(),
-            ],
-        ]);
-    }
-
-    /**
      * Récupération des détails d'une organisation.
      */
     public function getOrganisation(string $org_id) : \Metarisc\Model\Organisation
@@ -50,7 +32,7 @@ class OrganisationsAPI extends MetariscAbstract
     /**
      * Ensemble de règles utilisées pour le calcul de la conformité et de la performance DECI.
      */
-    public function getOrganisationReglesDeci(string $org_id) : \Metarisc\Model\GetOrganisationReglesDeci200Response
+    public function getOrganisationReglesDeci(string $org_id) : \Metarisc\Model\GetReglesDeciOrgOrganisations200Response
     {
         $table = [
             'org_id' => $org_id,
@@ -65,7 +47,7 @@ class OrganisationsAPI extends MetariscAbstract
         $object = json_decode($contents, true);
         \assert(\is_array($object));
 
-        return \Metarisc\Model\GetOrganisationReglesDeci200Response::unserialize($object);
+        return \Metarisc\Model\GetReglesDeciOrgOrganisations200Response::unserialize($object);
     }
 
     /**
@@ -132,6 +114,28 @@ class OrganisationsAPI extends MetariscAbstract
         return $this->pagination('GET', $path, [
             'params'      => [],
             'model_class' => \Metarisc\Model\Organisation::class,
+        ]);
+    }
+
+    /**
+     * Ajout d'un utilisateur comme membre dans une organisation.
+     */
+    public function addOrganisationMembres(string $org_id, \Metarisc\Model\OrganisationMembre $organisation_membre = null) : void
+    {
+        $table = [
+            'org_id' => $org_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/membres');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'organisation'     => $organisation_membre?->getOrganisation(),
+                'utilisateur_id'   => $organisation_membre?->getUtilisateurId(),
+                'utilisateur'      => $organisation_membre?->getUtilisateur(),
+                'date_integration' => $organisation_membre?->getDateIntegration(),
+                'role'             => $organisation_membre?->getRole(),
+            ],
         ]);
     }
 }

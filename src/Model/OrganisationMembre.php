@@ -5,6 +5,7 @@ namespace Metarisc\Model;
 class OrganisationMembre extends ModelAbstract
 {
     private ?\Metarisc\Model\Organisation $organisation = null;
+    private ?string $utilisateur_id                     = null;
     private ?\Metarisc\Model\Utilisateur $utilisateur   = null;
     private ?string $date_integration                   = null;
     private ?string $role                               = null;
@@ -15,6 +16,9 @@ class OrganisationMembre extends ModelAbstract
 
         /** @var array<array-key, mixed> $data['organisation'] */
         $object->setOrganisation($data['organisation']);
+
+        /** @var string $data['utilisateur_id'] */
+        $object->setUtilisateurId($data['utilisateur_id']);
 
         /** @var array<array-key, mixed> $data['utilisateur'] */
         $object->setUtilisateur($data['utilisateur']);
@@ -36,6 +40,16 @@ class OrganisationMembre extends ModelAbstract
     public function setOrganisation(array $organisation) : void
     {
         $this->organisation=Organisation::unserialize($organisation);
+    }
+
+    public function getUtilisateurId() : ?string
+    {
+        return $this->utilisateur_id;
+    }
+
+    public function setUtilisateurId(string $utilisateur_id = null) : void
+    {
+        $this->utilisateur_id=$utilisateur_id;
     }
 
     public function getUtilisateur() : ?Utilisateur

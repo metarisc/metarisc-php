@@ -30,23 +30,7 @@ class PEIAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération de la liste des Points d'Eau Incendie (PEI) selon des critères de recherche.
-     */
-    public function paginatePei() : Pagerfanta
-    {
-        $table = [
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei');
-
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => \Metarisc\Model\PEI::class,
-        ]);
-    }
-
-    /**
-     * Récupération de la liste des contacts d'un Point d'Eau Incendie.
+     * Récupération de la liste des contacts.
      */
     public function paginatePeiContacts(string $pei_id) : Pagerfanta
     {
@@ -59,6 +43,40 @@ class PEIAPI extends MetariscAbstract
         return $this->pagination('GET', $path, [
             'params'      => [],
             'model_class' => \Metarisc\Model\Contact::class,
+        ]);
+    }
+
+    /**
+     * Récupération de la liste des documents.
+     */
+    public function paginatePeiDocuments(string $pei_id) : Pagerfanta
+    {
+        $table = [
+            'pei_id' => $pei_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei/{pei_id}/documents');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\PieceJointe::class,
+        ]);
+    }
+
+    /**
+     * Récupération de la liste des dossiers.
+     */
+    public function paginatePeiDossiers(string $pei_id) : Pagerfanta
+    {
+        $table = [
+            'pei_id' => $pei_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei/{pei_id}/dossiers');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Dossier::class,
         ]);
     }
 
@@ -80,19 +98,99 @@ class PEIAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération de la liste des pièces jointes d'un Point d'Eau Incendie.
+     * Récupération de la liste des Points d'Eau Incendie (PEI) selon des critères de recherche.
      */
-    public function paginatePeiPiecesJointes(string $pei_id) : Pagerfanta
+    public function paginatePei() : Pagerfanta
+    {
+        $table = [
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\PEI::class,
+        ]);
+    }
+
+    /**
+     * Ajout d'un contact.
+     */
+    public function postContactsPei(string $pei_id, \Metarisc\Model\Contact $contact = null) : void
     {
         $table = [
             'pei_id' => $pei_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei/{pei_id}/pieces_jointes');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei/{pei_id}/contacts');
 
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => \Metarisc\Model\PieceJointe::class,
+        $this->request('POST', $path, [
+            'json' => [
+                'id'                 => $contact?->getId(),
+                'nom'                => $contact?->getNom(),
+                'prenom'             => $contact?->getPrenom(),
+                'fonction'           => $contact?->getFonction(),
+                'telephone_fixe'     => $contact?->getTelephoneFixe(),
+                'telephone_portable' => $contact?->getTelephonePortable(),
+                'telephone_fax'      => $contact?->getTelephoneFax(),
+                'adresse'            => $contact?->getAdresse(),
+                'site_web_url'       => $contact?->getSiteWebUrl(),
+                'civilite'           => $contact?->getCivilite(),
+                'societe'            => $contact?->getSociete(),
+                'email'              => $contact?->getEmail(),
+                'observations'       => $contact?->getObservations(),
+            ],
+        ]);
+    }
+
+    /**
+     * Ajout d'un document.
+     */
+    public function postDocumentsPei(string $pei_id, \Metarisc\Model\PieceJointe $piece_jointe = null) : void
+    {
+        $table = [
+            'pei_id' => $pei_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei/{pei_id}/documents');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'id'          => $piece_jointe?->getId(),
+                'url'         => $piece_jointe?->getUrl(),
+                'nom'         => $piece_jointe?->getNom(),
+                'description' => $piece_jointe?->getDescription(),
+                'type'        => $piece_jointe?->getType(),
+            ],
+        ]);
+    }
+
+    /**
+     * Ajout d'un dossier.
+     */
+    public function postDossiersPei(string $pei_id, \Metarisc\Model\Dossier $dossier = null) : void
+    {
+        $table = [
+            'pei_id' => $pei_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/pei/{pei_id}/dossiers');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'id'                       => $dossier?->getId(),
+                'type'                     => $dossier?->getType(),
+                'description'              => $dossier?->getDescription(),
+                'date_de_creation'         => $dossier?->getDateDeCreation(),
+                'createur'                 => $dossier?->getCreateur(),
+                'application_utilisee_nom' => $dossier?->getApplicationUtiliseeNom(),
+                'statut'                   => $dossier?->getStatut(),
+                'objet'                    => $dossier?->getObjet(),
+                'pei_id'                   => $dossier?->getPeiId(),
+                'pei'                      => $dossier?->getPei(),
+                'erp_id'                   => $dossier?->getErpId(),
+                'erp'                      => $dossier?->getErp(),
+            ],
         ]);
     }
 

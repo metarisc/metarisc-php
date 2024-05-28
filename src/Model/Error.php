@@ -2,19 +2,20 @@
 
 namespace Metarisc\Model;
 
-class GetEvenementDetails404Response extends ModelAbstract
+/*
+ * Un objet commun Error (RFC 7807).
+*/
+
+class Error extends ModelAbstract
 {
-    private ?int $status_code = null;
-    private ?string $type     = null;
-    private ?string $title    = null;
-    private ?string $detail   = null;
+    private ?string $type   = null;
+    private ?string $title  = null;
+    private ?int $status    = null;
+    private ?string $detail = null;
 
     public static function unserialize(array $data) : self
     {
         $object = new self();
-
-        /** @var int $data['status_code'] */
-        $object->setStatusCode($data['status_code']);
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
@@ -22,20 +23,13 @@ class GetEvenementDetails404Response extends ModelAbstract
         /** @var string $data['title'] */
         $object->setTitle($data['title']);
 
+        /** @var int $data['status'] */
+        $object->setStatus($data['status']);
+
         /** @var string $data['detail'] */
         $object->setDetail($data['detail']);
 
         return $object;
-    }
-
-    public function getStatusCode() : ?int
-    {
-        return $this->status_code;
-    }
-
-    public function setStatusCode(int $status_code = null) : void
-    {
-        $this->status_code=$status_code;
     }
 
     public function getType() : ?string
@@ -56,6 +50,16 @@ class GetEvenementDetails404Response extends ModelAbstract
     public function setTitle(string $title = null) : void
     {
         $this->title=$title;
+    }
+
+    public function getStatus() : ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status = null) : void
+    {
+        $this->status=$status;
     }
 
     public function getDetail() : ?string

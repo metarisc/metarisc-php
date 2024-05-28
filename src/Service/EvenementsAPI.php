@@ -9,19 +9,6 @@ use Metarisc\MetariscAbstract;
 class EvenementsAPI extends MetariscAbstract
 {
     /**
-     * Suppression d'un événement correspondant à l'id donné.
-     */
-    public function deleteEvenement(string $evenement_id) : void
-    {
-        $table = [
-            'evenement_id' => $evenement_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/{evenement_id}');
-        $this->request('DELETE', $path);
-    }
-
-    /**
      * Récupération des détails d'un événement correspondant à l'id donné.
      */
     public function getEvenementDetails(string $evenement_id, \Metarisc\Model\Evenement $evenement = null) : \Metarisc\Model\Evenement
@@ -43,6 +30,22 @@ class EvenementsAPI extends MetariscAbstract
     }
 
     /**
+     * Récupération des détails de tous les événements calendaires existants.
+     */
+    public function paginateEvenements() : Pagerfanta
+    {
+        $table = [
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Evenement::class,
+        ]);
+    }
+
+    /**
      * Récupération d'une liste paginée d'utilisateurs liés à un événement calendaire.
      */
     public function paginateEvenementUtilisateurs(string $evenement_id) : Pagerfanta
@@ -60,23 +63,7 @@ class EvenementsAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération des détails de tous les événements calendaires existants.
-     */
-    public function paginateEvenements() : Pagerfanta
-    {
-        $table = [
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements');
-
-        return $this->pagination('GET', $path, [
-            'params'      => [],
-            'model_class' => \Metarisc\Model\Evenement::class,
-        ]);
-    }
-
-    /**
-     * TODO : Création d'un événement.
+     * Création d'un événement.
      */
     public function postEvenement(\Metarisc\Model\Evenement $evenement) : void
     {
