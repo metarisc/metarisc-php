@@ -12,9 +12,7 @@ class Dossier extends ModelAbstract
     private ?string $application_utilisee_nom      = null;
     private ?string $statut                        = null;
     private ?string $objet                         = null;
-    private ?string $pei_id                        = null;
     private ?\Metarisc\Model\PEI $pei              = null;
-    private ?string $erp_id                        = null;
     private ?\Metarisc\Model\ERP $erp              = null;
 
     public static function unserialize(array $data) : self
@@ -45,14 +43,8 @@ class Dossier extends ModelAbstract
         /** @var string $data['objet'] */
         $object->setObjet($data['objet']);
 
-        /** @var string $data['pei_id'] */
-        $object->setPeiId($data['pei_id']);
-
         /** @var array<array-key, mixed> $data['pei'] */
         $object->setPei($data['pei']);
-
-        /** @var string $data['erp_id'] */
-        $object->setErpId($data['erp_id']);
 
         /** @var array<array-key, mixed> $data['erp'] */
         $object->setErp($data['erp']);
@@ -140,16 +132,6 @@ class Dossier extends ModelAbstract
         $this->objet=$objet;
     }
 
-    public function getPeiId() : ?string
-    {
-        return $this->pei_id;
-    }
-
-    public function setPeiId(string $pei_id = null) : void
-    {
-        $this->pei_id=$pei_id;
-    }
-
     public function getPei() : ?PEI
     {
         return $this->pei;
@@ -158,16 +140,6 @@ class Dossier extends ModelAbstract
     public function setPei(array $pei) : void
     {
         $this->pei=PEI::unserialize($pei);
-    }
-
-    public function getErpId() : ?string
-    {
-        return $this->erp_id;
-    }
-
-    public function setErpId(string $erp_id = null) : void
-    {
-        $this->erp_id=$erp_id;
     }
 
     public function getErp() : ?ERP

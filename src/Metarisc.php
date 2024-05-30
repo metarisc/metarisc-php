@@ -11,6 +11,7 @@ use Metarisc\Service\SupportAPI;
 use Metarisc\Service\ContactsAPI;
 use Metarisc\Service\DossiersAPI;
 use Metarisc\Service\AnomaliesAPI;
+use Metarisc\Service\DocumentsAPI;
 use Metarisc\Service\EvenementsAPI;
 use Metarisc\Service\CommissionsAPI;
 use Metarisc\Service\TournesDECIAPI;
@@ -25,6 +26,7 @@ class Metarisc extends MetariscAbstract
         'utilisateurs'            => UtilisateursAPI::class,
         'erp'                     => ERPAPI::class,
         'dossiers'                => DossiersAPI::class,
+        'documents'               => DocumentsAPI::class,
         'moi'                     => MoiAPI::class,
         'ping'                    => PingAPI::class,
         'anomalies'               => AnomaliesAPI::class,
