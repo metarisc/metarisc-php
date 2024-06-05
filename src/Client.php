@@ -31,6 +31,7 @@ class Client
     private HttpClient $http_client;
     private CacheInterface|TokenPersistenceInterface|null $token_persistence;
     private ?OAuth2Middleware $oauth2_middleware = null;
+    private ?string $org_id                      = null;
 
     /**
      * Construction d'un client HTTP.
@@ -117,7 +118,24 @@ class Client
         // Suppression du leading slash car cela peut rentrer en conflit avec la base uri
         $uri = ltrim($uri, '/');
 
+        // Si la requête doit être réalisée en tant que membre d'une organisation Metarisc, on ajoute
+        // son identifiant dans les headers
+        if ($this->org_id) {
+            if (!\array_key_exists('headers', $options) || !\is_array($options['headers'])) {
+                $options['headers'] = [];
+            }
+            $options['headers']['Metarisc-Org-Id'] = $this->org_id;
+        }
+
         return $this->http_client->request($method, $uri, $options);
+    }
+
+    /**
+     * Réaliser des appels en tant que membre d'une organisation Metarisc.
+     */
+    public function setActiveOrganisation(string|null $org_id) : void
+    {
+        $this->org_id = $org_id;
     }
 
     /**
