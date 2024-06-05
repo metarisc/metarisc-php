@@ -10,7 +10,6 @@ class WorkflowBase extends ModelAbstract
     private ?string $date_de_debut     = null;
     private ?string $date_de_fin       = null;
     private ?bool $workflow_automatise = null;
-    private ?bool $termine             = null;
     private ?string $etat              = null;
     private ?string $observations      = null;
     private ?string $type              = null;
@@ -36,9 +35,6 @@ class WorkflowBase extends ModelAbstract
 
         /** @var bool $data['workflow_automatise'] */
         $object->setWorkflowAutomatise($data['workflow_automatise']);
-
-        /** @var bool $data['termine'] */
-        $object->setTermine($data['termine']);
 
         /** @var string $data['etat'] */
         $object->setEtat($data['etat']);
@@ -110,16 +106,6 @@ class WorkflowBase extends ModelAbstract
     public function setWorkflowAutomatise(bool $workflow_automatise = null) : void
     {
         $this->workflow_automatise=$workflow_automatise;
-    }
-
-    public function getTermine() : ?bool
-    {
-        return $this->termine;
-    }
-
-    public function setTermine(bool $termine = null) : void
-    {
-        $this->termine=$termine;
     }
 
     public function getEtat() : ?string

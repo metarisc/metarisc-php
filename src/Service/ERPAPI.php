@@ -186,9 +186,7 @@ class ERPAPI extends MetariscAbstract
                 'application_utilisee_nom' => $dossier?->getApplicationUtiliseeNom(),
                 'statut'                   => $dossier?->getStatut(),
                 'objet'                    => $dossier?->getObjet(),
-                'pei_id'                   => $dossier?->getPeiId(),
                 'pei'                      => $dossier?->getPei(),
-                'erp_id'                   => $dossier?->getErpId(),
                 'erp'                      => $dossier?->getErp(),
             ],
         ]);

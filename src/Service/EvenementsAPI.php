@@ -9,6 +9,19 @@ use Metarisc\MetariscAbstract;
 class EvenementsAPI extends MetariscAbstract
 {
     /**
+     * Suppression d'un événement.
+     */
+    public function deleteEvenement(string $evenement_id) : void
+    {
+        $table = [
+            'evenement_id' => $evenement_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/evenements/{evenement_id}');
+        $this->request('DELETE', $path);
+    }
+
+    /**
      * Récupération des détails d'un événement correspondant à l'id donné.
      */
     public function getEvenementDetails(string $evenement_id, \Metarisc\Model\Evenement $evenement = null) : \Metarisc\Model\Evenement

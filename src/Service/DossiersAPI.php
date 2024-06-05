@@ -249,33 +249,26 @@ class DossiersAPI extends MetariscAbstract
                 'application_utilisee_nom' => $dossier?->getApplicationUtiliseeNom(),
                 'statut'                   => $dossier?->getStatut(),
                 'objet'                    => $dossier?->getObjet(),
-                'pei_id'                   => $dossier?->getPeiId(),
                 'pei'                      => $dossier?->getPei(),
-                'erp_id'                   => $dossier?->getErpId(),
                 'erp'                      => $dossier?->getErp(),
             ],
         ]);
     }
 
     /**
-     * Création d'un nouveau dossier.
+     * Terminer un workflow d'un dossier. Cela met à jour l'ensemble de son traitement.
      */
-    public function postDossier(\Metarisc\Model\Dossier $dossier) : void
+    public function postTerminerWorkflowWorkflowsDossier(string $dossier_id, string $workflow_id) : void
     {
-        $this->request('POST', '/dossiers', [
+        $table = [
+            'dossier_id'  => $dossier_id,
+            'workflow_id' => $workflow_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/dossiers/{dossier_id}/workflows/{workflow_id}/terminer');
+
+        $this->request('POST', $path, [
             'json' => [
-                'id'                       => $dossier->getId(),
-                'type'                     => $dossier->getType(),
-                'description'              => $dossier->getDescription(),
-                'date_de_creation'         => $dossier->getDateDeCreation(),
-                'createur'                 => $dossier->getCreateur(),
-                'application_utilisee_nom' => $dossier->getApplicationUtiliseeNom(),
-                'statut'                   => $dossier->getStatut(),
-                'objet'                    => $dossier->getObjet(),
-                'pei_id'                   => $dossier->getPeiId(),
-                'pei'                      => $dossier->getPei(),
-                'erp_id'                   => $dossier->getErpId(),
-                'erp'                      => $dossier->getErp(),
             ],
         ]);
     }

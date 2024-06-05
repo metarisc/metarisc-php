@@ -139,6 +139,30 @@ class CommissionsAPI extends MetariscAbstract
     }
 
     /**
+     * Mise à jour des détails d'un dossier lié à une date de passage en commission.
+     */
+    public function updateCommissionDateDossier(string $commission_id, string $date_id, string $dossier_id, \Metarisc\Model\PassageCommissionDossier $passage_commission_dossier = null) : void
+    {
+        $table = [
+            'commission_id' => $commission_id,
+            'date_id'       => $date_id,
+            'dossier_id'    => $dossier_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}/ordre_du_jour/{dossier_id}');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'id'         => $passage_commission_dossier?->getId(),
+                'dossier'    => $passage_commission_dossier?->getDossier(),
+                'dossier_id' => $passage_commission_dossier?->getDossierId(),
+                'avis'       => $passage_commission_dossier?->getAvis(),
+                'statut'     => $passage_commission_dossier?->getStatut(),
+            ],
+        ]);
+    }
+
+    /**
      * Ajout d'un dossier à l'ordre du jour d'un passage en commission.
      */
     public function postCommissionDateDossier(string $commission_id, string $date_id, \Metarisc\Model\PassageCommissionDossier $passage_commission_dossier = null) : void
