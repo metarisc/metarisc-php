@@ -15,8 +15,8 @@ class TourneeDeci extends ModelAbstract
     private ?string $date_de_fin                       = null;
     private ?\Metarisc\Model\TourneeDeciModele $modele = null;
     private ?string $modele_id                         = null;
-    private ?string $mois_debut                        = null;
-    private ?string $mois_fin                          = null;
+    private ?int $mois_debut                           = null;
+    private ?int $mois_fin                             = null;
 
     public static function unserialize(array $data) : self
     {
@@ -55,10 +55,10 @@ class TourneeDeci extends ModelAbstract
         /** @var string $data['modele_id'] */
         $object->setModeleId($data['modele_id']);
 
-        /** @var string $data['mois_debut'] */
+        /** @var int $data['mois_debut'] */
         $object->setMoisDebut($data['mois_debut']);
 
-        /** @var string $data['mois_fin'] */
+        /** @var int $data['mois_fin'] */
         $object->setMoisFin($data['mois_fin']);
 
         return $object;
@@ -174,22 +174,22 @@ class TourneeDeci extends ModelAbstract
         $this->modele_id=$modele_id;
     }
 
-    public function getMoisDebut() : ?string
+    public function getMoisDebut() : ?int
     {
         return $this->mois_debut;
     }
 
-    public function setMoisDebut(string $mois_debut = null) : void
+    public function setMoisDebut(int $mois_debut = null) : void
     {
         $this->mois_debut=$mois_debut;
     }
 
-    public function getMoisFin() : ?string
+    public function getMoisFin() : ?int
     {
         return $this->mois_fin;
     }
 
-    public function setMoisFin(string $mois_fin = null) : void
+    public function setMoisFin(int $mois_fin = null) : void
     {
         $this->mois_fin=$mois_fin;
     }

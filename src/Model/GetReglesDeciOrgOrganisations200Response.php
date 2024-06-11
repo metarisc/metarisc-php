@@ -7,10 +7,10 @@ class GetReglesDeciOrgOrganisations200Response extends ModelAbstract
     private ?array $pibi_conformite_matrice_seuil_pesee_1bar_par_nature = null;
     private ?array $pibi_performance_natures_performance_restreinte     = null;
     private ?array $pibi_performance_natures_a_reformer                 = null;
-    private ?int $pibi_performance_seuil_pesee_1bar                     = null;
-    private ?int $pibi_conformite_seuil_surpression                     = null;
-    private ?int $pibi_conformite_matrice_seuil_pesee_1bar_par_defaut   = null;
-    private ?int $pena_conformite_seuil_volume_citerne                  = null;
+    private ?float $pibi_performance_seuil_pesee_1bar                   = null;
+    private ?float $pibi_conformite_seuil_surpression                   = null;
+    private ?float $pibi_conformite_matrice_seuil_pesee_1bar_par_defaut = null;
+    private ?float $pena_conformite_seuil_volume_citerne                = null;
 
     public static function unserialize(array $data) : self
     {
@@ -25,16 +25,16 @@ class GetReglesDeciOrgOrganisations200Response extends ModelAbstract
         /** @var string[] $data['pibi_performance_natures_a_reformer'] */
         $object->setPibiPerformanceNaturesAReformer($data['pibi_performance_natures_a_reformer']);
 
-        /** @var int $data['pibi_performance_seuil_pesee_1bar'] */
+        /** @var float $data['pibi_performance_seuil_pesee_1bar'] */
         $object->setPibiPerformanceSeuilPesee1bar($data['pibi_performance_seuil_pesee_1bar']);
 
-        /** @var int $data['pibi_conformite_seuil_surpression'] */
+        /** @var float $data['pibi_conformite_seuil_surpression'] */
         $object->setPibiConformiteSeuilSurpression($data['pibi_conformite_seuil_surpression']);
 
-        /** @var int $data['pibi_conformite_matrice_seuil_pesee_1bar_par_defaut'] */
+        /** @var float $data['pibi_conformite_matrice_seuil_pesee_1bar_par_defaut'] */
         $object->setPibiConformiteMatriceSeuilPesee1barParDefaut($data['pibi_conformite_matrice_seuil_pesee_1bar_par_defaut']);
 
-        /** @var int $data['pena_conformite_seuil_volume_citerne'] */
+        /** @var float $data['pena_conformite_seuil_volume_citerne'] */
         $object->setPenaConformiteSeuilVolumeCiterne($data['pena_conformite_seuil_volume_citerne']);
 
         return $object;
@@ -70,42 +70,42 @@ class GetReglesDeciOrgOrganisations200Response extends ModelAbstract
         $this->pibi_performance_natures_a_reformer=$pibi_performance_natures_a_reformer;
     }
 
-    public function getPibiPerformanceSeuilPesee1bar() : ?int
+    public function getPibiPerformanceSeuilPesee1bar() : ?float
     {
         return $this->pibi_performance_seuil_pesee_1bar;
     }
 
-    public function setPibiPerformanceSeuilPesee1bar(int $pibi_performance_seuil_pesee_1bar = null) : void
+    public function setPibiPerformanceSeuilPesee1bar(float $pibi_performance_seuil_pesee_1bar = null) : void
     {
         $this->pibi_performance_seuil_pesee_1bar=$pibi_performance_seuil_pesee_1bar;
     }
 
-    public function getPibiConformiteSeuilSurpression() : ?int
+    public function getPibiConformiteSeuilSurpression() : ?float
     {
         return $this->pibi_conformite_seuil_surpression;
     }
 
-    public function setPibiConformiteSeuilSurpression(int $pibi_conformite_seuil_surpression = null) : void
+    public function setPibiConformiteSeuilSurpression(float $pibi_conformite_seuil_surpression = null) : void
     {
         $this->pibi_conformite_seuil_surpression=$pibi_conformite_seuil_surpression;
     }
 
-    public function getPibiConformiteMatriceSeuilPesee1barParDefaut() : ?int
+    public function getPibiConformiteMatriceSeuilPesee1barParDefaut() : ?float
     {
         return $this->pibi_conformite_matrice_seuil_pesee_1bar_par_defaut;
     }
 
-    public function setPibiConformiteMatriceSeuilPesee1barParDefaut(int $pibi_conformite_matrice_seuil_pesee_1bar_par_defaut = null) : void
+    public function setPibiConformiteMatriceSeuilPesee1barParDefaut(float $pibi_conformite_matrice_seuil_pesee_1bar_par_defaut = null) : void
     {
         $this->pibi_conformite_matrice_seuil_pesee_1bar_par_defaut=$pibi_conformite_matrice_seuil_pesee_1bar_par_defaut;
     }
 
-    public function getPenaConformiteSeuilVolumeCiterne() : ?int
+    public function getPenaConformiteSeuilVolumeCiterne() : ?float
     {
         return $this->pena_conformite_seuil_volume_citerne;
     }
 
-    public function setPenaConformiteSeuilVolumeCiterne(int $pena_conformite_seuil_volume_citerne = null) : void
+    public function setPenaConformiteSeuilVolumeCiterne(float $pena_conformite_seuil_volume_citerne = null) : void
     {
         $this->pena_conformite_seuil_volume_citerne=$pena_conformite_seuil_volume_citerne;
     }

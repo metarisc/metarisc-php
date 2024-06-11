@@ -10,7 +10,7 @@ class PingAPI extends MetariscAbstract
     /**
      * Permet de s'assurer que le service Metarisc est en ligne. Ping ... Pong !
      */
-    public function ping() : \Metarisc\Model\Ping200Response
+    public function ping() : \Metarisc\Model\GetPing200Response
     {
         $table = [
             ];
@@ -24,6 +24,6 @@ class PingAPI extends MetariscAbstract
         $object = json_decode($contents, true);
         \assert(\is_array($object));
 
-        return \Metarisc\Model\Ping200Response::unserialize($object);
+        return \Metarisc\Model\GetPing200Response::unserialize($object);
     }
 }

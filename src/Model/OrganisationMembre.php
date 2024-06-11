@@ -4,11 +4,11 @@ namespace Metarisc\Model;
 
 class OrganisationMembre extends ModelAbstract
 {
-    private ?\Metarisc\Model\Organisation $organisation = null;
-    private ?string $utilisateur_id                     = null;
-    private ?\Metarisc\Model\Utilisateur $utilisateur   = null;
-    private ?string $date_integration                   = null;
-    private ?string $role                               = null;
+    private ?\Metarisc\Model\Organisation $organisation                 = null;
+    private ?string $utilisateur_id                                     = null;
+    private ?\Metarisc\Model\OrganisationMembreUtilisateur $utilisateur = null;
+    private ?string $date_integration                                   = null;
+    private ?string $role                                               = null;
 
     public static function unserialize(array $data) : self
     {
@@ -52,14 +52,14 @@ class OrganisationMembre extends ModelAbstract
         $this->utilisateur_id=$utilisateur_id;
     }
 
-    public function getUtilisateur() : ?Utilisateur
+    public function getUtilisateur() : ?OrganisationMembreUtilisateur
     {
         return $this->utilisateur;
     }
 
     public function setUtilisateur(array $utilisateur) : void
     {
-        $this->utilisateur=Utilisateur::unserialize($utilisateur);
+        $this->utilisateur=OrganisationMembreUtilisateur::unserialize($utilisateur);
     }
 
     public function getDateIntegration() : ?string

@@ -10,7 +10,7 @@ class MoiAPI extends MetariscAbstract
     /**
      * Récupérer les détails de l'utilisateur connecté.
      */
-    public function moi() : \Metarisc\Model\Moi200Response
+    public function moi() : \Metarisc\Model\Utilisateur
     {
         $table = [
             ];
@@ -24,6 +24,6 @@ class MoiAPI extends MetariscAbstract
         $object = json_decode($contents, true);
         \assert(\is_array($object));
 
-        return \Metarisc\Model\Moi200Response::unserialize($object);
+        return \Metarisc\Model\Utilisateur::unserialize($object);
     }
 }
