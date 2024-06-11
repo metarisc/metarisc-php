@@ -2,7 +2,7 @@
 
 namespace Metarisc\Model;
 
-class Ping200Response extends ModelAbstract
+class GetPing200Response extends ModelAbstract
 {
     private ?string $message = null;
 

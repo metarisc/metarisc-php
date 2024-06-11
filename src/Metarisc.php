@@ -7,7 +7,6 @@ use Metarisc\Service\MoiAPI;
 use Metarisc\Service\PEIAPI;
 use Metarisc\Service\FeedAPI;
 use Metarisc\Service\PingAPI;
-use Metarisc\Service\SupportAPI;
 use Metarisc\Service\ContactsAPI;
 use Metarisc\Service\DossiersAPI;
 use Metarisc\Service\AnomaliesAPI;
@@ -38,7 +37,6 @@ class Metarisc extends MetariscAbstract
         'commissions'             => CommissionsAPI::class,
         'evenements'              => EvenementsAPI::class,
         'prescriptions'           => PrescriptionsAPI::class,
-        'support'                 => SupportAPI::class,
         'contacts'                => ContactsAPI::class,
         'notifications'           => NotificationsAPI::class,
     ];
