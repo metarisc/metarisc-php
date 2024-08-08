@@ -2,13 +2,15 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Descriptif technique de base pour l'ensemble des ERP.
+*/
+
 class DescriptifTechniqueERPBase extends ModelAbstract
 {
     private ?string $id                                 = null;
     private ?string $date                               = null;
-    private ?string $statut_erp                         = null;
-    private ?string $genre                              = null;
-    private ?\Metarisc\Model\Avis $avis_exploitation    = null;
+    private ?string $statut                             = null;
     private ?int $categorie                             = null;
     private ?\Metarisc\Model\ActiviteErp $type_activite = null;
     private ?array $types_activites_secondaires         = null;
@@ -27,14 +29,8 @@ class DescriptifTechniqueERPBase extends ModelAbstract
         /** @var string $data['date'] */
         $object->setDate($data['date']);
 
-        /** @var string $data['statut_erp'] */
-        $object->setStatutErp($data['statut_erp']);
-
-        /** @var string $data['genre'] */
-        $object->setGenre($data['genre']);
-
-        /** @var array<array-key, mixed> $data['avis_exploitation'] */
-        $object->setAvisExploitation($data['avis_exploitation']);
+        /** @var string $data['statut'] */
+        $object->setStatut($data['statut']);
 
         /** @var int $data['categorie'] */
         $object->setCategorie($data['categorie']);
@@ -80,34 +76,14 @@ class DescriptifTechniqueERPBase extends ModelAbstract
         $this->date = $date;
     }
 
-    public function getStatutErp() : ?string
+    public function getStatut() : ?string
     {
-        return $this->statut_erp;
+        return $this->statut;
     }
 
-    public function setStatutErp(string $statut_erp = null) : void
+    public function setStatut(string $statut = null) : void
     {
-        $this->statut_erp=$statut_erp;
-    }
-
-    public function getGenre() : ?string
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(string $genre = null) : void
-    {
-        $this->genre=$genre;
-    }
-
-    public function getAvisExploitation() : ?Avis
-    {
-        return $this->avis_exploitation;
-    }
-
-    public function setAvisExploitation(array $avis_exploitation) : void
-    {
-        $this->avis_exploitation=Avis::unserialize($avis_exploitation);
+        $this->statut=$statut;
     }
 
     public function getCategorie() : ?int

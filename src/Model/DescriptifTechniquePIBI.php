@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Descriptif technique d'un PIBI - Poteau incendie ou Bouche incendie.
+*/
+
 class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
 {
     private ?float $surpression       = null;

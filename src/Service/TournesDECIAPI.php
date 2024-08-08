@@ -9,20 +9,6 @@ use Metarisc\MetariscAbstract;
 class TournesDECIAPI extends MetariscAbstract
 {
     /**
-     * Suppression du contrôle PEI de la tournée DECI.
-     */
-    public function deleteTourneeDeciPei(string $tournee_deci_id, string $pei_id) : void
-    {
-        $table = [
-            'tournee_deci_id' => $tournee_deci_id,
-            'pei_id'          => $pei_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/tournees_deci/{tournee_deci_id}/pei/{pei_id}');
-        $this->request('DELETE', $path);
-    }
-
-    /**
      * Génération d'un livret de tournée pour une tournée DECI.
      */
     public function getTourneeDeciLivretDeTournee(string $tournee_deci_id) : \SplFileObject
@@ -41,28 +27,6 @@ class TournesDECIAPI extends MetariscAbstract
         \assert(\is_array($object));
 
         return \SplFileObject::unserialize($object);
-    }
-
-    /**
-     * Récupération des détails liés au contrôle d'un PEI d'une tournée.
-     */
-    public function getTourneeDeciPei(string $tournee_deci_id, string $pei_id) : \Metarisc\Model\TourneeDeciPei
-    {
-        $table = [
-            'tournee_deci_id' => $tournee_deci_id,
-            'pei_id'          => $pei_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/tournees_deci/{tournee_deci_id}/pei/{pei_id}');
-
-        $response =  $this->request('GET', $path);
-
-        $contents = $response->getBody()->getContents();
-
-        $object = json_decode($contents, true);
-        \assert(\is_array($object));
-
-        return \Metarisc\Model\TourneeDeciPei::unserialize($object);
     }
 
     /**
@@ -120,35 +84,9 @@ class TournesDECIAPI extends MetariscAbstract
     }
 
     /**
-     * Mise à jour du PEI contrôlé dans une tournée DECI.
-     */
-    public function updateTourneeDeciPei(string $tournee_deci_id, string $pei_id, \Metarisc\Model\TourneeDeciPei $tournee_deci_pei = null) : void
-    {
-        $table = [
-            'tournee_deci_id' => $tournee_deci_id,
-            'pei_id'          => $pei_id,
-            ];
-
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/tournees_deci/{tournee_deci_id}/pei/{pei_id}');
-
-        $this->request('POST', $path, [
-            'json' => [
-                'id'                   => $tournee_deci_pei?->getId(),
-                'date_du_controle'     => $tournee_deci_pei?->getDateDuControle(),
-                'liste_anomalies'      => $tournee_deci_pei?->getListeAnomalies(),
-                'essais_engin_utilise' => $tournee_deci_pei?->getEssaisEnginUtilise(),
-                'pei_id'               => $tournee_deci_pei?->getPeiId(),
-                'pei'                  => $tournee_deci_pei?->getPei(),
-                'est_controle'         => $tournee_deci_pei?->getEstControle(),
-                'ordre'                => $tournee_deci_pei?->getOrdre(),
-            ],
-        ]);
-    }
-
-    /**
      * Ajout d'un PEI sur la tournée DECI.
      */
-    public function postTourneeDeciPei(string $tournee_deci_id, \Metarisc\Model\TourneeDeciPei $tournee_deci_pei = null) : void
+    public function postTourneeDeciPei(string $tournee_deci_id, \Metarisc\Model\ObjetTournEDeciPEI1 $objet_tourn_e_deci_pei1 = null) : void
     {
         $table = [
             'tournee_deci_id' => $tournee_deci_id,
@@ -158,14 +96,11 @@ class TournesDECIAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'id'                   => $tournee_deci_pei?->getId(),
-                'date_du_controle'     => $tournee_deci_pei?->getDateDuControle(),
-                'liste_anomalies'      => $tournee_deci_pei?->getListeAnomalies(),
-                'essais_engin_utilise' => $tournee_deci_pei?->getEssaisEnginUtilise(),
-                'pei_id'               => $tournee_deci_pei?->getPeiId(),
-                'pei'                  => $tournee_deci_pei?->getPei(),
-                'est_controle'         => $tournee_deci_pei?->getEstControle(),
-                'ordre'                => $tournee_deci_pei?->getOrdre(),
+                'date_du_controle'     => $objet_tourn_e_deci_pei1?->getDateDuControle(),
+                'liste_anomalies'      => $objet_tourn_e_deci_pei1?->getListeAnomalies(),
+                'essais_engin_utilise' => $objet_tourn_e_deci_pei1?->getEssaisEnginUtilise(),
+                'pei_id'               => $objet_tourn_e_deci_pei1?->getPeiId(),
+                'ordre'                => $objet_tourn_e_deci_pei1?->getOrdre(),
             ],
         ]);
     }
@@ -173,7 +108,7 @@ class TournesDECIAPI extends MetariscAbstract
     /**
      * Mise à jour de la tournée DECI.
      */
-    public function updateTourneeDeci(string $tournee_deci_id, \Metarisc\Model\TourneeDeci $tournee_deci = null) : void
+    public function updateTourneeDeci(string $tournee_deci_id, \Metarisc\Model\UNKNOWN_BASE_TYPE $unknown_base_type = null) : void
     {
         $table = [
             'tournee_deci_id' => $tournee_deci_id,
@@ -182,7 +117,7 @@ class TournesDECIAPI extends MetariscAbstract
         $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/tournees_deci/{tournee_deci_id}');
 
         $this->request('POST', $path, [
-            'json' => [$tournee_deci,
+            'json' => [$unknown_base_type,
             ],
         ]);
     }
@@ -190,10 +125,10 @@ class TournesDECIAPI extends MetariscAbstract
     /**
      * Ajout d'une nouvelle tournée DECI.
      */
-    public function postTourneeDeci(\Metarisc\Model\TourneeDeci $tournee_deci) : void
+    public function postTourneeDeci(\Metarisc\Model\UNKNOWN_BASE_TYPE $unknown_base_type) : void
     {
         $this->request('POST', '/tournees_deci', [
-            'json' => [$tournee_deci,
+            'json' => [$unknown_base_type,
             ],
         ]);
     }

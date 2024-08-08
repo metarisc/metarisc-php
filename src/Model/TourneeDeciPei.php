@@ -2,13 +2,16 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Objet de contrôle d'un PEI dans le cadre d'une Tournée DECI
+*/
+
 class TourneeDeciPei extends ModelAbstract
 {
     private ?string $id                   = null;
     private ?string $date_du_controle     = null;
     private ?array $liste_anomalies       = null;
     private ?string $essais_engin_utilise = null;
-    private ?string $pei_id               = null;
     private ?\Metarisc\Model\PEI $pei     = null;
     private ?bool $est_controle           = null;
     private ?int $ordre                   = null;
@@ -28,9 +31,6 @@ class TourneeDeciPei extends ModelAbstract
 
         /** @var string $data['essais_engin_utilise'] */
         $object->setEssaisEnginUtilise($data['essais_engin_utilise']);
-
-        /** @var string $data['pei_id'] */
-        $object->setPeiId($data['pei_id']);
 
         /** @var array<array-key, mixed> $data['pei'] */
         $object->setPei($data['pei']);
@@ -82,16 +82,6 @@ class TourneeDeciPei extends ModelAbstract
     public function setEssaisEnginUtilise(string $essais_engin_utilise = null) : void
     {
         $this->essais_engin_utilise=$essais_engin_utilise;
-    }
-
-    public function getPeiId() : ?string
-    {
-        return $this->pei_id;
-    }
-
-    public function setPeiId(string $pei_id = null) : void
-    {
-        $this->pei_id=$pei_id;
     }
 
     public function getPei() : ?PEI

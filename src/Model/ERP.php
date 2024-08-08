@@ -14,7 +14,7 @@ class ERP extends ModelAbstract
     private ?array $references_exterieures                                = null;
     private ?\Metarisc\Model\AdressePostale $implantation                 = null;
     private ?\Metarisc\Model\DescriptifTechniqueERP $descriptif_technique = null;
-    private ?\Metarisc\Model\Contact $coordonnees                         = null;
+    private ?\Metarisc\Model\Avis $avis_exploitation                      = null;
 
     public static function unserialize(array $data) : self
     {
@@ -29,7 +29,7 @@ class ERP extends ModelAbstract
         /** @var string $data['date_de_derniere_mise_a_jour'] */
         $object->setDateDeDerniereMiseAJour($data['date_de_derniere_mise_a_jour']);
 
-        /** @var \Metarisc\Model\ERPReferencesExterieuresInner[] $data['references_exterieures'] */
+        /** @var \Metarisc\Model\ReferenceExterieure[] $data['references_exterieures'] */
         $object->setReferencesExterieures($data['references_exterieures']);
 
         /** @var array<array-key, mixed> $data['implantation'] */
@@ -38,8 +38,8 @@ class ERP extends ModelAbstract
         /** @var array<array-key, mixed> $data['descriptif_technique'] */
         $object->setDescriptifTechnique($data['descriptif_technique']);
 
-        /** @var array<array-key, mixed> $data['coordonnees'] */
-        $object->setCoordonnees($data['coordonnees']);
+        /** @var array<array-key, mixed> $data['avis_exploitation'] */
+        $object->setAvisExploitation($data['avis_exploitation']);
 
         return $object;
     }
@@ -104,13 +104,13 @@ class ERP extends ModelAbstract
         $this->descriptif_technique=DescriptifTechniqueERP::unserialize($descriptif_technique);
     }
 
-    public function getCoordonnees() : ?Contact
+    public function getAvisExploitation() : ?Avis
     {
-        return $this->coordonnees;
+        return $this->avis_exploitation;
     }
 
-    public function setCoordonnees(array $coordonnees) : void
+    public function setAvisExploitation(array $avis_exploitation) : void
     {
-        $this->coordonnees=Contact::unserialize($coordonnees);
+        $this->avis_exploitation=Avis::unserialize($avis_exploitation);
     }
 }

@@ -9,7 +9,7 @@ use Metarisc\MetariscAbstract;
 class AnomaliesAPI extends MetariscAbstract
 {
     /**
-     * Suppression d'une anomalie DECI type.
+     * Suppression d'une anomalie DECI type dans la bibliothèque DECI.
      */
     public function deleteAnomalie(string $anomalie_id) : void
     {
@@ -22,7 +22,7 @@ class AnomaliesAPI extends MetariscAbstract
     }
 
     /**
-     * Détails d'une anomalie type DECI.
+     * Détails d'une anomalie type DECI présente dans la bibliothèque DECI.
      */
     public function getAnomalie(string $anomalie_id) : \Metarisc\Model\AnomalieDECI
     {
@@ -43,7 +43,7 @@ class AnomaliesAPI extends MetariscAbstract
     }
 
     /**
-     * Liste des anomalies.
+     * Retourne une liste des anomalies types dans la bibliothèque DECI.
      */
     public function paginateAnomalies() : Pagerfanta
     {
@@ -59,15 +59,15 @@ class AnomaliesAPI extends MetariscAbstract
     }
 
     /**
-     * Ajout d'une nouvelle anomalie DECI type pour une organisation.
+     * Ajout d'une nouvelle anomalie DECI type dans la bibliothèque DECI.
      */
-    public function postAnomalie(\Metarisc\Model\AnomalieDECI $anomalie_deci) : void
+    public function postAnomalie(\Metarisc\Model\ObjetAnomalieDECI $objet_anomalie_deci) : void
     {
         $this->request('POST', '/anomalies', [
             'json' => [
-                'code'              => $anomalie_deci->getCode(),
-                'texte'             => $anomalie_deci->getTexte(),
-                'indice_de_gravite' => $anomalie_deci->getIndiceDeGravite(),
+                'code'              => $objet_anomalie_deci->getCode(),
+                'texte'             => $objet_anomalie_deci->getTexte(),
+                'indice_de_gravite' => $objet_anomalie_deci->getIndiceDeGravite(),
             ],
         ]);
     }

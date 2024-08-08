@@ -2,10 +2,15 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Descriptif technique d'un PENA - Point d'Eau Naturel ou Artificiel.
+*/
+
 class DescriptifTechniquePENA extends DescriptifTechniqueDECIBase
 {
-    private ?string $nature = null;
-    private ?float $volume  = null;
+    private ?string $nature    = null;
+    private ?float $volume     = null;
+    private ?bool $est_citerne = null;
 
     public function getNature() : ?string
     {
@@ -25,5 +30,15 @@ class DescriptifTechniquePENA extends DescriptifTechniqueDECIBase
     public function setVolume(float $volume) : void
     {
         $this->volume=$volume;
+    }
+
+    public function getEstCiterne() : ?bool
+    {
+        return $this->est_citerne;
+    }
+
+    public function setEstCiterne(bool $est_citerne) : void
+    {
+        $this->est_citerne=$est_citerne;
     }
 }

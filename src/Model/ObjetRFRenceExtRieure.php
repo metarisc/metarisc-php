@@ -2,7 +2,11 @@
 
 namespace Metarisc\Model;
 
-class PEIReferencesExterieuresInner extends ModelAbstract
+/*
+ * Une référence extérieure permet de lier une identification extérieure (ou historique) à un objet.
+*/
+
+class ObjetRFRenceExtRieure extends ModelAbstract
 {
     private ?string $titre  = null;
     private ?string $valeur = null;

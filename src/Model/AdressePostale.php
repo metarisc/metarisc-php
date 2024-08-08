@@ -3,7 +3,7 @@
 namespace Metarisc\Model;
 
 /*
- * Représente une adresse postale permettant de localiser un POI.
+ * Représente une adresse postale qui est la localisation complète du destinataire d'un courrier.
 */
 
 class AdressePostale extends ModelAbstract
@@ -12,7 +12,8 @@ class AdressePostale extends ModelAbstract
     private ?string $commune                     = null;
     private ?string $voie                        = null;
     private ?string $code_insee                  = null;
-    private ?string $arrondissement              = null;
+    private ?float $arrondissement               = null;
+    private ?string $arrondissement_municipal    = null;
     private ?float $latitude                     = null;
     private ?float $longitude                    = null;
     private ?string $localisation_operationnelle = null;
@@ -34,8 +35,11 @@ class AdressePostale extends ModelAbstract
         /** @var string $data['code_insee'] */
         $object->setCodeInsee($data['code_insee']);
 
-        /** @var string $data['arrondissement'] */
+        /** @var float $data['arrondissement'] */
         $object->setArrondissement($data['arrondissement']);
+
+        /** @var string $data['arrondissement_municipal'] */
+        $object->setArrondissementMunicipal($data['arrondissement_municipal']);
 
         /** @var float $data['latitude'] */
         $object->setLatitude($data['latitude']);
@@ -92,14 +96,24 @@ class AdressePostale extends ModelAbstract
         $this->code_insee=$code_insee;
     }
 
-    public function getArrondissement() : ?string
+    public function getArrondissement() : ?float
     {
         return $this->arrondissement;
     }
 
-    public function setArrondissement(string $arrondissement = null) : void
+    public function setArrondissement(float $arrondissement = null) : void
     {
         $this->arrondissement=$arrondissement;
+    }
+
+    public function getArrondissementMunicipal() : ?string
+    {
+        return $this->arrondissement_municipal;
+    }
+
+    public function setArrondissementMunicipal(string $arrondissement_municipal = null) : void
+    {
+        $this->arrondissement_municipal=$arrondissement_municipal;
     }
 
     public function getLatitude() : ?float

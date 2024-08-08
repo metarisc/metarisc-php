@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Tournée DECI de base.
+*/
+
 class TourneeDeciBase extends ModelAbstract
 {
     private ?string $id               = null;

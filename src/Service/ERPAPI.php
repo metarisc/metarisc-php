@@ -116,7 +116,7 @@ class ERPAPI extends MetariscAbstract
     /**
      * Ajout d'un contact.
      */
-    public function postContactsErp(string $erp_id, \Metarisc\Model\Contact $contact = null) : void
+    public function postContactsErp(string $erp_id, \Metarisc\Model\ObjetContact $objet_contact = null) : void
     {
         $table = [
             'erp_id' => $erp_id,
@@ -126,19 +126,18 @@ class ERPAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'id'                 => $contact?->getId(),
-                'nom'                => $contact?->getNom(),
-                'prenom'             => $contact?->getPrenom(),
-                'fonction'           => $contact?->getFonction(),
-                'telephone_fixe'     => $contact?->getTelephoneFixe(),
-                'telephone_portable' => $contact?->getTelephonePortable(),
-                'telephone_fax'      => $contact?->getTelephoneFax(),
-                'adresse'            => $contact?->getAdresse(),
-                'site_web_url'       => $contact?->getSiteWebUrl(),
-                'civilite'           => $contact?->getCivilite(),
-                'societe'            => $contact?->getSociete(),
-                'email'              => $contact?->getEmail(),
-                'observations'       => $contact?->getObservations(),
+                'nom'                => $objet_contact?->getNom(),
+                'prenom'             => $objet_contact?->getPrenom(),
+                'fonction'           => $objet_contact?->getFonction(),
+                'telephone_fixe'     => $objet_contact?->getTelephoneFixe(),
+                'telephone_portable' => $objet_contact?->getTelephonePortable(),
+                'telephone_fax'      => $objet_contact?->getTelephoneFax(),
+                'adresse'            => $objet_contact?->getAdresse(),
+                'site_web_url'       => $objet_contact?->getSiteWebUrl(),
+                'civilite'           => $objet_contact?->getCivilite(),
+                'societe'            => $objet_contact?->getSociete(),
+                'email'              => $objet_contact?->getEmail(),
+                'observations'       => $objet_contact?->getObservations(),
             ],
         ]);
     }
@@ -146,7 +145,7 @@ class ERPAPI extends MetariscAbstract
     /**
      * Ajout d'un document.
      */
-    public function postDocumentsErp(string $erp_id, \Metarisc\Model\PieceJointe $piece_jointe = null) : void
+    public function postDocumentsErp(string $erp_id, \Metarisc\Model\ObjetPieceJointe1 $objet_piece_jointe1 = null) : void
     {
         $table = [
             'erp_id' => $erp_id,
@@ -156,11 +155,10 @@ class ERPAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'id'          => $piece_jointe?->getId(),
-                'url'         => $piece_jointe?->getUrl(),
-                'nom'         => $piece_jointe?->getNom(),
-                'description' => $piece_jointe?->getDescription(),
-                'type'        => $piece_jointe?->getType(),
+                'url'         => $objet_piece_jointe1?->getUrl(),
+                'nom'         => $objet_piece_jointe1?->getNom(),
+                'description' => $objet_piece_jointe1?->getDescription(),
+                'type'        => $objet_piece_jointe1?->getType(),
             ],
         ]);
     }
@@ -168,7 +166,7 @@ class ERPAPI extends MetariscAbstract
     /**
      * Ajout d'un dossier.
      */
-    public function postDossiersErp(string $erp_id, \Metarisc\Model\Dossier $dossier = null) : void
+    public function postDossiersErp(string $erp_id, \Metarisc\Model\ObjetDossier1 $objet_dossier1 = null) : void
     {
         $table = [
             'erp_id' => $erp_id,
@@ -178,16 +176,8 @@ class ERPAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'id'                       => $dossier?->getId(),
-                'type'                     => $dossier?->getType(),
-                'description'              => $dossier?->getDescription(),
-                'date_de_creation'         => $dossier?->getDateDeCreation(),
-                'createur'                 => $dossier?->getCreateur(),
-                'application_utilisee_nom' => $dossier?->getApplicationUtiliseeNom(),
-                'statut'                   => $dossier?->getStatut(),
-                'objet'                    => $dossier?->getObjet(),
-                'pei'                      => $dossier?->getPei(),
-                'erp'                      => $dossier?->getErp(),
+                'type'  => $objet_dossier1?->getType(),
+                'objet' => $objet_dossier1?->getObjet(),
             ],
         ]);
     }
@@ -195,17 +185,12 @@ class ERPAPI extends MetariscAbstract
     /**
      * Création d'un nouveau ERP.
      */
-    public function postErp(\Metarisc\Model\ERP $erp) : void
+    public function postErp(\Metarisc\Model\ObjetERP $objet_erp) : void
     {
         $this->request('POST', '/erp', [
             'json' => [
-                'id'                           => $erp->getId(),
-                'date_de_realisation'          => $erp->getDateDeRealisation(),
-                'date_de_derniere_mise_a_jour' => $erp->getDateDeDerniereMiseAJour(),
-                'references_exterieures'       => $erp->getReferencesExterieures(),
-                'implantation'                 => $erp->getImplantation(),
-                'descriptif_technique'         => $erp->getDescriptifTechnique(),
-                'coordonnees'                  => $erp->getCoordonnees(),
+                'references_exterieures' => $objet_erp->getReferencesExterieures(),
+                'implantation'           => $objet_erp->getImplantation(),
             ],
         ]);
     }

@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Modèle de tournée DECI permettant une programmation cyclique.
+*/
+
 class TourneeDeciModele extends TourneeDeciBase
 {
     private ?int $mois_debut = null;

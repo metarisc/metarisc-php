@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Email associé à un utilisateur Metarisc.
+*/
+
 class Email extends ModelAbstract
 {
     private ?string $email             = null;

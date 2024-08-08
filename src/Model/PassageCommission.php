@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Représente une date de passage en commission.
+*/
+
 class PassageCommission extends ModelAbstract
 {
     private ?string $id         = null;

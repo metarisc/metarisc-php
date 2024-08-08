@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Étape du traitement d'un dossier. Une étape est liée à un groupe de travail ainsi qu'a un nombre de champs à valider.
+*/
+
 class Workflow extends ModelAbstract
 {
     private ?string $id                                            = null;
