@@ -32,7 +32,7 @@ class OrganisationsAPI extends MetariscAbstract
     /**
      * Ensemble de règles utilisées pour le calcul de la conformité et de la performance DECI.
      */
-    public function getOrganisationReglesDeci(string $org_id) : \Metarisc\Model\GetReglesDeciOrgOrganisations200Response
+    public function getOrganisationReglesDeci(string $org_id) : \Metarisc\Model\ReglesDeci
     {
         $table = [
             'org_id' => $org_id,
@@ -47,7 +47,7 @@ class OrganisationsAPI extends MetariscAbstract
         $object = json_decode($contents, true);
         \assert(\is_array($object));
 
-        return \Metarisc\Model\GetReglesDeciOrgOrganisations200Response::unserialize($object);
+        return \Metarisc\Model\ReglesDeci::unserialize($object);
     }
 
     /**
@@ -118,9 +118,29 @@ class OrganisationsAPI extends MetariscAbstract
     }
 
     /**
+     * Ajout d'un un géo-service à une organisation.
+     */
+    public function postOrganisationGeoservices(string $org_id, \Metarisc\Model\ObjetOrganisationGeoservice $objet_organisation_geoservice = null) : void
+    {
+        $table = [
+            'org_id' => $org_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/geoservices');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'nom'  => $objet_organisation_geoservice?->getNom(),
+                'type' => $objet_organisation_geoservice?->getType(),
+                'url'  => $objet_organisation_geoservice?->getUrl(),
+            ],
+        ]);
+    }
+
+    /**
      * Ajout d'un utilisateur comme membre dans une organisation.
      */
-    public function addOrganisationMembres(string $org_id, \Metarisc\Model\OrganisationMembre $organisation_membre = null) : void
+    public function addOrganisationMembres(string $org_id, \Metarisc\Model\ObjetOrganisationMembre $objet_organisation_membre = null) : void
     {
         $table = [
             'org_id' => $org_id,
@@ -130,11 +150,32 @@ class OrganisationsAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'organisation'     => $organisation_membre?->getOrganisation(),
-                'utilisateur_id'   => $organisation_membre?->getUtilisateurId(),
-                'utilisateur'      => $organisation_membre?->getUtilisateur(),
-                'date_integration' => $organisation_membre?->getDateIntegration(),
-                'role'             => $organisation_membre?->getRole(),
+                'utilisateur_id' => $objet_organisation_membre?->getUtilisateurId(),
+                'role'           => $objet_organisation_membre?->getRole(),
+            ],
+        ]);
+    }
+
+    /**
+     * Mise à jour de l'ensemble des règles utilisées pour le calcul de la conformité et de la performance DECI.
+     */
+    public function postOrganisationReglesDeci(string $org_id, \Metarisc\Model\ObjetRGlesDECI $objet_r_gles_deci = null) : void
+    {
+        $table = [
+            'org_id' => $org_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/organisations/{org_id}/regles-deci');
+
+        $this->request('POST', $path, [
+            'json' => [
+                'pibi_conformite_matrice_seuil_pesee_1bar_par_nature' => $objet_r_gles_deci?->getPibiConformiteMatriceSeuilPesee1barParNature(),
+                'pibi_performance_natures_performance_restreinte'     => $objet_r_gles_deci?->getPibiPerformanceNaturesPerformanceRestreinte(),
+                'pibi_performance_natures_a_reformer'                 => $objet_r_gles_deci?->getPibiPerformanceNaturesAReformer(),
+                'pibi_performance_seuil_pesee_1bar'                   => $objet_r_gles_deci?->getPibiPerformanceSeuilPesee1bar(),
+                'pibi_conformite_seuil_surpression'                   => $objet_r_gles_deci?->getPibiConformiteSeuilSurpression(),
+                'pibi_conformite_matrice_seuil_pesee_1bar_par_defaut' => $objet_r_gles_deci?->getPibiConformiteMatriceSeuilPesee1barParDefaut(),
+                'pena_conformite_seuil_volume_citerne'                => $objet_r_gles_deci?->getPenaConformiteSeuilVolumeCiterne(),
             ],
         ]);
     }

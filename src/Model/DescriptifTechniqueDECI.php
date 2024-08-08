@@ -2,11 +2,14 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Descriptif technique associé à un PEI.
+*/
+
 class DescriptifTechniqueDECI extends ModelAbstract
 {
     private ?string $id                     = null;
     private ?string $type                   = null;
-    private ?array $anomalies               = null;
     private ?bool $est_reglementaire        = null;
     private ?string $domanialite            = null;
     private ?bool $est_conforme_rddeci      = null;
@@ -23,6 +26,7 @@ class DescriptifTechniqueDECI extends ModelAbstract
     private ?float $pression_statique       = null;
     private ?float $debit_gueule_bee        = null;
     private ?float $volume                  = null;
+    private ?bool $est_citerne              = null;
 
     public static function unserialize(array $data) : self
     {
@@ -33,9 +37,6 @@ class DescriptifTechniqueDECI extends ModelAbstract
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
-
-        /** @var \Metarisc\Model\AnomaliePEI[] $data['anomalies'] */
-        $object->setAnomalies($data['anomalies']);
 
         /** @var bool $data['est_reglementaire'] */
         $object->setEstReglementaire($data['est_reglementaire']);
@@ -85,6 +86,9 @@ class DescriptifTechniqueDECI extends ModelAbstract
         /** @var float $data['volume'] */
         $object->setVolume($data['volume']);
 
+        /** @var bool $data['est_citerne'] */
+        $object->setEstCiterne($data['est_citerne']);
+
         return $object;
     }
 
@@ -106,16 +110,6 @@ class DescriptifTechniqueDECI extends ModelAbstract
     public function setType(string $type = null) : void
     {
         $this->type=$type;
-    }
-
-    public function getAnomalies() : ?array
-    {
-        return $this->anomalies;
-    }
-
-    public function setAnomalies(array $anomalies = null) : void
-    {
-        $this->anomalies=$anomalies;
     }
 
     public function getEstReglementaire() : ?bool
@@ -276,5 +270,15 @@ class DescriptifTechniqueDECI extends ModelAbstract
     public function setVolume(float $volume = null) : void
     {
         $this->volume=$volume;
+    }
+
+    public function getEstCiterne() : ?bool
+    {
+        return $this->est_citerne;
+    }
+
+    public function setEstCiterne(bool $est_citerne = null) : void
+    {
+        $this->est_citerne=$est_citerne;
     }
 }

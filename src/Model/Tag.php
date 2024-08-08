@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Les tags sont des mots-clés permettant de classifier un objet.
+*/
+
 class Tag extends ModelAbstract
 {
     private ?string $message = null;

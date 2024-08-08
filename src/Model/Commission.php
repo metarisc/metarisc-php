@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Une commission est un organisme compétent pour donner des avis.
+*/
+
 class Commission extends ModelAbstract
 {
     private ?string $id      = null;

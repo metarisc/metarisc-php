@@ -61,7 +61,7 @@ class ContactsAPI extends MetariscAbstract
     /**
      * Mise à jour d'une fiche contact existante.
      */
-    public function updateContact(string $contact_id, \Metarisc\Model\Contact $contact = null) : void
+    public function updateContact(string $contact_id, \Metarisc\Model\ObjetContact $objet_contact = null) : void
     {
         $table = [
             'contact_id' => $contact_id,
@@ -71,19 +71,18 @@ class ContactsAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'id'                 => $contact?->getId(),
-                'nom'                => $contact?->getNom(),
-                'prenom'             => $contact?->getPrenom(),
-                'fonction'           => $contact?->getFonction(),
-                'telephone_fixe'     => $contact?->getTelephoneFixe(),
-                'telephone_portable' => $contact?->getTelephonePortable(),
-                'telephone_fax'      => $contact?->getTelephoneFax(),
-                'adresse'            => $contact?->getAdresse(),
-                'site_web_url'       => $contact?->getSiteWebUrl(),
-                'civilite'           => $contact?->getCivilite(),
-                'societe'            => $contact?->getSociete(),
-                'email'              => $contact?->getEmail(),
-                'observations'       => $contact?->getObservations(),
+                'nom'                => $objet_contact?->getNom(),
+                'prenom'             => $objet_contact?->getPrenom(),
+                'fonction'           => $objet_contact?->getFonction(),
+                'telephone_fixe'     => $objet_contact?->getTelephoneFixe(),
+                'telephone_portable' => $objet_contact?->getTelephonePortable(),
+                'telephone_fax'      => $objet_contact?->getTelephoneFax(),
+                'adresse'            => $objet_contact?->getAdresse(),
+                'site_web_url'       => $objet_contact?->getSiteWebUrl(),
+                'civilite'           => $objet_contact?->getCivilite(),
+                'societe'            => $objet_contact?->getSociete(),
+                'email'              => $objet_contact?->getEmail(),
+                'observations'       => $objet_contact?->getObservations(),
             ],
         ]);
     }

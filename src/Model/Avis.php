@@ -2,27 +2,31 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Objet représentant un avis générique.
+*/
+
 class Avis extends ModelAbstract
 {
-    private ?string $avis_exploitation = null;
+    private ?string $type = null;
 
     public static function unserialize(array $data) : self
     {
         $object = new self();
 
-        /** @var string $data['avis_exploitation'] */
-        $object->setAvisExploitation($data['avis_exploitation']);
+        /** @var string $data['type'] */
+        $object->setType($data['type']);
 
         return $object;
     }
 
-    public function getAvisExploitation() : ?string
+    public function getType() : ?string
     {
-        return $this->avis_exploitation;
+        return $this->type;
     }
 
-    public function setAvisExploitation(string $avis_exploitation = null) : void
+    public function setType(string $type = null) : void
     {
-        $this->avis_exploitation=$avis_exploitation;
+        $this->type=$type;
     }
 }

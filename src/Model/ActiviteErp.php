@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Un ERP est associé à un type d'activité selon la nature de leur exploitation. Il est codifié par une ou plusieurs lettres, en fonction de la nature et de l'activité de l'exploitation.
+*/
+
 class ActiviteErp extends ModelAbstract
 {
     private ?string $type     = null;

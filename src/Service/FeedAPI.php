@@ -27,10 +27,10 @@ class FeedAPI extends MetariscAbstract
     /**
      * Ajoute un message dans le feed général.
      */
-    public function postMessage(\Metarisc\Model\FeedMessage $feed_message) : void
+    public function postMessage(\Metarisc\Model\UNKNOWN_BASE_TYPE $unknown_base_type) : void
     {
         $this->request('POST', '/feed', [
-            'json' => [$feed_message,
+            'json' => [$unknown_base_type,
             ],
         ]);
     }

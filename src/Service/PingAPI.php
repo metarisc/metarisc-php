@@ -8,7 +8,7 @@ use Metarisc\MetariscAbstract;
 class PingAPI extends MetariscAbstract
 {
     /**
-     * Permet de s'assurer que le service Metarisc est en ligne. Ping ... Pong !
+     * Permet de s'assurer que le service Metarisc est en ligne. Ping ... Pong ! Cet endpoint peut être utilisé sans authentification.
      */
     public function ping() : \Metarisc\Model\GetPing200Response
     {

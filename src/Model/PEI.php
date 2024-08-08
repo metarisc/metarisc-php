@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Dispositif de lutte contre l'incendie.
+*/
+
 class PEI extends ModelAbstract
 {
     private ?string $id                                                    = null;
@@ -10,7 +14,6 @@ class PEI extends ModelAbstract
     private ?array $references_exterieures                                 = null;
     private ?\Metarisc\Model\DescriptifTechniqueDECI $descriptif_technique = null;
     private ?\Metarisc\Model\AdressePostale $implantation                  = null;
-    private ?string $genre                                                 = null;
     private ?string $numero                                                = null;
     private ?string $numero_compteur                                       = null;
     private ?string $numero_serie_appareil                                 = null;
@@ -28,7 +31,7 @@ class PEI extends ModelAbstract
         /** @var string $data['date_de_derniere_mise_a_jour'] */
         $object->setDateDeDerniereMiseAJour($data['date_de_derniere_mise_a_jour']);
 
-        /** @var \Metarisc\Model\PEIReferencesExterieuresInner[] $data['references_exterieures'] */
+        /** @var \Metarisc\Model\ReferenceExterieure[] $data['references_exterieures'] */
         $object->setReferencesExterieures($data['references_exterieures']);
 
         /** @var array<array-key, mixed> $data['descriptif_technique'] */
@@ -36,9 +39,6 @@ class PEI extends ModelAbstract
 
         /** @var array<array-key, mixed> $data['implantation'] */
         $object->setImplantation($data['implantation']);
-
-        /** @var string $data['genre'] */
-        $object->setGenre($data['genre']);
 
         /** @var string $data['numero'] */
         $object->setNumero($data['numero']);
@@ -110,16 +110,6 @@ class PEI extends ModelAbstract
     public function setImplantation(array $implantation) : void
     {
         $this->implantation=AdressePostale::unserialize($implantation);
-    }
-
-    public function getGenre() : ?string
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(string $genre = null) : void
-    {
-        $this->genre=$genre;
     }
 
     public function getNumero() : ?string

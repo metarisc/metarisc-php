@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Document représentant un fichier informatique stocké sur internet.
+*/
+
 class PieceJointe extends ModelAbstract
 {
     private ?string $id          = null;

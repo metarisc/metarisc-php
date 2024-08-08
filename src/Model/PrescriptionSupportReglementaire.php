@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Texte réglementaire destiné à assurer la sécurité contre les risques d'incendie  et de panique dans les établissements recevant du public.
+*/
+
 class PrescriptionSupportReglementaire extends ModelAbstract
 {
     private ?string $id             = null;

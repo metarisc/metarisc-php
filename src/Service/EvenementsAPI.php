@@ -24,7 +24,7 @@ class EvenementsAPI extends MetariscAbstract
     /**
      * Récupération des détails d'un événement correspondant à l'id donné.
      */
-    public function getEvenementDetails(string $evenement_id, \Metarisc\Model\Evenement $evenement = null) : \Metarisc\Model\Evenement
+    public function getEvenementDetails(string $evenement_id) : \Metarisc\Model\Evenement
     {
         $table = [
             'evenement_id' => $evenement_id,
@@ -78,16 +78,15 @@ class EvenementsAPI extends MetariscAbstract
     /**
      * Création d'un événement.
      */
-    public function postEvenement(\Metarisc\Model\Evenement $evenement) : void
+    public function postEvenement(\Metarisc\Model\ObjetEvenement $objet_evenement) : void
     {
         $this->request('POST', '/evenements', [
             'json' => [
-                'id'          => $evenement->getId(),
-                'title'       => $evenement->getTitle(),
-                'type'        => $evenement->getType(),
-                'description' => $evenement->getDescription(),
-                'date_debut'  => $evenement->getDateDebut(),
-                'date_fin'    => $evenement->getDateFin(),
+                'title'       => $objet_evenement->getTitle(),
+                'type'        => $objet_evenement->getType(),
+                'description' => $objet_evenement->getDescription(),
+                'date_debut'  => $objet_evenement->getDateDebut(),
+                'date_fin'    => $objet_evenement->getDateFin(),
             ],
         ]);
     }
