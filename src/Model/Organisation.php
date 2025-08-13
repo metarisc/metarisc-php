@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Une organisation désigne un ensemble dans lequel les données vont être stockées. Chaque utilisateur Metarisc possède ses propres organisations. L'organisation joue un rôle central ou l'ensemble des utilisateurs Metarisc peuvent collaborer, avec des fonctionnalités de sécurité et d'administration propres.
+*/
+
 class Organisation extends ModelAbstract
 {
     private ?string $id       = null;

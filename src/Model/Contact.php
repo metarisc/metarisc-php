@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Représente une \"carte de visite\" aggrégeant les coordonnées d'un contact.
+*/
+
 class Contact extends ModelAbstract
 {
     private ?string $id                 = null;

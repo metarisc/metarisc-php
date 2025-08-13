@@ -2,18 +2,21 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Dispositif de lutte contre l'incendie.
+*/
+
 class PEI extends ModelAbstract
 {
     private ?string $id                                                    = null;
     private ?string $date_de_realisation                                   = null;
     private ?string $date_de_derniere_mise_a_jour                          = null;
-    private ?array $references_exterieures                                 = null;
     private ?\Metarisc\Model\DescriptifTechniqueDECI $descriptif_technique = null;
     private ?\Metarisc\Model\AdressePostale $implantation                  = null;
-    private ?string $genre                                                 = null;
     private ?string $numero                                                = null;
     private ?string $numero_compteur                                       = null;
     private ?string $numero_serie_appareil                                 = null;
+    private ?array $references_exterieures                                 = null;
 
     public static function unserialize(array $data) : self
     {
@@ -28,17 +31,11 @@ class PEI extends ModelAbstract
         /** @var string $data['date_de_derniere_mise_a_jour'] */
         $object->setDateDeDerniereMiseAJour($data['date_de_derniere_mise_a_jour']);
 
-        /** @var \Metarisc\Model\PEIReferencesExterieuresInner[] $data['references_exterieures'] */
-        $object->setReferencesExterieures($data['references_exterieures']);
-
         /** @var array<array-key, mixed> $data['descriptif_technique'] */
         $object->setDescriptifTechnique($data['descriptif_technique']);
 
         /** @var array<array-key, mixed> $data['implantation'] */
         $object->setImplantation($data['implantation']);
-
-        /** @var string $data['genre'] */
-        $object->setGenre($data['genre']);
 
         /** @var string $data['numero'] */
         $object->setNumero($data['numero']);
@@ -48,6 +45,9 @@ class PEI extends ModelAbstract
 
         /** @var string $data['numero_serie_appareil'] */
         $object->setNumeroSerieAppareil($data['numero_serie_appareil']);
+
+        /** @var \Metarisc\Model\ReferenceExterieure[] $data['references_exterieures'] */
+        $object->setReferencesExterieures($data['references_exterieures']);
 
         return $object;
     }
@@ -82,16 +82,6 @@ class PEI extends ModelAbstract
         $this->date_de_derniere_mise_a_jour = $date_de_derniere_mise_a_jour;
     }
 
-    public function getReferencesExterieures() : ?array
-    {
-        return $this->references_exterieures;
-    }
-
-    public function setReferencesExterieures(array $references_exterieures = null) : void
-    {
-        $this->references_exterieures=$references_exterieures;
-    }
-
     public function getDescriptifTechnique() : ?DescriptifTechniqueDECI
     {
         return $this->descriptif_technique;
@@ -110,16 +100,6 @@ class PEI extends ModelAbstract
     public function setImplantation(array $implantation) : void
     {
         $this->implantation=AdressePostale::unserialize($implantation);
-    }
-
-    public function getGenre() : ?string
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(string $genre = null) : void
-    {
-        $this->genre=$genre;
     }
 
     public function getNumero() : ?string
@@ -150,5 +130,15 @@ class PEI extends ModelAbstract
     public function setNumeroSerieAppareil(string $numero_serie_appareil = null) : void
     {
         $this->numero_serie_appareil=$numero_serie_appareil;
+    }
+
+    public function getReferencesExterieures() : ?array
+    {
+        return $this->references_exterieures;
+    }
+
+    public function setReferencesExterieures(array $references_exterieures = null) : void
+    {
+        $this->references_exterieures=$references_exterieures;
     }
 }

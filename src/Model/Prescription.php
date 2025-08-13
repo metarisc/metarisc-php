@@ -2,13 +2,16 @@
 
 namespace Metarisc\Model;
 
+/*
+ * La prescription réglementaire est une mesure de prévention et de sauvegarde propre à assurer la sécurité des personnes. Elle est décrite à travers un texte libre motivé par un ou des supports réglementaires. Le règlement de sécurité comprend des prescriptions générales communes à tous les établissements et d'autres particulières à chaque type d'établissement. Il précise les cas dans lesquels les obligations qu'il définit s'imposent à la fois aux constructeurs, propriétaires, installateurs et exploitants ou à certains de ceux-ci seulement.
+*/
+
 class Prescription extends ModelAbstract
 {
-    private ?string $id                        = null;
-    private ?string $contenu                   = null;
-    private ?string $type                      = null;
-    private ?array $supports_reglementaires    = null;
-    private ?array $supports_reglementaires_id = null;
+    private ?string $id                     = null;
+    private ?string $contenu                = null;
+    private ?string $type                   = null;
+    private ?array $supports_reglementaires = null;
 
     public static function unserialize(array $data) : self
     {
@@ -25,9 +28,6 @@ class Prescription extends ModelAbstract
 
         /** @var \Metarisc\Model\PrescriptionSupportReglementaire[] $data['supports_reglementaires'] */
         $object->setSupportsReglementaires($data['supports_reglementaires']);
-
-        /** @var string[] $data['supports_reglementaires_id'] */
-        $object->setSupportsReglementairesId($data['supports_reglementaires_id']);
 
         return $object;
     }
@@ -70,15 +70,5 @@ class Prescription extends ModelAbstract
     public function setSupportsReglementaires(array $supports_reglementaires = null) : void
     {
         $this->supports_reglementaires=$supports_reglementaires;
-    }
-
-    public function getSupportsReglementairesId() : ?array
-    {
-        return $this->supports_reglementaires_id;
-    }
-
-    public function setSupportsReglementairesId(array $supports_reglementaires_id = null) : void
-    {
-        $this->supports_reglementaires_id=$supports_reglementaires_id;
     }
 }

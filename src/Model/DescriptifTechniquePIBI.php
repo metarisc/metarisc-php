@@ -2,9 +2,14 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Descriptif technique d'un PIBI - Poteau incendie ou Bouche incendie.
+*/
+
 class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
 {
     private ?float $surpression       = null;
+    private ?bool $est_surpresse      = null;
     private ?string $nature           = null;
     private ?float $debit_1bar        = null;
     private ?float $pression          = null;
@@ -19,6 +24,16 @@ class DescriptifTechniquePIBI extends DescriptifTechniqueDECIBase
     public function setSurpression(float $surpression) : void
     {
         $this->surpression=$surpression;
+    }
+
+    public function getEstSurpresse() : ?bool
+    {
+        return $this->est_surpresse;
+    }
+
+    public function setEstSurpresse(bool $est_surpresse) : void
+    {
+        $this->est_surpresse=$est_surpresse;
     }
 
     public function getNature() : ?string

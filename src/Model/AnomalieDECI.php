@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Anomalie DECI constatée visuellement. Les anomalies DECI impactent la disponibilité, la conformité ou l'utilisation d'un PEI.
+*/
+
 class AnomalieDECI extends ModelAbstract
 {
     private ?int $code              = null;

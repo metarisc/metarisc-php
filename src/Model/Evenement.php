@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Un événement calendaire.
+*/
+
 class Evenement extends ModelAbstract
 {
     private ?string $id          = null;

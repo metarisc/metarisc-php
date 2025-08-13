@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Message texte d'un flux d'activité.
+*/
+
 class FeedMessageTexte extends FeedMessageBase
 {
     private ?string $texte = null;

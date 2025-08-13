@@ -2,13 +2,16 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Tournée DECI de base.
+*/
+
 class TourneeDeciBase extends ModelAbstract
 {
     private ?string $id               = null;
     private ?string $libelle          = null;
     private ?string $description      = null;
     private ?string $date_de_creation = null;
-    private ?string $type             = null;
 
     public static function unserialize(array $data) : self
     {
@@ -25,9 +28,6 @@ class TourneeDeciBase extends ModelAbstract
 
         /** @var string $data['date_de_creation'] */
         $object->setDateDeCreation($data['date_de_creation']);
-
-        /** @var string $data['type'] */
-        $object->setType($data['type']);
 
         return $object;
     }
@@ -70,15 +70,5 @@ class TourneeDeciBase extends ModelAbstract
     public function setDateDeCreation(?string $date_de_creation) : void
     {
         $this->date_de_creation = $date_de_creation;
-    }
-
-    public function getType() : ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type = null) : void
-    {
-        $this->type=$type;
     }
 }

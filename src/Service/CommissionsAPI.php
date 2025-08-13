@@ -30,16 +30,15 @@ class CommissionsAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération d'une date de passage en commission.
+     * Récupération des préférences de la commission.
      */
-    public function getCommissionDate(string $commission_id, string $date_id) : \Metarisc\Model\PassageCommission
+    public function getCommissionPreferences(string $commission_id) : \Metarisc\Model\CommissionPreferences
     {
         $table = [
             'commission_id' => $commission_id,
-            'date_id'       => $date_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/preferences');
 
         $response =  $this->request('GET', $path);
 
@@ -48,7 +47,7 @@ class CommissionsAPI extends MetariscAbstract
         $object = json_decode($contents, true);
         \assert(\is_array($object));
 
-        return \Metarisc\Model\PassageCommission::unserialize($object);
+        return \Metarisc\Model\CommissionPreferences::unserialize($object);
     }
 
     /**
@@ -68,7 +67,7 @@ class CommissionsAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération de la liste des dates de passage de la commission.
+     * Récupération de la liste des dates de passage de la commission. Cela peut représenter une visite périodique sur site de la commission, ou un passage en salle.
      */
     public function paginateCommissionDates(string $commission_id) : Pagerfanta
     {
@@ -85,33 +84,33 @@ class CommissionsAPI extends MetariscAbstract
     }
 
     /**
-     * Récupération d'une liste de dossiers à l'ordre du jour liés à une date de passage en commission.
+     * Récupération de la liste des membres de la commission.
      */
-    public function paginateCommissionDateDossiers(string $commission_id, string $date_id) : Pagerfanta
+    public function paginateCommissionMembres(string $commission_id) : Pagerfanta
     {
         $table = [
             'commission_id' => $commission_id,
-            'date_id'       => $date_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}/ordre_du_jour');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/membres');
 
         return $this->pagination('GET', $path, [
             'params'      => [],
-            'model_class' => \Metarisc\Model\PassageCommissionDossier::class,
+            'model_class' => \Metarisc\Model\CommissionMembre::class,
         ]);
     }
 
     /**
      * Ajoute une commission.
      */
-    public function postCommission(\Metarisc\Model\Commission $commission) : void
+    public function postCommission(\Metarisc\Model\ObjetCommission $objet_commission) : void
     {
         $this->request('POST', '/commissions', [
             'json' => [
-                'id'      => $commission->getId(),
-                'type'    => $commission->getType(),
-                'libelle' => $commission->getLibelle(),
+                'type'           => $objet_commission->getType(),
+                'libelle'        => $objet_commission->getLibelle(),
+                'presidence_id'  => $objet_commission->getPresidenceId(),
+                'secretariat_id' => $objet_commission->getSecretariatId(),
             ],
         ]);
     }
@@ -119,7 +118,7 @@ class CommissionsAPI extends MetariscAbstract
     /**
      * Ajout d'une date de passage en commission.
      */
-    public function postCommissionDate(string $commission_id, \Metarisc\Model\PassageCommission $passage_commission = null) : void
+    public function postCommissionDate(string $commission_id, \Metarisc\Model\ObjetPassageEnCommission $objet_passage_en_commission = null) : void
     {
         $table = [
             'commission_id' => $commission_id,
@@ -129,58 +128,50 @@ class CommissionsAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'id'         => $passage_commission?->getId(),
-                'date_debut' => $passage_commission?->getDateDebut(),
-                'date_fin'   => $passage_commission?->getDateFin(),
-                'type'       => $passage_commission?->getType(),
-                'libelle'    => $passage_commission?->getLibelle(),
+                'date_debut' => $objet_passage_en_commission?->getDateDebut(),
+                'date_fin'   => $objet_passage_en_commission?->getDateFin(),
+                'type'       => $objet_passage_en_commission?->getType(),
+                'libelle'    => $objet_passage_en_commission?->getLibelle(),
             ],
         ]);
     }
 
     /**
-     * Mise à jour des détails d'un dossier lié à une date de passage en commission.
+     * Ajout d'un membre dans la commission.
      */
-    public function updateCommissionDateDossier(string $commission_id, string $date_id, string $dossier_id, \Metarisc\Model\PassageCommissionDossier $passage_commission_dossier = null) : void
+    public function postMembresCommission(string $commission_id, \Metarisc\Model\ObjetCommissionMembre $objet_commission_membre = null) : void
     {
         $table = [
             'commission_id' => $commission_id,
-            'date_id'       => $date_id,
-            'dossier_id'    => $dossier_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}/ordre_du_jour/{dossier_id}');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/membres');
 
         $this->request('POST', $path, [
             'json' => [
-                'id'         => $passage_commission_dossier?->getId(),
-                'dossier'    => $passage_commission_dossier?->getDossier(),
-                'dossier_id' => $passage_commission_dossier?->getDossierId(),
-                'avis'       => $passage_commission_dossier?->getAvis(),
-                'statut'     => $passage_commission_dossier?->getStatut(),
+                'titre'                => $objet_commission_membre?->getTitre(),
+                'presence_obligatoire' => $objet_commission_membre?->getPresenceObligatoire(),
             ],
         ]);
     }
 
     /**
-     * Ajout d'un dossier à l'ordre du jour d'un passage en commission.
+     * Mise à jour des préférences de la commission en définissant les valeurs des paramètres transmis. Tous les paramètres non fournis resteront inchangés.
      */
-    public function postCommissionDateDossier(string $commission_id, string $date_id, \Metarisc\Model\PassageCommissionDossier $passage_commission_dossier = null) : void
+    public function postCommissionPreferences(string $commission_id, \Metarisc\Model\ObjetCommissionPrFRences $objet_commission_pr_f_rences = null) : void
     {
         $table = [
             'commission_id' => $commission_id,
-            'date_id'       => $date_id,
             ];
 
-        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/dates/{date_id}/ordre_du_jour');
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/commissions/{commission_id}/preferences');
 
         $this->request('POST', $path, [
             'json' => [
-                'id'         => $passage_commission_dossier?->getId(),
-                'dossier'    => $passage_commission_dossier?->getDossier(),
-                'dossier_id' => $passage_commission_dossier?->getDossierId(),
-                'avis'       => $passage_commission_dossier?->getAvis(),
-                'statut'     => $passage_commission_dossier?->getStatut(),
+                'rapport_modele_cr'        => $objet_commission_pr_f_rences?->getRapportModeleCr(),
+                'rapport_modele_pv'        => $objet_commission_pr_f_rences?->getRapportModelePv(),
+                'rapport_modele_cr_global' => $objet_commission_pr_f_rences?->getRapportModeleCrGlobal(),
+                'rapport_modele_convoc'    => $objet_commission_pr_f_rences?->getRapportModeleConvoc(),
             ],
         ]);
     }

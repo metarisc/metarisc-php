@@ -59,9 +59,9 @@ class DocumentsAPI extends MetariscAbstract
     }
 
     /**
-     * Mise à jour d'un document existant.
+     * Mise à jour d'un document existant en définissant les valeurs des paramètres transmis. Tous les paramètres non fournis resteront inchangés.
      */
-    public function postDocument(string $document_id, \Metarisc\Model\PieceJointe $piece_jointe = null) : void
+    public function postDocument(string $document_id, \Metarisc\Model\ObjetPieceJointe $objet_piece_jointe = null) : void
     {
         $table = [
             'document_id' => $document_id,
@@ -71,11 +71,9 @@ class DocumentsAPI extends MetariscAbstract
 
         $this->request('POST', $path, [
             'json' => [
-                'id'          => $piece_jointe?->getId(),
-                'url'         => $piece_jointe?->getUrl(),
-                'nom'         => $piece_jointe?->getNom(),
-                'description' => $piece_jointe?->getDescription(),
-                'type'        => $piece_jointe?->getType(),
+                'nom'         => $objet_piece_jointe?->getNom(),
+                'description' => $objet_piece_jointe?->getDescription(),
+                'type'        => $objet_piece_jointe?->getType(),
             ],
         ]);
     }

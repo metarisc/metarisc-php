@@ -2,16 +2,20 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Objet de contrôle d'un PEI dans le cadre d'une Tournée DECI
+*/
+
 class TourneeDeciPei extends ModelAbstract
 {
-    private ?string $id                   = null;
-    private ?string $date_du_controle     = null;
-    private ?array $liste_anomalies       = null;
-    private ?string $essais_engin_utilise = null;
-    private ?string $pei_id               = null;
-    private ?\Metarisc\Model\PEI $pei     = null;
-    private ?bool $est_controle           = null;
-    private ?int $ordre                   = null;
+    private ?string $id                                       = null;
+    private ?string $date_du_controle                         = null;
+    private ?\Metarisc\Model\DonneesHydrauliques $hydraulique = null;
+    private ?array $liste_anomalies                           = null;
+    private ?string $essais_engin_utilise                     = null;
+    private ?\Metarisc\Model\PEI $pei                         = null;
+    private ?bool $est_controle                               = null;
+    private ?int $ordre                                       = null;
 
     public static function unserialize(array $data) : self
     {
@@ -23,14 +27,14 @@ class TourneeDeciPei extends ModelAbstract
         /** @var string $data['date_du_controle'] */
         $object->setDateDuControle($data['date_du_controle']);
 
-        /** @var \Metarisc\Model\TourneeDeciPeiListeAnomaliesInner[] $data['liste_anomalies'] */
+        /** @var array<array-key, mixed> $data['hydraulique'] */
+        $object->setHydraulique($data['hydraulique']);
+
+        /** @var \Metarisc\Model\TourneeDeciPeiListeAnomalies[] $data['liste_anomalies'] */
         $object->setListeAnomalies($data['liste_anomalies']);
 
         /** @var string $data['essais_engin_utilise'] */
         $object->setEssaisEnginUtilise($data['essais_engin_utilise']);
-
-        /** @var string $data['pei_id'] */
-        $object->setPeiId($data['pei_id']);
 
         /** @var array<array-key, mixed> $data['pei'] */
         $object->setPei($data['pei']);
@@ -64,6 +68,16 @@ class TourneeDeciPei extends ModelAbstract
         $this->date_du_controle = $date_du_controle;
     }
 
+    public function getHydraulique() : ?DonneesHydrauliques
+    {
+        return $this->hydraulique;
+    }
+
+    public function setHydraulique(array $hydraulique) : void
+    {
+        $this->hydraulique=DonneesHydrauliques::unserialize($hydraulique);
+    }
+
     public function getListeAnomalies() : ?array
     {
         return $this->liste_anomalies;
@@ -82,16 +96,6 @@ class TourneeDeciPei extends ModelAbstract
     public function setEssaisEnginUtilise(string $essais_engin_utilise = null) : void
     {
         $this->essais_engin_utilise=$essais_engin_utilise;
-    }
-
-    public function getPeiId() : ?string
-    {
-        return $this->pei_id;
-    }
-
-    public function setPeiId(string $pei_id = null) : void
-    {
-        $this->pei_id=$pei_id;
     }
 
     public function getPei() : ?PEI

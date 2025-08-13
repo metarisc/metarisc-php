@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Type de workflow.
+*/
+
 class WorkflowType extends ModelAbstract
 {
     private ?string $dossier_type = null;

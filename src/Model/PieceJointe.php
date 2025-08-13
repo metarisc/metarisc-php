@@ -2,6 +2,10 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Document représentant un fichier informatique stocké sur internet.
+*/
+
 class PieceJointe extends ModelAbstract
 {
     private ?string $id          = null;
@@ -9,6 +13,7 @@ class PieceJointe extends ModelAbstract
     private ?string $nom         = null;
     private ?string $description = null;
     private ?string $type        = null;
+    private ?bool $est_sensible  = null;
 
     public static function unserialize(array $data) : self
     {
@@ -28,6 +33,9 @@ class PieceJointe extends ModelAbstract
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
+
+        /** @var bool $data['est_sensible'] */
+        $object->setEstSensible($data['est_sensible']);
 
         return $object;
     }
@@ -80,5 +88,15 @@ class PieceJointe extends ModelAbstract
     public function setType(string $type = null) : void
     {
         $this->type=$type;
+    }
+
+    public function getEstSensible() : ?bool
+    {
+        return $this->est_sensible;
+    }
+
+    public function setEstSensible(bool $est_sensible = null) : void
+    {
+        $this->est_sensible=$est_sensible;
     }
 }
