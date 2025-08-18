@@ -109,17 +109,35 @@ class PrescriptionsAPI extends MetariscAbstract
     }
 
     /**
+     * Modification d'une prescription existante en définissant les valeurs des paramètres transmis. Tous les paramètres non fournis resteront inchangés.
+     */
+    public function patchPrescription(string $prescription_id, \Metarisc\Model\ObjetPrescription1 $objet_prescription1 = null) : void
+    {
+        $table = [
+            'prescription_id' => $prescription_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/prescriptions/{prescription_id}');
+
+        $this->request('PATCH', $path, [
+            'json' => [
+                'contenu'                    => $objet_prescription1?->getContenu(),
+                'type'                       => $objet_prescription1?->getType(),
+                'supports_reglementaires_id' => $objet_prescription1?->getSupportsReglementairesId(),
+            ],
+        ]);
+    }
+
+    /**
      * Ajout d'une nouvelle prescription type dans la bibliothèque.
      */
-    public function postPrescription(\Metarisc\Model\Prescription $prescription) : void
+    public function postPrescription(\Metarisc\Model\ObjetPrescription $objet_prescription) : void
     {
         $this->request('POST', '/prescriptions', [
             'json' => [
-                'id'                         => $prescription->getId(),
-                'contenu'                    => $prescription->getContenu(),
-                'type'                       => $prescription->getType(),
-                'supports_reglementaires'    => $prescription->getSupportsReglementaires(),
-                'supports_reglementaires_id' => $prescription->getSupportsReglementairesId(),
+                'contenu'                    => $objet_prescription->getContenu(),
+                'type'                       => $objet_prescription->getType(),
+                'supports_reglementaires_id' => $objet_prescription->getSupportsReglementairesId(),
             ],
         ]);
     }
@@ -127,17 +145,16 @@ class PrescriptionsAPI extends MetariscAbstract
     /**
      * Ajouter un support réglementaire.
      */
-    public function postSupportReglementaire(\Metarisc\Model\PrescriptionSupportReglementaire $prescription_support_reglementaire) : void
+    public function postSupportReglementaire(\Metarisc\Model\ObjetSupportRGlementaire $objet_support_r_glementaire) : void
     {
         $this->request('POST', '/supports_reglementaires', [
             'json' => [
-                'id'             => $prescription_support_reglementaire->getId(),
-                'nature'         => $prescription_support_reglementaire->getNature(),
-                'legifrance_cid' => $prescription_support_reglementaire->getLegifranceCid(),
-                'contenu'        => $prescription_support_reglementaire->getContenu(),
-                'titre'          => $prescription_support_reglementaire->getTitre(),
-                'etat'           => $prescription_support_reglementaire->getEtat(),
-                'reference'      => $prescription_support_reglementaire->getReference(),
+                'nature'         => $objet_support_r_glementaire->getNature(),
+                'legifrance_cid' => $objet_support_r_glementaire->getLegifranceCid(),
+                'contenu'        => $objet_support_r_glementaire->getContenu(),
+                'titre'          => $objet_support_r_glementaire->getTitre(),
+                'etat'           => $objet_support_r_glementaire->getEtat(),
+                'reference'      => $objet_support_r_glementaire->getReference(),
             ],
         ]);
     }

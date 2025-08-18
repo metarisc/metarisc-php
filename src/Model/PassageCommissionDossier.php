@@ -6,9 +6,12 @@ class PassageCommissionDossier extends ModelAbstract
 {
     private ?string $id                       = null;
     private ?\Metarisc\Model\Dossier $dossier = null;
-    private ?string $dossier_id               = null;
-    private ?\Metarisc\Model\Avis $avis       = null;
-    private ?string $statut                   = null;
+    private ?string $avis                     = null;
+    private ?bool $ge4_3                      = null;
+    private ?string $date_de_passage          = null;
+    private ?bool $avis_differe               = null;
+    private ?string $observations             = null;
+    private ?int $duree_minutes               = null;
 
     public static function unserialize(array $data) : self
     {
@@ -20,14 +23,23 @@ class PassageCommissionDossier extends ModelAbstract
         /** @var array<array-key, mixed> $data['dossier'] */
         $object->setDossier($data['dossier']);
 
-        /** @var string $data['dossier_id'] */
-        $object->setDossierId($data['dossier_id']);
-
-        /** @var array<array-key, mixed> $data['avis'] */
+        /** @var string $data['avis'] */
         $object->setAvis($data['avis']);
 
-        /** @var string $data['statut'] */
-        $object->setStatut($data['statut']);
+        /** @var bool $data['ge4_3'] */
+        $object->setGe43($data['ge4_3']);
+
+        /** @var string $data['date_de_passage'] */
+        $object->setDateDePassage($data['date_de_passage']);
+
+        /** @var bool $data['avis_differe'] */
+        $object->setAvisDiffere($data['avis_differe']);
+
+        /** @var string $data['observations'] */
+        $object->setObservations($data['observations']);
+
+        /** @var int $data['duree_minutes'] */
+        $object->setDureeMinutes($data['duree_minutes']);
 
         return $object;
     }
@@ -52,33 +64,63 @@ class PassageCommissionDossier extends ModelAbstract
         $this->dossier=Dossier::unserialize($dossier);
     }
 
-    public function getDossierId() : ?string
-    {
-        return $this->dossier_id;
-    }
-
-    public function setDossierId(string $dossier_id = null) : void
-    {
-        $this->dossier_id=$dossier_id;
-    }
-
-    public function getAvis() : ?Avis
+    public function getAvis() : ?string
     {
         return $this->avis;
     }
 
-    public function setAvis(array $avis) : void
+    public function setAvis(string $avis = null) : void
     {
-        $this->avis=Avis::unserialize($avis);
+        $this->avis=$avis;
     }
 
-    public function getStatut() : ?string
+    public function getGe43() : ?bool
     {
-        return $this->statut;
+        return $this->ge4_3;
     }
 
-    public function setStatut(string $statut = null) : void
+    public function setGe43(bool $ge4_3 = null) : void
     {
-        $this->statut=$statut;
+        $this->ge4_3=$ge4_3;
+    }
+
+    public function getDateDePassage() : ?string
+    {
+        return $this->date_de_passage;
+    }
+
+    public function setDateDePassage(?string $date_de_passage) : void
+    {
+        $this->date_de_passage = $date_de_passage;
+    }
+
+    public function getAvisDiffere() : ?bool
+    {
+        return $this->avis_differe;
+    }
+
+    public function setAvisDiffere(bool $avis_differe = null) : void
+    {
+        $this->avis_differe=$avis_differe;
+    }
+
+    public function getObservations() : ?string
+    {
+        return $this->observations;
+    }
+
+    public function setObservations(string $observations = null) : void
+    {
+        $this->observations=$observations;
+    }
+
+    public function getDureeMinutes() : ?int
+    {
+        return $this->duree_minutes;
+    }
+
+    public function setDureeMinutes(int $duree_minutes = null) : void
+    {
+        $this->duree_minutes=$duree_minutes;
     }
 }

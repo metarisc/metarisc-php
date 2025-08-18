@@ -2,11 +2,17 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Une commission est un organisme compétent pour donner des avis.
+*/
+
 class Commission extends ModelAbstract
 {
-    private ?string $id      = null;
-    private ?string $type    = null;
-    private ?string $libelle = null;
+    private ?string $id                                = null;
+    private ?string $type                              = null;
+    private ?string $libelle                           = null;
+    private ?\Metarisc\Model\Organisation $presidence  = null;
+    private ?\Metarisc\Model\Organisation $secretariat = null;
 
     public static function unserialize(array $data) : self
     {
@@ -20,6 +26,12 @@ class Commission extends ModelAbstract
 
         /** @var string $data['libelle'] */
         $object->setLibelle($data['libelle']);
+
+        /** @var array<array-key, mixed> $data['presidence'] */
+        $object->setPresidence($data['presidence']);
+
+        /** @var array<array-key, mixed> $data['secretariat'] */
+        $object->setSecretariat($data['secretariat']);
 
         return $object;
     }
@@ -52,5 +64,25 @@ class Commission extends ModelAbstract
     public function setLibelle(string $libelle = null) : void
     {
         $this->libelle=$libelle;
+    }
+
+    public function getPresidence() : ?Organisation
+    {
+        return $this->presidence;
+    }
+
+    public function setPresidence(array $presidence) : void
+    {
+        $this->presidence=Organisation::unserialize($presidence);
+    }
+
+    public function getSecretariat() : ?Organisation
+    {
+        return $this->secretariat;
+    }
+
+    public function setSecretariat(array $secretariat) : void
+    {
+        $this->secretariat=Organisation::unserialize($secretariat);
     }
 }

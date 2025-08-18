@@ -2,11 +2,14 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Descriptif technique associé à un PEI.
+*/
+
 class DescriptifTechniqueDECI extends ModelAbstract
 {
     private ?string $id                     = null;
     private ?string $type                   = null;
-    private ?array $anomalies               = null;
     private ?bool $est_reglementaire        = null;
     private ?string $domanialite            = null;
     private ?bool $est_conforme_rddeci      = null;
@@ -17,12 +20,14 @@ class DescriptifTechniqueDECI extends ModelAbstract
     private ?string $statut                 = null;
     private ?bool $est_disponible           = null;
     private ?float $surpression             = null;
+    private ?bool $est_surpresse            = null;
     private ?string $nature                 = null;
     private ?float $debit_1bar              = null;
     private ?float $pression                = null;
     private ?float $pression_statique       = null;
     private ?float $debit_gueule_bee        = null;
     private ?float $volume                  = null;
+    private ?bool $est_citerne              = null;
 
     public static function unserialize(array $data) : self
     {
@@ -33,9 +38,6 @@ class DescriptifTechniqueDECI extends ModelAbstract
 
         /** @var string $data['type'] */
         $object->setType($data['type']);
-
-        /** @var \Metarisc\Model\AnomaliePEI[] $data['anomalies'] */
-        $object->setAnomalies($data['anomalies']);
 
         /** @var bool $data['est_reglementaire'] */
         $object->setEstReglementaire($data['est_reglementaire']);
@@ -67,6 +69,9 @@ class DescriptifTechniqueDECI extends ModelAbstract
         /** @var float $data['surpression'] */
         $object->setSurpression($data['surpression']);
 
+        /** @var bool $data['est_surpresse'] */
+        $object->setEstSurpresse($data['est_surpresse']);
+
         /** @var string $data['nature'] */
         $object->setNature($data['nature']);
 
@@ -84,6 +89,9 @@ class DescriptifTechniqueDECI extends ModelAbstract
 
         /** @var float $data['volume'] */
         $object->setVolume($data['volume']);
+
+        /** @var bool $data['est_citerne'] */
+        $object->setEstCiterne($data['est_citerne']);
 
         return $object;
     }
@@ -106,16 +114,6 @@ class DescriptifTechniqueDECI extends ModelAbstract
     public function setType(string $type = null) : void
     {
         $this->type=$type;
-    }
-
-    public function getAnomalies() : ?array
-    {
-        return $this->anomalies;
-    }
-
-    public function setAnomalies(array $anomalies = null) : void
-    {
-        $this->anomalies=$anomalies;
     }
 
     public function getEstReglementaire() : ?bool
@@ -218,6 +216,16 @@ class DescriptifTechniqueDECI extends ModelAbstract
         $this->surpression=$surpression;
     }
 
+    public function getEstSurpresse() : ?bool
+    {
+        return $this->est_surpresse;
+    }
+
+    public function setEstSurpresse(bool $est_surpresse = null) : void
+    {
+        $this->est_surpresse=$est_surpresse;
+    }
+
     public function getNature() : ?string
     {
         return $this->nature;
@@ -276,5 +284,15 @@ class DescriptifTechniqueDECI extends ModelAbstract
     public function setVolume(float $volume = null) : void
     {
         $this->volume=$volume;
+    }
+
+    public function getEstCiterne() : ?bool
+    {
+        return $this->est_citerne;
+    }
+
+    public function setEstCiterne(bool $est_citerne = null) : void
+    {
+        $this->est_citerne=$est_citerne;
     }
 }

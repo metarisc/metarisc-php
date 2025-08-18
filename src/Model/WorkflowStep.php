@@ -2,11 +2,15 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Étape d'un workflow.
+*/
+
 class WorkflowStep extends ModelAbstract
 {
-    private ?string $name                                   = null;
-    private ?\Metarisc\Model\WorkflowStepWorkflow $workflow = null;
-    private ?array $needs                                   = null;
+    private ?string $name                                      = null;
+    private ?\Metarisc\Model\WorkflowStepWorflowData $workflow = null;
+    private ?array $needs                                      = null;
 
     public static function unserialize(array $data) : self
     {
@@ -34,14 +38,14 @@ class WorkflowStep extends ModelAbstract
         $this->name=$name;
     }
 
-    public function getWorkflow() : ?WorkflowStepWorkflow
+    public function getWorkflow() : ?WorkflowStepWorflowData
     {
         return $this->workflow;
     }
 
     public function setWorkflow(array $workflow) : void
     {
-        $this->workflow=WorkflowStepWorkflow::unserialize($workflow);
+        $this->workflow=WorkflowStepWorflowData::unserialize($workflow);
     }
 
     public function getNeeds() : ?array

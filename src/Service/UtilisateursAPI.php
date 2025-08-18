@@ -29,6 +29,27 @@ class UtilisateursAPI extends MetariscAbstract
     }
 
     /**
+     * Retourne l'ensemble des permissions d'un utilisateur Metarisc.
+     */
+    public function getPermissionsUtilisateur(string $utilisateur_id) : \Metarisc\Model\GetPermissions200Response
+    {
+        $table = [
+            'utilisateur_id' => $utilisateur_id,
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs/{utilisateur_id}/permissions');
+
+        $response =  $this->request('GET', $path);
+
+        $contents = $response->getBody()->getContents();
+
+        $object = json_decode($contents, true);
+        \assert(\is_array($object));
+
+        return \Metarisc\Model\GetPermissions200Response::unserialize($object);
+    }
+
+    /**
      * Retourne un utilisateur Metarisc.
      */
     public function getUtilisateurDetails(string $utilisateur_id) : \Metarisc\Model\Utilisateur
@@ -96,6 +117,34 @@ class UtilisateursAPI extends MetariscAbstract
         return $this->pagination('GET', $path, [
             'params'      => [],
             'model_class' => \Metarisc\Model\OrganisationMembre::class,
+        ]);
+    }
+
+    /**
+     * Liste des utilisateurs.
+     */
+    public function paginateUtilisateurs() : Pagerfanta
+    {
+        $table = [
+            ];
+
+        $path = preg_replace_callback('/\{([^}]+)\}/', Utils::urlEditor($table), '/utilisateurs');
+
+        return $this->pagination('GET', $path, [
+            'params'      => [],
+            'model_class' => \Metarisc\Model\Utilisateur::class,
+        ]);
+    }
+
+    /**
+     * Mise à jour de l'utilisateur connecté.
+     */
+    public function patchMoi(\Metarisc\Model\ObjetUtilisateur $objet_utilisateur) : void
+    {
+        $this->request('PATCH', '/utilisateurs/@moi', [
+            'json' => [
+                'avatar_url' => $objet_utilisateur->getAvatarUrl(),
+            ],
         ]);
     }
 }

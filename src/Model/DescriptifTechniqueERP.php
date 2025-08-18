@@ -2,20 +2,19 @@
 
 namespace Metarisc\Model;
 
+/*
+ * Descriptif technique associé à un ERP.
+*/
+
 class DescriptifTechniqueERP extends ModelAbstract
 {
     private ?string $id                                 = null;
     private ?string $date                               = null;
-    private ?string $statut_erp                         = null;
-    private ?string $genre                              = null;
-    private ?\Metarisc\Model\Avis $avis_exploitation    = null;
-    private ?int $categorie                             = null;
-    private ?\Metarisc\Model\ActiviteErp $type_activite = null;
-    private ?array $types_activites_secondaires         = null;
+    private ?string $statut                             = null;
     private ?int $periodicite                           = null;
     private ?string $libelle                            = null;
-    private ?bool $presence_locaux_sommeil              = null;
     private ?string $observations_generales             = null;
+    private ?\Metarisc\Model\Clicdvcrem $analyse_risque = null;
 
     public static function unserialize(array $data) : self
     {
@@ -27,23 +26,8 @@ class DescriptifTechniqueERP extends ModelAbstract
         /** @var string $data['date'] */
         $object->setDate($data['date']);
 
-        /** @var string $data['statut_erp'] */
-        $object->setStatutErp($data['statut_erp']);
-
-        /** @var string $data['genre'] */
-        $object->setGenre($data['genre']);
-
-        /** @var array<array-key, mixed> $data['avis_exploitation'] */
-        $object->setAvisExploitation($data['avis_exploitation']);
-
-        /** @var int $data['categorie'] */
-        $object->setCategorie($data['categorie']);
-
-        /** @var array<array-key, mixed> $data['type_activite'] */
-        $object->setTypeActivite($data['type_activite']);
-
-        /** @var \Metarisc\Model\ActiviteErp[] $data['types_activites_secondaires'] */
-        $object->setTypesActivitesSecondaires($data['types_activites_secondaires']);
+        /** @var string $data['statut'] */
+        $object->setStatut($data['statut']);
 
         /** @var int $data['periodicite'] */
         $object->setPeriodicite($data['periodicite']);
@@ -51,11 +35,11 @@ class DescriptifTechniqueERP extends ModelAbstract
         /** @var string $data['libelle'] */
         $object->setLibelle($data['libelle']);
 
-        /** @var bool $data['presence_locaux_sommeil'] */
-        $object->setPresenceLocauxSommeil($data['presence_locaux_sommeil']);
-
         /** @var string $data['observations_generales'] */
         $object->setObservationsGenerales($data['observations_generales']);
+
+        /** @var array<array-key, mixed> $data['analyse_risque'] */
+        $object->setAnalyseRisque($data['analyse_risque']);
 
         return $object;
     }
@@ -80,64 +64,14 @@ class DescriptifTechniqueERP extends ModelAbstract
         $this->date = $date;
     }
 
-    public function getStatutErp() : ?string
+    public function getStatut() : ?string
     {
-        return $this->statut_erp;
+        return $this->statut;
     }
 
-    public function setStatutErp(string $statut_erp = null) : void
+    public function setStatut(string $statut = null) : void
     {
-        $this->statut_erp=$statut_erp;
-    }
-
-    public function getGenre() : ?string
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(string $genre = null) : void
-    {
-        $this->genre=$genre;
-    }
-
-    public function getAvisExploitation() : ?Avis
-    {
-        return $this->avis_exploitation;
-    }
-
-    public function setAvisExploitation(array $avis_exploitation) : void
-    {
-        $this->avis_exploitation=Avis::unserialize($avis_exploitation);
-    }
-
-    public function getCategorie() : ?int
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(int $categorie = null) : void
-    {
-        $this->categorie=$categorie;
-    }
-
-    public function getTypeActivite() : ?ActiviteErp
-    {
-        return $this->type_activite;
-    }
-
-    public function setTypeActivite(array $type_activite) : void
-    {
-        $this->type_activite=ActiviteErp::unserialize($type_activite);
-    }
-
-    public function getTypesActivitesSecondaires() : ?array
-    {
-        return $this->types_activites_secondaires;
-    }
-
-    public function setTypesActivitesSecondaires(array $types_activites_secondaires = null) : void
-    {
-        $this->types_activites_secondaires=$types_activites_secondaires;
+        $this->statut=$statut;
     }
 
     public function getPeriodicite() : ?int
@@ -160,16 +94,6 @@ class DescriptifTechniqueERP extends ModelAbstract
         $this->libelle=$libelle;
     }
 
-    public function getPresenceLocauxSommeil() : ?bool
-    {
-        return $this->presence_locaux_sommeil;
-    }
-
-    public function setPresenceLocauxSommeil(bool $presence_locaux_sommeil = null) : void
-    {
-        $this->presence_locaux_sommeil=$presence_locaux_sommeil;
-    }
-
     public function getObservationsGenerales() : ?string
     {
         return $this->observations_generales;
@@ -178,5 +102,15 @@ class DescriptifTechniqueERP extends ModelAbstract
     public function setObservationsGenerales(string $observations_generales = null) : void
     {
         $this->observations_generales=$observations_generales;
+    }
+
+    public function getAnalyseRisque() : ?Clicdvcrem
+    {
+        return $this->analyse_risque;
+    }
+
+    public function setAnalyseRisque(array $analyse_risque) : void
+    {
+        $this->analyse_risque=Clicdvcrem::unserialize($analyse_risque);
     }
 }
